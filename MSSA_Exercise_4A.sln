@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceTrucker.Models", "SpaceTrucker\SpaceTrucker.Models.csproj", "{164F016F-DA93-46A8-991B-1B955D827412}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceTruckers.Controllers", "SpaceTruckers.Controllers\SpaceTruckers.Controllers.csproj", "{01AF1897-09C2-467F-B602-180E9B387C3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceTruckers.View", "SpaceTruckers.View\SpaceTruckers.View.csproj", "{C3EE796C-A39E-4651-AF10-E534DF20B418}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceTrucker.Console", "SpaceTrucker.Console\SpaceTrucker.Console.csproj", "{FD1AB5DB-48E9-4B68-B71F-456E3740A186}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{164F016F-DA93-46A8-991B-1B955D827412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164F016F-DA93-46A8-991B-1B955D827412}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164F016F-DA93-46A8-991B-1B955D827412}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164F016F-DA93-46A8-991B-1B955D827412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01AF1897-09C2-467F-B602-180E9B387C3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01AF1897-09C2-467F-B602-180E9B387C3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01AF1897-09C2-467F-B602-180E9B387C3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01AF1897-09C2-467F-B602-180E9B387C3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3EE796C-A39E-4651-AF10-E534DF20B418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3EE796C-A39E-4651-AF10-E534DF20B418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3EE796C-A39E-4651-AF10-E534DF20B418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3EE796C-A39E-4651-AF10-E534DF20B418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD1AB5DB-48E9-4B68-B71F-456E3740A186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD1AB5DB-48E9-4B68-B71F-456E3740A186}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD1AB5DB-48E9-4B68-B71F-456E3740A186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD1AB5DB-48E9-4B68-B71F-456E3740A186}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0AEA733-9A4B-45D8-A63F-EA5B87DB31BE}
+	EndGlobalSection
+EndGlobal
