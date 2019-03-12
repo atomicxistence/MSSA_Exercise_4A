@@ -1,2 +1,2 @@
-# MSSA_Exercise_4B
+# MSSA_Exercise_4A
 Console Space Trader Game Prototype
