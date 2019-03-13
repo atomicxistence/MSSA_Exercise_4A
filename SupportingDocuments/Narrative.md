@@ -21,7 +21,8 @@ reports now. Calculate your routes accordingly. Maintenance in 18,249 days.
 ```
 > Incoming Transmission: Pilot TFT-2314
 
-Releasing ALPHA.8.00 to THX-1138. Advisement; detour the Slevene system. Trending low the last 1,239 days. Current balance has fallen below recommended allotment. Heading in for maintenance ahead of schedule.
+Releasing ALPHA.8.00 to THX-1138. Advisement; detour the Slevene system. Trending low the last 1,239 days. 
+Current balance has fallen below recommended allotment. Heading in for maintenance ahead of schedule.
 
 > End Transmission
 ```
@@ -29,7 +30,8 @@ Releasing ALPHA.8.00 to THX-1138. Advisement; detour the Slevene system. Trendin
 ```
 > Incoming Transmission: Weyland Consortium Dispatch
 
-Pilot, your balance is unsatisfactory. Recalibrate your nav settings and plot the optimal route. Maintenance in {daysTillMaintenance}.
+Pilot, your balance is unsatisfactory. Recalibrate your nav settings and plot the optimal route. 
+Maintenance in {daysTillMaintenance}.
 
 > End Transmission
 ```
@@ -37,7 +39,8 @@ Pilot, your balance is unsatisfactory. Recalibrate your nav settings and plot th
 ```
 > Incoming Transmission: Weyland Consortium Dispatch
 
-Headquarters is pleased with your current performance, Pilot. Proceed to ALPHA.8.01. Uploading latest trend reports. Keep this up and we'll outfit the whole fleet with your Cortana chip!
+Headquarters is pleased with your current performance, Pilot. Proceed to ALPHA.8.01. Uploading latest trend 
+reports. Keep this up and we'll outfit the whole fleet with your Cortana chip!
 
 > End Transmission
 ```
@@ -45,7 +48,8 @@ Headquarters is pleased with your current performance, Pilot. Proceed to ALPHA.8
 ```
 > Incoming Transmission: LilSkippy 52.001
 
-Well I'll be a monkey's uncle.  I haven't seen one of your model out this far, in a long time. Just been me and and my nephew Bonzo trading Centrorian titanium out here. Got any of them good Weyland trade tips?
+Well I'll be a monkey's uncle.  I haven't seen one of your model out this far, in a long time. Just been me and 
+my nephew Bonzo trading Centrorian titanium out here. Got any of them good Weyland trade tips?
 
 > End Transmission
 ```
