@@ -12,7 +12,7 @@ These pilots are designed to last for only 50 years. Only the most profitable pi
 ```
 > Incoming Transmission: Weyland Consortium Dispatch
 
-Welcome to the fleet THX-1138. You have been assigned trade route ALPHA.8.00. We are uploading the latest trend reports now. Calculate your routes accordingly. Maintenance in 18,249 days.
+<p>Welcome to the fleet THX-1138. You have been assigned trade route ALPHA.8.00. We are uploading the latest trend reports now. Calculate your routes accordingly. Maintenance in 18,249 days.</p>
 
 > End Transmission
 ```
