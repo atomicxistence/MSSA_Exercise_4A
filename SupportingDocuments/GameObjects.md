@@ -4,7 +4,7 @@
 ---
 ### **Models**
 * Player / Pilot / Ship
-    * Lifespan
+    * Lifecycle (Reset Maintenance)
     * Cred Balance
     * Current Location
     * Inventory
