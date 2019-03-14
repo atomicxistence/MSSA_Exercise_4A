@@ -42,12 +42,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Displays\HeadsUpDisplay.cs" />
+    <Compile Include="Interfaces\IDisplay.cs" />
+    <Compile Include="Interfaces\IMenu.cs" />
+    <Compile Include="Interfaces\IOption.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Displays\SelectionDisplay.cs" />
+    <Compile Include="Displays\ShipConsoleDisplay.cs" />
+    <Compile Include="Displays\ViewScreenDisplay.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SpaceTrucker.ViewModel\SpaceTrucker.ViewModel.csproj">
+      <Project>{5052d8a3-8b62-49a4-a54a-e7b83c99bbce}</Project>
+      <Name>SpaceTrucker.ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

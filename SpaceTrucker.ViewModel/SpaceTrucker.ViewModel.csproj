@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SpaceTrucker.Models\SpaceTrucker.Models.csproj" />
+  </ItemGroup>
+
 </Project>
