@@ -16,12 +16,40 @@ namespace SpaceTrucker.View
 
 		public void InitialRefresh()
 		{
-			//TODO: run through print methods
+			PrintConsoleDisplay(); 
 		}
 
 		private void CenterConsoleWindow()
 		{
 			//TODO: set offsets to center the display in the console window
+		}
+
+		private void PrintConsoleDisplay()
+		{
+			PrintSurface();
+			PrintViewScreenBevel();
+			PrintHUDBevel();
+			PrintSelectionBevel();
+		}
+
+		private void PrintSurface()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void PrintViewScreenBevel()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void PrintHUDBevel()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void PrintSelectionBevel()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

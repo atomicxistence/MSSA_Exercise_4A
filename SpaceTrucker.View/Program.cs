@@ -6,6 +6,7 @@ namespace SpaceTrucker.View
 	{
 		static void Main(string[] args)
 		{
+			new DisplayManager();
 			new Game().Run();
 		}
 	}
