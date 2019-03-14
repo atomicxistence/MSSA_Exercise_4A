@@ -1,6 +1,6 @@
 ﻿namespace SpaceTrucker.View
 {
-	public enum InputSelectionType
+	public enum InputRequestType
 	{
 		FullSelectionInput,
 		MenuOnly,
@@ -10,11 +10,14 @@
 	{
 		NextItem,
 		PreviousItem,
+		NextTable,
+		PreviousTable,
 		Select,
 		Back,
 		Map,
 		TrendReport,
 		Inventory,
 		Quit,
+		Invalid,
 	}
 }
