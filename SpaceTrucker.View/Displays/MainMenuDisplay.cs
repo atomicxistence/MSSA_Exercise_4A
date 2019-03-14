@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
-	class MainMenu
+	class MainMenuDisplay
 	{
 		private IMenu menuOptions;
 		private int currentSelection = 0;
 
-		public MainMenu()
-		{
-			Initialize();
-		}
 
-		public void Run()
+
+		public void MenuLoop()
 		{
 			var userInput = new UserInput();
 			do
@@ -26,19 +22,14 @@ namespace SpaceTrucker.View
 					action = userInput.AwaitUserKeyResponse(InputRequestType.MenuOnly);
 				}
 
-				//TODO: action the menu input 
+				ActionUserInput(action); 
 
 			} while (true);
 		}
 
-		private void Initialize()
-		{
-			//TODO: initialize the current menu options and add them to the list
-		}
-
 		private void RefreshMenu()
 		{
-			//TODO: do we want to refresh the menu from in here?
+			//TODO: print menu options
 		}
 
 		private void ActionUserInput(ActionType action)
@@ -51,8 +42,8 @@ namespace SpaceTrucker.View
 									 : (currentSelection + 1);
 					break;
 				case ActionType.PreviousItem:
-					currentSelection = currentSelection <= 0 
-								     ? menuOptions.Options.Count 
+					currentSelection = currentSelection <= 0
+									 ? menuOptions.Options.Count
 									 : (currentSelection - 1);
 					break;
 				case ActionType.Select:

@@ -1,6 +1,8 @@
-﻿namespace SpaceTrucker.View
+﻿using System;
+
+namespace SpaceTrucker.ViewModel
 {
-	class Game
+	public class Game
 	{
 		public void Run()
 		{

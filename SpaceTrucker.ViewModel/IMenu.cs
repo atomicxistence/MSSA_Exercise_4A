@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace SpaceTrucker.View
+namespace SpaceTrucker.ViewModel
 {
-	interface IMenu
+	public interface IMenu
 	{
 		List<IOption> Options { get; }
 	}

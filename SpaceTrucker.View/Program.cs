@@ -1,3 +1,5 @@
+using SpaceTrucker.ViewModel;
+
 namespace SpaceTrucker.View
 {
 	class Program
