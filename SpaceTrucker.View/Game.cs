@@ -4,23 +4,11 @@
 	{
 		public void Run()
 		{
-			Initialize();
-
 			while (true)
 			{
-				MainMenu();
+				new MainMenu().Run();
 				GameLoop();
 			}
-		}
-
-		private void Initialize()
-		{
-			//TODO: intialize classes
-		}
-
-		private void MainMenu()
-		{
-			//TODO: main menu loop
 		}
 
 		private void GameLoop()

@@ -48,11 +48,13 @@
     <Compile Include="Interfaces\IDisplay.cs" />
     <Compile Include="Interfaces\IMenu.cs" />
     <Compile Include="Interfaces\IOption.cs" />
+    <Compile Include="MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Displays\SelectionDisplay.cs" />
     <Compile Include="Displays\ShipConsoleDisplay.cs" />
     <Compile Include="Displays\ViewScreenDisplay.cs" />
+    <Compile Include="UserInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
