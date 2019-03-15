@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Displays\DisplayManager.cs" />
     <Compile Include="Displays\MainMenuDisplay.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Displays\HeadsUpDisplay.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Displays\ShipConsoleDisplay.cs" />
     <Compile Include="Displays\ViewScreenDisplay.cs" />
     <Compile Include="UserInput.cs" />
+    <Compile Include="Write.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

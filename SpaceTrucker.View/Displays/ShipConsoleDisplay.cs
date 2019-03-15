@@ -16,12 +16,17 @@ namespace SpaceTrucker.View
 
 		public void InitialRefresh()
 		{
+			CenterConsoleWindow();
 			PrintConsoleDisplay(); 
 		}
 
 		private void CenterConsoleWindow()
 		{
-			//TODO: set offsets to center the display in the console window
+			var windowCenterX = Console.WindowWidth / 2;
+			var windowCenterY = Console.WindowHeight / 2;
+
+			offsetX = windowCenterX - sizeWidth / 2;
+			offsetY = windowCenterY - sizeHeight / 2;
 		}
 
 		private void PrintConsoleDisplay()
@@ -34,12 +39,19 @@ namespace SpaceTrucker.View
 
 		private void PrintSurface()
 		{
-			throw new NotImplementedException();
+			Console.BackgroundColor = colorBGSurface;
+			Console.ForegroundColor = colorFG;
+
+			for (int i = 0; i < sizeHeight; i++)
+			{
+				Console.SetCursorPosition(offsetX, offsetY + i);
+				Write.EmptySpace(sizeWidth);
+			}
 		}
 
 		private void PrintViewScreenBevel()
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		private void PrintHUDBevel()
