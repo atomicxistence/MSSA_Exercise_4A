@@ -4,64 +4,33 @@ namespace SpaceTrucker.View
 {
 	class ShipConsoleDisplay : IDisplay
 	{
-		private ConsoleColor colorFG = ConsoleColor.Black;
-		private ConsoleColor colorBGSurface = ConsoleColor.Gray;
-		private ConsoleColor colorBGBevel = ConsoleColor.DarkGray;
-		
-		private int offsetX;
-		private int offsetY;
+		private Coord origin;
 
-		private int sizeWidth = 800;
-		private int sizeHeight = 600;
+		private int sizeWidth;
+		private int sizeHeight;
 
-		public void InitialRefresh()
+		public ShipConsoleDisplay(int sizeWidth, int sizeHeight)
 		{
-			CenterConsoleWindow();
-			PrintConsoleDisplay(); 
+			this.sizeWidth = sizeWidth;
+			this.sizeHeight = sizeHeight;
 		}
 
-		private void CenterConsoleWindow()
+		public void InitialRefresh(Coord origin)
 		{
-			var windowCenterX = Console.WindowWidth / 2;
-			var windowCenterY = Console.WindowHeight / 2;
-
-			offsetX = windowCenterX - sizeWidth / 2;
-			offsetY = windowCenterY - sizeHeight / 2;
-		}
-
-		private void PrintConsoleDisplay()
-		{
-			PrintSurface();
-			PrintViewScreenBevel();
-			PrintHUDBevel();
-			PrintSelectionBevel();
+			this.origin = origin;
+			PrintSurface(); 
 		}
 
 		private void PrintSurface()
 		{
-			Console.BackgroundColor = colorBGSurface;
-			Console.ForegroundColor = colorFG;
+			Console.BackgroundColor = ConsoleColor.Gray;
+			Console.ForegroundColor = ConsoleColor.Black;
 
 			for (int i = 0; i < sizeHeight; i++)
 			{
-				Console.SetCursorPosition(offsetX, offsetY + i);
+				Console.SetCursorPosition(origin.X, origin.Y + i);
 				Write.EmptySpace(sizeWidth);
 			}
-		}
-
-		private void PrintViewScreenBevel()
-		{
-			
-		}
-
-		private void PrintHUDBevel()
-		{
-			throw new NotImplementedException();
-		}
-
-		private void PrintSelectionBevel()
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

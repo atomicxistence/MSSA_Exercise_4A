@@ -4,8 +4,11 @@ namespace SpaceTrucker.View
 {
 	class ViewScreenDisplay : IDisplay
 	{
-		public void InitialRefresh()
+		private Coord origin;
+
+		public void InitialRefresh(Coord origin)
 		{
+			this.origin = origin;
 			//TODO: print background and current text
 		}
 	}

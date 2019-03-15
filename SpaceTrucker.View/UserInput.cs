@@ -2,6 +2,8 @@
 
 namespace SpaceTrucker.View
 {
+
+
 	class UserInput
 	{
 		public ActionType AwaitUserKeyResponse(InputRequestType requestType)

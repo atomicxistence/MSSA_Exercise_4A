@@ -7,6 +7,16 @@ namespace SpaceTrucker.View
 		private IMenu menuOptions;
 		private int currentSelection = 0;
 
+		private int sizeWidth;
+		private int sizeHeight;
+		private Coord origin;
+
+		public MainMenuDisplay(int sizeWidth, int sizeHeight, Coord origin)
+		{
+			this.sizeWidth = sizeWidth;
+			this.sizeHeight = sizeHeight;
+			this.origin = origin;
+		}
 
 
 		public void MenuLoop()

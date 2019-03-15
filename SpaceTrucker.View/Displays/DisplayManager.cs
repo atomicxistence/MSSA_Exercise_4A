@@ -6,33 +6,75 @@ namespace SpaceTrucker.View
 {
 	class DisplayManager
 	{
+		#region Class References
 		private MainMenuDisplay mainMenu;
 
-		private List<IDisplay> displays = new List<IDisplay>();
+		private List<IDisplay> displays;
 
 		private ShipConsoleDisplay shipConsole;
 		private HeadsUpDisplay hud;
 		private SelectionDisplay selectionScreen;
 		private ViewScreenDisplay viewScreen;
 
+		private int displayWidth = 800;
+		private int displayHeight = 600;
+
+		private Coord displayOrigin;
+		#endregion
+
+		#region Public Methods
 		public DisplayManager()
 		{
 			Initialize();
+			CompleteRefresh();
+		}
+
+		public void CompleteRefresh()
+		{
+			CenterConsoleWindow();
+			foreach (var display in displays)
+			{
+				display.InitialRefresh(displayOrigin);
+			}
+		}
+		#endregion
+
+		#region Private Methods
+		private void CenterConsoleWindow()
+		{
+			var windowCenterX = Console.WindowWidth / 2;
+			var windowCenterY = Console.WindowHeight / 2;
+
+			displayOrigin = new Coord(windowCenterX - displayWidth / 2, 
+									  windowCenterY - displayHeight / 2);
 		}
 
 		private void Initialize()
 		{
-			mainMenu = new MainMenuDisplay();
+			InitializeDisplays();
+			AddDisplaysToList();
+		}
 
-			shipConsole = new ShipConsoleDisplay();
+		private void InitializeDisplays()
+		{
+			mainMenu = new MainMenuDisplay(displayWidth, displayHeight, displayOrigin);
+
+			shipConsole = new ShipConsoleDisplay(displayWidth, displayHeight);
 			hud = new HeadsUpDisplay();
 			selectionScreen = new SelectionDisplay();
 			viewScreen = new ViewScreenDisplay();
-
-			displays.Add(shipConsole);
-			displays.Add(hud);
-			displays.Add(selectionScreen);
-			displays.Add(viewScreen);
 		}
+
+		private void AddDisplaysToList()
+		{
+			displays = new List<IDisplay>
+			{
+				shipConsole,
+				hud,
+				selectionScreen,
+				viewScreen
+			};
+		}
+		#endregion
 	}
 }

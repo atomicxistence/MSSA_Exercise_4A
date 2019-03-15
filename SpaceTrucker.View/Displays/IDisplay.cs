@@ -2,6 +2,6 @@
 {
 	interface IDisplay
 	{
-		void InitialRefresh();
+		void InitialRefresh(Coord origin);
 	}
 }

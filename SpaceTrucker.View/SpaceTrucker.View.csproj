@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coord.cs" />
     <Compile Include="Displays\DisplayManager.cs" />
     <Compile Include="Displays\MainMenuDisplay.cs" />
     <Compile Include="Enumerations.cs" />
