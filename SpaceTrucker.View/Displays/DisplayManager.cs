@@ -46,7 +46,7 @@ namespace SpaceTrucker.View
 			var windowCenterY = Console.WindowHeight / 2;
 
 			displayOrigin = new Coord(windowCenterX - displayWidth / 2, 
-									  windowCenterY - displayHeight / 2);
+									  windowCenterY + displayHeight / 2);
 		}
 
 		private void Initialize()
