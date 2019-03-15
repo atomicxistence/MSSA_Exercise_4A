@@ -4,7 +4,6 @@ namespace SpaceTrucker.View
 {
 	class ViewScreenDisplay : IDisplay
 	{
-		private Coord shipConsoleOrigin;
 		private Coord origin;
 
 		private int sizeWidth = 790;
@@ -13,14 +12,26 @@ namespace SpaceTrucker.View
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
 		{
-			this.shipConsoleOrigin = shipConsoleOrigin;
+			int offsetX = 5;
+			int offsetY = 100; 
+			origin = new Coord(shipConsoleOrigin.X + offsetX, shipConsoleOrigin.Y - offsetY);
+
 			PrintBevel();
 			PrintBlankViewScreen();
 		}
 
 		private void PrintBevel()
 		{
-			//TODO: print bevel
+			int bevel = 1;
+
+			Console.ForegroundColor = Write.ColorSurfaceFG;
+			Console.BackgroundColor = Write.ColorBevelBG;
+
+			for (int i = 0; i < sizeHeight + (bevel * 2); i++)
+			{
+				Console.SetCursorPosition(origin.X - bevel, origin.Y + bevel + i);
+				Write.EmptySpace(sizeWidth + (bevel * 2));
+			}
 		}
 
 		private void PrintBlankViewScreen()

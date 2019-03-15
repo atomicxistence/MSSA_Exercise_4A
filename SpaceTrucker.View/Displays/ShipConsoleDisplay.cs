@@ -23,8 +23,8 @@ namespace SpaceTrucker.View
 
 		private void PrintSurface()
 		{
-			Console.BackgroundColor = ConsoleColor.Gray;
-			Console.ForegroundColor = ConsoleColor.Black;
+			Console.BackgroundColor = Write.ColorSurfaceBG;
+			Console.ForegroundColor = Write.ColorSurfaceFG;
 
 			for (int i = 0; i < sizeHeight; i++)
 			{
