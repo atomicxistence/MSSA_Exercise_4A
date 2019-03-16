@@ -8,7 +8,7 @@ namespace SpaceTrucker.ViewModel
 		{
 			while (true)
 			{
-				new MainMenu().Run();
+				//new MainMenu().Run();
 				GameLoop();
 			}
 		}
@@ -16,6 +16,7 @@ namespace SpaceTrucker.ViewModel
 		private void GameLoop()
 		{
 			//TODO: game loop
+			Console.ReadKey(true);
 		}
 	}
 }

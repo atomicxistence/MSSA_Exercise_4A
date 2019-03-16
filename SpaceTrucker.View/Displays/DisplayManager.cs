@@ -16,8 +16,8 @@ namespace SpaceTrucker.View
 		private SelectionDisplay selectionScreen;
 		private ViewScreenDisplay viewScreen;
 
-		private int displayWidth = 800;
-		private int displayHeight = 600;
+		private int displayWidth = 150;
+		private int displayHeight = 50;
 
 		private Coord displayOrigin;
 		#endregion
@@ -51,8 +51,17 @@ namespace SpaceTrucker.View
 
 		private void Initialize()
 		{
+			Console.CursorVisible = false;
+
+			SetWindowSize();
 			InitializeDisplays();
 			AddDisplaysToList();
+		}
+
+		private void SetWindowSize()
+		{
+			Console.SetWindowSize(displayWidth + 2, displayHeight + 2);
+			//Console.SetBufferSize(displayWidth, displayHeight);
 		}
 
 		private void InitializeDisplays()
