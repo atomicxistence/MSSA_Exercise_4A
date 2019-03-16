@@ -20,8 +20,7 @@ namespace SpaceTrucker.ViewModel
 
 			do
 			{
-				//TODO: how do we get a return when an option is selected?
-				MainMenuDisplayEvent?.Invoke(this, menuOptions);
+				//MainMenuDisplayEvent?.Invoke(this, menuOptions);
 
 			} while (isUsing);
 		}

@@ -6,7 +6,7 @@ namespace SpaceTrucker.View
 	{
 		public static ConsoleColor ColorDefaultFG => ConsoleColor.White;
 		public static ConsoleColor ColorDefaultBG => ConsoleColor.Black;
-		public static ConsoleColor ColorSurfaceFG => ConsoleColor.Black;
+		public static ConsoleColor ColorSurfaceFG => ConsoleColor.DarkGray;
 		public static ConsoleColor ColorSurfaceBG => ConsoleColor.Gray;
 		public static ConsoleColor ColorBevelBG => ConsoleColor.DarkGray;
 		public static ConsoleColor ColorDisplayFG => ConsoleColor.Green;

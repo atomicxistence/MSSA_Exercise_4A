@@ -57,8 +57,6 @@ namespace SpaceTrucker.View
 
 			Console.SetWindowSize(displayWidth + bufferWidth, displayHeight + bufferHeight);
 			Console.SetBufferSize(displayWidth + bufferWidth, displayHeight + bufferHeight);
-			//TODO: read key for testing window size
-			Console.ReadKey(true);
 		}
 
 		private void InitializeDisplays()
