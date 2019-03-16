@@ -28,7 +28,7 @@ namespace SpaceTrucker.View
 
 			for (int i = 0; i < sizeHeight; i++)
 			{
-				Console.SetCursorPosition(origin.X, origin.Y + i);
+				Console.SetCursorPosition(origin.X, origin.Y - i);
 				Write.EmptySpace(sizeWidth);
 			}
 		}

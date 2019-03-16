@@ -24,7 +24,7 @@ namespace SpaceTrucker.View
 		{
 			int bevel = 1;
 
-			Console.ForegroundColor = Write.ColorSurfaceFG;
+			Console.ForegroundColor = Write.ColorDefaultFG;
 			Console.BackgroundColor = Write.ColorBevelBG;
 
 			for (int i = 0; i < sizeHeight + (bevel * 2); i++)

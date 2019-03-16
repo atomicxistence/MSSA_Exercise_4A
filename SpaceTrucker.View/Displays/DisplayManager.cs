@@ -60,8 +60,10 @@ namespace SpaceTrucker.View
 
 		private void SetWindowSize()
 		{
-			Console.SetWindowSize(displayWidth + 2, displayHeight + 2);
-			//Console.SetBufferSize(displayWidth, displayHeight);
+			Console.SetWindowSize(displayWidth + 10, displayHeight + 8);
+			Console.SetBufferSize(displayWidth + 10, displayHeight + 8);
+			//TODO: read key for testing window size
+			Console.ReadKey(true);
 		}
 
 		private void InitializeDisplays()
