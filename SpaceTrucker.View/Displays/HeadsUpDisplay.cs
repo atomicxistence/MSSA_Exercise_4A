@@ -17,6 +17,17 @@ namespace SpaceTrucker.View
 
 			PrintBevel();
 			PrintHUDScreen();
+			PrintHUDTable();
+			PrintFuelCells("▌▌▌▌▌▌▌▌▌▌▌");
+		}
+
+		public void PrintFuelCells(string fuelLevel)
+		{
+			Console.ForegroundColor = Write.ColorDisplayFG;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			Console.SetCursorPosition(origin.X + 15, origin.Y - 11);
+			Console.Write(fuelLevel);
 		}
 
 		private void PrintBevel()
@@ -42,6 +53,35 @@ namespace SpaceTrucker.View
 			{
 				Console.SetCursorPosition(origin.X, origin.Y - i);
 				Write.EmptySpace(hudWidth);
+			}
+		}
+
+		private void PrintHUDTable()
+		{
+			var table = new string[]
+				{
+					"┌──────────────────────────────────────┐",
+					"│ Fuel Cells [                      ]  │",
+					"├──────────────────────────────────────┤",
+					"│ Location:                            │",
+					"├──────────────────────────────────────┤",
+					"│ Balance:                             │",
+					"│                                      │",
+					"│                                      │",
+					"│                                      │",
+					"│                                      │",
+					"│ -----------------------------------  │",
+					"│ Scheduled Reset in                   │",
+					"└──────────────────────────────────────┘"
+				};
+
+			Console.ForegroundColor = Write.ColorDisplayTable;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			for (int i = 0; i < table.Length; i++)
+			{
+				Console.SetCursorPosition(origin.X, origin.Y - i);
+				Console.Write(table[table.Length - i - 1]); 
 			}
 		}
 	}

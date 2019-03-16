@@ -23,6 +23,7 @@ namespace SpaceTrucker.View
 			PrintButtons();
 		}
 
+		#region Private Methods
 		private void PrintSurface()
 		{
 			Console.BackgroundColor = Write.ColorSurfaceBG;
@@ -90,5 +91,6 @@ namespace SpaceTrucker.View
 				Console.Write(buttonTexts[i]);
 			}
 		}
+		#endregion
 	}
 }

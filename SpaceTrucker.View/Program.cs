@@ -1,4 +1,5 @@
 using SpaceTrucker.ViewModel;
+using System;
 
 namespace SpaceTrucker.View
 {
@@ -6,6 +7,8 @@ namespace SpaceTrucker.View
 	{
 		static void Main(string[] args)
 		{
+			Console.OutputEncoding = System.Text.Encoding.Unicode;
+
 			new DisplayManager();
 			new Game().Run();
 		}
