@@ -6,13 +6,43 @@ namespace SpaceTrucker.View
 	{
 		private Coord origin;
 
-		private int selectionWidth;
-		private int selectionHeight;
+		private int selectionWidth = 57;
+		private int selectionHeight = 13;
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
 		{
-			this.origin = shipConsoleOrigin;
-			//TODO: print background
+			int offsetX = 51;
+			int offsetY = 2;
+			origin = new Coord(shipConsoleOrigin.X + offsetX, shipConsoleOrigin.Y - offsetY);
+
+			PrintBevel();
+			PrintSelectionScreen();
+		}
+
+		private void PrintBevel()
+		{
+			int bevel = 1;
+
+			Console.ForegroundColor = Write.ColorDefaultFG;
+			Console.BackgroundColor = Write.ColorBevelBG;
+
+			for (int i = 0; i < selectionHeight + (bevel * 2); i++)
+			{
+				Console.SetCursorPosition(origin.X - bevel, origin.Y + bevel - i);
+				Write.EmptySpace(selectionWidth + (bevel * 2));
+			}
+		}
+
+		private void PrintSelectionScreen()
+		{
+			Console.ForegroundColor = Write.ColorDisplayFG;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			for (int i = 0; i < selectionHeight; i++)
+			{
+				Console.SetCursorPosition(origin.X, origin.Y - i);
+				Write.EmptySpace(selectionWidth);
+			}
 		}
 	}
 }

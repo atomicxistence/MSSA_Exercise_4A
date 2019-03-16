@@ -6,7 +6,7 @@ namespace SpaceTrucker.View
 	{
 		private Coord origin;
 
-		private int sizeWidth = 124;
+		private int sizeWidth = 106;
 		private int sizeHeight = 30;
 
 		public void InitialRefresh(Coord shipConsoleOrigin)

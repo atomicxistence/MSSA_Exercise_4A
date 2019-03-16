@@ -16,7 +16,7 @@ namespace SpaceTrucker.View
 		private SelectionDisplay selectionScreen;
 		private ViewScreenDisplay viewScreen;
 
-		private int displayWidth = 130;
+		private int displayWidth = 112;
 		private int displayHeight = 50;
 
 		private Coord displayOrigin;
