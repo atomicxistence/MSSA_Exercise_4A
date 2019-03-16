@@ -6,14 +6,12 @@ namespace SpaceTrucker.View
 	{
 		private Coord origin;
 
-		public SelectionDisplay()
-		{
+		private int selectionWidth;
+		private int selectionHeight;
 
-		}
-
-		public void InitialRefresh(Coord origin)
+		public void InitialRefresh(Coord shipConsoleOrigin)
 		{
-			this.origin = origin;
+			this.origin = shipConsoleOrigin;
 			//TODO: print background
 		}
 	}

@@ -16,7 +16,7 @@ namespace SpaceTrucker.View
 		private SelectionDisplay selectionScreen;
 		private ViewScreenDisplay viewScreen;
 
-		private int displayWidth = 150;
+		private int displayWidth = 130;
 		private int displayHeight = 50;
 
 		private Coord displayOrigin;
@@ -40,14 +40,6 @@ namespace SpaceTrucker.View
 		#endregion
 
 		#region Private Methods
-		private void CenterConsoleWindow()
-		{
-			var windowCenterX = Console.WindowWidth / 2;
-			var windowCenterY = Console.WindowHeight / 2;
-
-			displayOrigin = new Coord(windowCenterX - displayWidth / 2, 
-									  windowCenterY + displayHeight / 2);
-		}
 
 		private void Initialize()
 		{
@@ -60,8 +52,11 @@ namespace SpaceTrucker.View
 
 		private void SetWindowSize()
 		{
-			Console.SetWindowSize(displayWidth + 10, displayHeight + 8);
-			Console.SetBufferSize(displayWidth + 10, displayHeight + 8);
+			var bufferWidth = 2;
+			var bufferHeight = 1;
+
+			Console.SetWindowSize(displayWidth + bufferWidth, displayHeight + bufferHeight);
+			Console.SetBufferSize(displayWidth + bufferWidth, displayHeight + bufferHeight);
 			//TODO: read key for testing window size
 			Console.ReadKey(true);
 		}
@@ -85,6 +80,15 @@ namespace SpaceTrucker.View
 				selectionScreen,
 				viewScreen
 			};
+		}
+
+		private void CenterConsoleWindow()
+		{
+			var windowCenterX = Console.WindowWidth / 2;
+			var windowCenterY = Console.WindowHeight / 2;
+
+			displayOrigin = new Coord(windowCenterX - displayWidth / 2, 
+									  windowCenterY + displayHeight / 2);
 		}
 		#endregion
 	}
