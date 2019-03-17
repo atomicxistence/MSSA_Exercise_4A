@@ -11,7 +11,7 @@ namespace SpaceTrucker.View
 		private int selectionWidth = 57;
 		private int selectionHeight = 13;
 
-		private Menu previousMenuOptions;
+		private IMenu previousMenuOptions;
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
 		{
@@ -24,17 +24,21 @@ namespace SpaceTrucker.View
 			PrintSelectionBorder();
 
 			// Dummy List Test
-			var dummyMenu = CreateDummyList(1);
-			PrintMenuSelections(dummyMenu);
-			Console.ReadKey(true);
-			dummyMenu = CreateDummyList(2);
-			PrintMenuSelections(dummyMenu);
-			Console.ReadKey(true);
-			var newDummyMenu = CreateDummyList(3);
-			PrintMenuSelections(newDummyMenu);
+			//var dummyMenu = CreateDummyList(1);
+			//PrintMenuSelections(dummyMenu);
+			//Console.ReadKey(true);
+			//dummyMenu = CreateDummyList(2);
+			//PrintMenuSelections(dummyMenu);
+			//Console.ReadKey(true);
+			//var newDummyMenu = CreateDummyList(3);
+			//PrintMenuSelections(newDummyMenu);
 		}
 
-		public void PrintMenuSelections(Menu menu)
+		/// <summary>
+		/// Displays a menu of options for selection with a prompt message
+		/// </summary>
+		/// <param name="menu">Max 9 menu options allowed</param>
+		public void PrintMenuSelections(IMenu menu)
 		{
 			var optionWidth = selectionWidth - 2;
 
@@ -88,14 +92,6 @@ namespace SpaceTrucker.View
 			previousMenuOptions = menu;
 		}
 
-		private void PrintMenuPrompt(string prompt, int optionWidth)
-		{
-			Console.ForegroundColor = Write.ColorUnselectedOptionFG;
-			Console.BackgroundColor = Write.ColorDisplayBG;
-
-			Console.Write(prompt);
-			Write.EmptySpace(optionWidth - prompt.Length - 2);
-		}
 
 
 		#region Private Methods
@@ -156,6 +152,15 @@ namespace SpaceTrucker.View
 
 			Console.Write(menuOption);
 			Write.EmptySpace(optionWidth - menuOption.Length);
+		}
+
+		private void PrintMenuPrompt(string prompt, int optionWidth)
+		{
+			Console.ForegroundColor = Write.ColorUnselectedOptionFG;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			Console.Write(prompt);
+			Write.EmptySpace(optionWidth - prompt.Length - 2);
 		}
 
 		private Menu CreateDummyList(int dummyListNum)

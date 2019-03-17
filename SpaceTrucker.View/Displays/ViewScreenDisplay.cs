@@ -19,6 +19,7 @@ namespace SpaceTrucker.View
 			PrintBlankViewScreen();
 		}
 
+		#region Private Methods
 		private void PrintBevel()
 		{
 			int bevel = 1;
@@ -44,5 +45,6 @@ namespace SpaceTrucker.View
 				Write.EmptySpace(sizeWidth);
 			}
 		}
+		#endregion
 	}
 }
