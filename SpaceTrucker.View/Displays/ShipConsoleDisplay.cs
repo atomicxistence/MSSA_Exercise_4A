@@ -34,6 +34,8 @@ namespace SpaceTrucker.View
 				Console.SetCursorPosition(origin.X, origin.Y - i);
 				Write.EmptySpace(sizeWidth);
 			}
+
+			Console.ResetColor();
 		}
 
 		private void PrintButtons()
@@ -52,6 +54,9 @@ namespace SpaceTrucker.View
 				"T"
 			};
 
+			Console.BackgroundColor = Write.ColorSurfaceBG;
+			Console.ForegroundColor = Write.ColorSurfaceFG;
+
 			for (int i = 0; i < buttons; i++)
 			{
 				var orderedButtonOffset = i * 5;
@@ -59,6 +64,8 @@ namespace SpaceTrucker.View
 				PrintButtonBevel(buttonSize, orderedButtonOffset, buttonOrigin);
 				PrintButtonSurface(orderedButtonOffset, buttonOrigin, buttonCharacters[i]);
 			}
+
+			Console.ResetColor();
 		}
 
 		private void PrintButtonBevel(int buttonSize, int orderedButtonOffset, Coord buttonOrigin)

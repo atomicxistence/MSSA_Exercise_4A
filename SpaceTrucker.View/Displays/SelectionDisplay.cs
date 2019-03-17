@@ -17,6 +17,7 @@ namespace SpaceTrucker.View
 
 			PrintBevel();
 			PrintSelectionScreen();
+			PrintSelectionBorder();
 		}
 
 		private void PrintBevel()
@@ -43,6 +44,20 @@ namespace SpaceTrucker.View
 				Console.SetCursorPosition(origin.X, origin.Y - i);
 				Write.EmptySpace(selectionWidth);
 			}
+		}
+
+		private void PrintSelectionBorder()
+		{
+			Console.ForegroundColor = Write.ColorDisplayTable;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+			
+			// Top border
+			Console.SetCursorPosition(origin.X, origin.Y - 12);
+			Console.Write("┌─                                                     ─┐");
+
+			//Bottom border
+			Console.SetCursorPosition(origin.X, origin.Y);
+			Console.Write("└─                                                     ─┘");
 		}
 	}
 }

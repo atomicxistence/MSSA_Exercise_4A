@@ -16,7 +16,7 @@ namespace SpaceTrucker.View
 		private SelectionDisplay selectionScreen;
 		private ViewScreenDisplay viewScreen;
 
-		private int displayWidth = 112;
+		private int displayWidth = 110;
 		private int displayHeight = 50;
 
 		private Coord displayOrigin;
@@ -52,8 +52,8 @@ namespace SpaceTrucker.View
 
 		private void SetWindowSize()
 		{
-			var bufferWidth = 2;
-			var bufferHeight = 1;
+			var bufferWidth = 4;
+			var bufferHeight = 3;
 
 			Console.SetWindowSize(displayWidth + bufferWidth, displayHeight + bufferHeight);
 			Console.SetBufferSize(displayWidth + bufferWidth, displayHeight + bufferHeight);
