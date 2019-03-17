@@ -3,5 +3,6 @@
 	public interface IOption
 	{
 		string Title { get; }
+		bool IsSelected { get; }
 	}
 }

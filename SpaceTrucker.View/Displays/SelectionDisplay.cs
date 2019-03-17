@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
@@ -9,6 +11,8 @@ namespace SpaceTrucker.View
 		private int selectionWidth = 57;
 		private int selectionHeight = 13;
 
+		private Menu previousMenuOptions;
+
 		public void InitialRefresh(Coord shipConsoleOrigin)
 		{
 			int offsetX = 51;
@@ -18,8 +22,83 @@ namespace SpaceTrucker.View
 			PrintBevel();
 			PrintSelectionScreen();
 			PrintSelectionBorder();
+
+			// Dummy List Test
+			var dummyMenu = CreateDummyList(1);
+			PrintMenuSelections(dummyMenu);
+			Console.ReadKey(true);
+			dummyMenu = CreateDummyList(2);
+			PrintMenuSelections(dummyMenu);
+			Console.ReadKey(true);
+			var newDummyMenu = CreateDummyList(3);
+			PrintMenuSelections(newDummyMenu);
 		}
 
+		public void PrintMenuSelections(Menu menu)
+		{
+			var optionWidth = selectionWidth - 2;
+
+			if (previousMenuOptions == null || previousMenuOptions != menu)
+			{
+				Console.SetCursorPosition(origin.X + 2, origin.Y - 11);
+				PrintMenuPrompt(menu.Prompt, optionWidth);
+			}
+
+			for (int i = 0; i < menu.Options.Count; i++)
+			{
+				Console.SetCursorPosition(origin.X + 1, origin.Y - 9 + i);
+
+				if (previousMenuOptions == null || previousMenuOptions != menu)
+				{
+					if (menu.Options[i].IsSelected)
+					{
+						PrintSelectedOption(menu.Options[i].Title, optionWidth);
+					}
+					else
+					{
+						PrintUnselectedOption(menu.Options[i].Title, optionWidth);
+					}
+				}
+				else
+				{
+					if (previousMenuOptions.Options[i].IsSelected && !menu.Options[i].IsSelected)
+					{
+						PrintUnselectedOption(menu.Options[i].Title, optionWidth);
+					}
+					else if(!previousMenuOptions.Options[i].IsSelected && menu.Options[i].IsSelected)
+					{
+						PrintSelectedOption(menu.Options[i].Title, optionWidth);
+					}
+				}
+			}
+
+			if (previousMenuOptions != null && 
+				previousMenuOptions != menu && 
+				previousMenuOptions.Options.Count > menu.Options.Count)
+			{
+				Console.BackgroundColor = Write.ColorDisplayBG;
+
+				for (int i = menu.Options.Count; i < previousMenuOptions.Options.Count; i++)
+				{
+					Console.SetCursorPosition(origin.X + 1, origin.Y - 9 + i);
+					Write.EmptySpace(optionWidth);
+				}
+			}
+
+			previousMenuOptions = menu;
+		}
+
+		private void PrintMenuPrompt(string prompt, int optionWidth)
+		{
+			Console.ForegroundColor = Write.ColorUnselectedOptionFG;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			Console.Write(prompt);
+			Write.EmptySpace(optionWidth - prompt.Length - 2);
+		}
+
+
+		#region Private Methods
 		private void PrintBevel()
 		{
 			int bevel = 1;
@@ -59,5 +138,60 @@ namespace SpaceTrucker.View
 			Console.SetCursorPosition(origin.X, origin.Y);
 			Console.Write("└─                                                     ─┘");
 		}
+
+		private static void PrintSelectedOption(string menuOption, int optionWidth)
+		{
+			Console.ForegroundColor = Write.ColorSelectedOptionFG;
+			Console.BackgroundColor = Write.ColorSelectedOptionBG;
+
+			Console.Write(Write.SelectionIndicator);
+			Console.Write(menuOption);
+			Write.EmptySpace(optionWidth - menuOption.Length - Write.SelectionIndicator.Length);
+		}
+
+		private static void PrintUnselectedOption(string menuOption, int optionWidth)
+		{
+			Console.ForegroundColor = Write.ColorUnselectedOptionFG;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			Console.Write(menuOption);
+			Write.EmptySpace(optionWidth - menuOption.Length);
+		}
+
+		private Menu CreateDummyList(int dummyListNum)
+		{
+			var dummyList = new List<IOption>();
+			string dummyListPrompt = "Main Menu";
+
+			switch (dummyListNum)
+			{
+				case 1:
+					dummyList.Add(new Option("New Game", true));
+					dummyList.Add(new Option("Continue Game", false));
+					dummyList.Add(new Option("Options", false));
+					dummyList.Add(new Option("Quit", false));
+					break;
+				case 2:
+					dummyList.Add(new Option("New Game", false));
+					dummyList.Add(new Option("Continue Game", true));
+					dummyList.Add(new Option("Options", false));
+					dummyList.Add(new Option("Quit", false));
+					break;
+				case 3:
+					dummyList = new List<IOption>
+					{
+						new Option("Yes", true),
+						new Option("No", false)
+					};
+					dummyListPrompt = "Are you sure?";
+					break;
+				default:
+					break;
+			}
+
+			var menu = new Menu(dummyListPrompt, dummyList);
+			return menu;
+		}
+		#endregion
 	}
 }

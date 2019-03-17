@@ -9,9 +9,14 @@ namespace SpaceTrucker.View
 		public static ConsoleColor ColorSurfaceFG => ConsoleColor.DarkGray;
 		public static ConsoleColor ColorSurfaceBG => ConsoleColor.Gray;
 		public static ConsoleColor ColorBevelBG => ConsoleColor.DarkGray;
-		public static ConsoleColor ColorDisplayFG => ConsoleColor.Cyan;
+		public static ConsoleColor ColorDisplayFG => ConsoleColor.Yellow;
 		public static ConsoleColor ColorDisplayBG => ConsoleColor.Black;
+		public static ConsoleColor ColorSelectedOptionFG => ConsoleColor.Black;
+		public static ConsoleColor ColorSelectedOptionBG => ConsoleColor.Green;
+		public static ConsoleColor ColorUnselectedOptionFG => ConsoleColor.DarkGreen;
 		public static ConsoleColor ColorDisplayTable => ConsoleColor.DarkYellow;
+
+		public static string SelectionIndicator => " ► ";
 
 		public static void EmptySpace(int width)
 		{
