@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceTrucker.Models;
+using System;
 
 namespace SpaceTrucker.ViewModel
 {
@@ -15,8 +16,19 @@ namespace SpaceTrucker.ViewModel
 
 		private void GameLoop()
 		{
-			//TODO: game loop
-			Console.ReadKey(true);
-		}
-	}
+            //TODO: game loop
+            //Economy.InitializeEconomy();
+            
+            //foreach(var p in Economy.planets)
+            //{
+            //    Console.Clear();
+
+            //    Console.WriteLine(p.Description);
+            //    Console.ReadKey(true);
+            //}
+
+            Console.ReadKey(true);
+
+        }
+    }
 }

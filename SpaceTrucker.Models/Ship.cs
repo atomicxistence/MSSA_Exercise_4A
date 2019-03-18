@@ -2,7 +2,7 @@
 
 namespace SpaceTrucker.Models
 {
-    class Ship
+    public class Ship
     {
         public string Name { get; private set; }
 

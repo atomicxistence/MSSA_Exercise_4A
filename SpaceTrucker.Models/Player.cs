@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SpaceTrucker.Models
 {
-    class Player
+    public class Player
     {
         public string Name { get; set; }
         public Ship MyShip { get; set; }

@@ -2,7 +2,7 @@
 
 namespace SpaceTrucker.Models
 {
-    class Market
+    public class Market
     {
         public Dictionary<Ore, (int price, int qty)> OfferedOres { get; private set; }
         public Dictionary<Ore, int> InDemandOres { get; private set; }

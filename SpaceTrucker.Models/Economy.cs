@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SpaceTrucker.Models
 {
-    class Economy
+    public class Economy
     {
         public static List<Planet> planets = new List<Planet>();
 
@@ -57,7 +57,7 @@ namespace SpaceTrucker.Models
 
             EarthMarket.UpdateMarket(offer, demand);
 
-            planets.Add(new Planet("Earth", new Location(0, 0), "Earth", EarthMarket));
+            planets.Add(new Planet("Earth", new Location(0, 0), "Home", EarthMarket));
 
             offer.Clear();
             demand.Clear();
@@ -316,25 +316,27 @@ namespace SpaceTrucker.Models
                 p.Description += $"Welcome to {p.Name} a.k.a {p.ShortName}";
                 if(p.MyMarket != null)
                 {
-                    p.Description += "\n\nWe offer: ";
+                    p.Description += "\n\nWe offer: \n";
                     foreach (var item in p.MyMarket.OfferedOres)
                     {
-                        p.Description += $"{item.Key.name} (${ToKMB(item.Value.price)}, Qty {item.Value.qty}) | ";
+                        p.Description += $"- {item.Key.name} (${ToKMB(item.Value.price)}, Qty {item.Value.qty})\n";
                     }
 
-                    p.Description += "\n\nWe buy: ";
+                    p.Description += "\nWe buy: \n";
                     foreach (var item in p.MyMarket.InDemandOres)
                     {
-                        p.Description += $"{item.Key.name} (${ToKMB(item.Value)}) | ";
+                        p.Description += $"- {item.Key.name} (${ToKMB(item.Value)})\n";
                     }
+
+                    p.Description += "\nListed prices are per unit.";
                 }
                 else
                 {
-                    p.Description += $"\n\nWe only offer fuel for ${p.MyMarket.FuelPrice}.";
+                    p.Description += $"\n\nWe only offer fuel here!";
                 }
-                    p.Description += "\n\nPrices are per item/unit.";
-                    p.Description += $"\n\nYou are {Trip.GetDistance(p.MyLocation, planets[0].MyLocation)} Light Year from Earth.";
-                    p.Description += $"\nClosest planets are: ... TODO"; // TODO Closest Planets
+                   
+                    p.Description += $"\n\nYou are {Trip.GetDistance(p.MyLocation, planets[0].MyLocation)} light years from {planets[0].ShortName}.";
+                    p.Description += $"\n\nClosest planets are: ... TODO\n"; // TODO Closest Planets
             }
 
         }

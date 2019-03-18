@@ -2,7 +2,7 @@
 
 namespace SpaceTrucker.Models
 {
-    struct Location
+    public struct Location
     {
         public int x;
         public int y;
@@ -16,7 +16,7 @@ namespace SpaceTrucker.Models
         }
     }
 
-    struct Trip
+    public struct Trip
     {
         public int speed; // Speed of Light
         public int distance; // Light Years
@@ -40,7 +40,7 @@ namespace SpaceTrucker.Models
 
     }
 
-    struct Ore
+    public struct Ore
     {
         public string name;
         public string description;
