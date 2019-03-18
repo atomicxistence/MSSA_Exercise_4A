@@ -4,7 +4,7 @@ using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
-	class DisplayManager
+	class DisplayManager : IDisplayManager
 	{
 		#region Class References
 		private List<IDisplay> displays;
@@ -39,6 +39,11 @@ namespace SpaceTrucker.View
 				display.InitialRefresh(displayOrigin);
 			}
 			RefreshViewScreen();
+		}
+
+		public void Refresh()
+		{
+
 		}
 
 		public void ChangeViewScreenMode(ViewMode newMode)

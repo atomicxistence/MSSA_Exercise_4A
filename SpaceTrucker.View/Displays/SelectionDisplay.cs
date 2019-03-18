@@ -24,7 +24,7 @@ namespace SpaceTrucker.View
 			PrintSelectionBorder();
 
 			//Dummy List Test
-		   var dummyMenu = CreateDummyList(1);
+			var dummyMenu = CreateDummyList(1);
 			PrintMenuSelections(dummyMenu);
 			Console.ReadKey(true);
 			dummyMenu = CreateDummyList(2);

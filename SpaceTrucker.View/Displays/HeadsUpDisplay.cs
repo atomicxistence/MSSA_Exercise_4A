@@ -20,7 +20,7 @@ namespace SpaceTrucker.View
 			PrintHUDTable();
 			PrintFuelCells("▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌");
 			PrintLocation("Earth              ");
-			PrintBalance("€ 100,000,000 ");
+			PrintBalance("€ 100,000,000,000");
 			PrintResetDays("18,249 days");
 		}
 
@@ -47,7 +47,7 @@ namespace SpaceTrucker.View
 		/// <summary>
 		/// Displays the current account balance
 		/// </summary>
-		/// <param name="balance">14 characters needed, beginning with "€ "</param>
+		/// <param name="balance">17 characters needed, beginning with "€ "</param>
 		public void PrintBalance(string balance)
 		{
 			var balanceOrigin = new Coord(origin.X + 11, origin.Y - 7);

@@ -1,8 +1,9 @@
 ﻿using System;
+using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
-	class UserInput
+	class UserInput : IUserInput
 	{
 		public ActionType AwaitUserKeyResponse(InputRequestType requestType)
 		{
