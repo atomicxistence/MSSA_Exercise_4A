@@ -41,9 +41,9 @@ namespace SpaceTrucker.View
 			RefreshViewScreen();
 		}
 
-		public void Refresh()
+		public void Refresh(DisplayInfo newGameInfo)
 		{
-
+			// TODO: get some info to change
 		}
 
 		public void ChangeViewScreenMode(ViewMode newMode)

@@ -2,6 +2,6 @@
 {
 	public interface IDisplayManager
 	{
-		void Refresh();
+		void Refresh(DisplayInfo currentDisplayInfo);
 	}
 }

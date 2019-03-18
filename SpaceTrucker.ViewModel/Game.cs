@@ -1,5 +1,6 @@
 ﻿using SpaceTrucker.Models;
 using System;
+using System.Collections.Generic;
 
 namespace SpaceTrucker.ViewModel
 {
@@ -7,6 +8,7 @@ namespace SpaceTrucker.ViewModel
 	{
 		private IDisplayManager display;
 		private IUserInput input;
+		private DisplayInfo currentDisplayInfo; 
 
 		private GameState currentGameState = GameState.MainMenu;
 
@@ -19,10 +21,11 @@ namespace SpaceTrucker.ViewModel
 		public void Run()
 		{
 			var action = ActionType.Invalid;
+			currentDisplayInfo = DefaultDisplayInfo();
 
 			while (true)
 			{
-				display.Refresh();
+				display.Refresh(currentDisplayInfo);
 				do
 				{
 					action = GetUserInput(currentGameState);
@@ -33,6 +36,7 @@ namespace SpaceTrucker.ViewModel
 				// TODO: need to feed the display the newest info
 			}
 		}
+
 
 		private ActionType GetUserInput(GameState currentGameState)
 		{
@@ -47,6 +51,31 @@ namespace SpaceTrucker.ViewModel
 				default:
 					return ActionType.Invalid;
 			}
+		}
+
+		private DisplayInfo DefaultDisplayInfo()
+		{
+			var defaultDisplayInfo = new DisplayInfo();
+			defaultDisplayInfo.CurrentGameState = GameState.MainMenu;
+
+			var defaultOptions = new List<IOption>
+			{
+				new Option("New Game", true),
+				new Option("Continue Game", false),
+				new Option("Options", false),
+				new Option("Quit", false),
+			};
+
+			defaultDisplayInfo.MenuOptions = new Menu("Main Menu", defaultOptions);
+			defaultDisplayInfo.FuelPercent = 100;
+			defaultDisplayInfo.Location = "Earth";
+			defaultDisplayInfo.Balance = 1000000000;
+			defaultDisplayInfo.DaysRemaining = 18249;
+			defaultDisplayInfo.MarketBuy = null;
+			defaultDisplayInfo.MarketSell = null;
+			defaultDisplayInfo.TrendReport = null;
+
+			return defaultDisplayInfo;
 		}
 
 		private void TestGameLoop()
