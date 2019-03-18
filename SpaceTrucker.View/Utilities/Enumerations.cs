@@ -20,4 +20,13 @@
 		Quit,
 		Invalid,
 	}
+
+	public enum ViewMode
+	{
+		TitleScreen,
+		Map,
+		Inventory,
+		TrendReport,
+		Market,
+	}
 }

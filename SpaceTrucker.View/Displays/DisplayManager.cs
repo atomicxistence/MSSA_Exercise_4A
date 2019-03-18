@@ -7,14 +7,16 @@ namespace SpaceTrucker.View
 	class DisplayManager
 	{
 		#region Class References
-		private MainMenuDisplay mainMenu;
-
 		private List<IDisplay> displays;
+		private List<IViewScreen> viewScreenModes;
+
+		private ViewMode currentMode = ViewMode.TitleScreen;
 
 		private ShipConsoleDisplay shipConsole;
 		private HeadsUpDisplay hud;
 		private SelectionDisplay selectionScreen;
 		private ViewScreenDisplay viewScreen;
+		private TitleScreen titleScreen;
 
 		private int displayWidth = 110;
 		private int displayHeight = 50;
@@ -36,6 +38,12 @@ namespace SpaceTrucker.View
 			{
 				display.InitialRefresh(displayOrigin);
 			}
+			RefreshViewScreen();
+		}
+
+		public void ChangeViewScreenMode(ViewMode newMode)
+		{
+			currentMode = newMode;
 		}
 		#endregion
 
@@ -61,12 +69,13 @@ namespace SpaceTrucker.View
 
 		private void InitializeDisplays()
 		{
-			mainMenu = new MainMenuDisplay(displayWidth, displayHeight, displayOrigin);
-
 			shipConsole = new ShipConsoleDisplay(displayWidth, displayHeight);
 			hud = new HeadsUpDisplay();
 			selectionScreen = new SelectionDisplay();
 			viewScreen = new ViewScreenDisplay();
+
+			titleScreen = new TitleScreen();
+
 		}
 
 		private void AddDisplaysToList()
@@ -78,6 +87,11 @@ namespace SpaceTrucker.View
 				selectionScreen,
 				viewScreen
 			};
+
+			viewScreenModes = new List<IViewScreen>
+			{
+				titleScreen,
+			};
 		}
 
 		private void CenterConsoleWindow()
@@ -87,6 +101,17 @@ namespace SpaceTrucker.View
 
 			displayOrigin = new Coord(windowCenterX - displayWidth / 2, 
 									  windowCenterY + displayHeight / 2);
+		}
+
+		private void RefreshViewScreen()
+		{
+			foreach (var mode in viewScreenModes)
+			{
+				if (mode.ModeType == currentMode)
+				{
+					mode.CompleteRefresh(displayOrigin);
+				}
+			}
 		}
 		#endregion
 	}
