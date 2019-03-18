@@ -10,7 +10,7 @@
 - Player sees narrative and then is presented with a map showing planets within range 
 - Ship is given initial inventory and budget (let user select inventory?)
 
-- START GAME LOOP
+### START GAME LOOP
 
   - Ship receives reports from WeyLand with Market info 
     - Planet with details: description, distance etc 
@@ -28,7 +28,7 @@
   - Ship selects whether to buy or sell, then selects ore, transaction happens 
   - Player opens map, displays planets within range, and receives new market report 
 
-- END GAME LOOP
+### END GAME LOOP
 
 - Ship travel rules: 
   - Higher travel speed negatively affects fuel consumption 
