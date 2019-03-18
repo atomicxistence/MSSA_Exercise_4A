@@ -23,15 +23,15 @@ namespace SpaceTrucker.View
 			PrintSelectionScreen();
 			PrintSelectionBorder();
 
-			// Dummy List Test
-			//var dummyMenu = CreateDummyList(1);
-			//PrintMenuSelections(dummyMenu);
-			//Console.ReadKey(true);
-			//dummyMenu = CreateDummyList(2);
-			//PrintMenuSelections(dummyMenu);
-			//Console.ReadKey(true);
-			//var newDummyMenu = CreateDummyList(3);
-			//PrintMenuSelections(newDummyMenu);
+			//Dummy List Test
+		   var dummyMenu = CreateDummyList(1);
+			PrintMenuSelections(dummyMenu);
+			Console.ReadKey(true);
+			dummyMenu = CreateDummyList(2);
+			PrintMenuSelections(dummyMenu);
+			Console.ReadKey(true);
+			var newDummyMenu = CreateDummyList(3);
+			PrintMenuSelections(newDummyMenu);
 		}
 
 		/// <summary>
