@@ -1,6 +1,6 @@
-﻿using SpaceTrucker.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SpaceTrucker.Models;
 
 namespace SpaceTrucker.ViewModel
 {
@@ -77,15 +77,7 @@ namespace SpaceTrucker.ViewModel
 
 			return defaultDisplayInfo;
 		}
-
-		private void TestGameLoop()
-		{
-			//TODO: game loop
-			Console.ReadKey(true);
-			ModelTest();
-
-        }
-
+		
 		private void ModelTest()
 		{
 			Economy.InitializeEconomy();

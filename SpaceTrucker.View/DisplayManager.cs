@@ -22,6 +22,7 @@ namespace SpaceTrucker.View
 		private int displayHeight = 50;
 
 		private Coord displayOrigin;
+		private Coord currentWindowSize;
 		#endregion
 
 		#region Public Methods
@@ -33,6 +34,9 @@ namespace SpaceTrucker.View
 
 		public void CompleteRefresh()
 		{
+			Console.Clear();
+			Console.CursorVisible = false;
+
 			CenterConsoleWindow();
 			foreach (var display in displays)
 			{
@@ -43,12 +47,13 @@ namespace SpaceTrucker.View
 
 		public void Refresh(DisplayInfo newGameInfo)
 		{
-			// TODO: get some info to change
-		}
+			// TODO: change view mode
 
-		public void ChangeViewScreenMode(ViewMode newMode)
-		{
-			currentMode = newMode;
+			if (WindowSizeHasChanged())
+			{
+				CompleteRefresh();
+			}
+
 		}
 		#endregion
 
@@ -70,6 +75,7 @@ namespace SpaceTrucker.View
 
 			Console.SetWindowSize(displayWidth + bufferWidth, displayHeight + bufferHeight);
 			Console.SetBufferSize(displayWidth + bufferWidth, displayHeight + bufferHeight);
+			currentWindowSize = new Coord(Console.WindowWidth, Console.WindowHeight);
 		}
 
 		private void InitializeDisplays()
@@ -80,7 +86,7 @@ namespace SpaceTrucker.View
 			viewScreen = new ViewScreenDisplay();
 
 			titleScreen = new TitleScreen();
-
+			// TODO: add more view screens
 		}
 
 		private void AddDisplaysToList()
@@ -97,6 +103,20 @@ namespace SpaceTrucker.View
 			{
 				titleScreen,
 			};
+		}
+
+		private bool WindowSizeHasChanged()
+		{
+			if (currentWindowSize.X != Console.WindowWidth || 
+				currentWindowSize.Y != Console.WindowHeight)
+			{
+				currentWindowSize = new Coord(Console.WindowWidth, Console.WindowHeight);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		private void CenterConsoleWindow()

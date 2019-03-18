@@ -12,9 +12,5 @@ namespace SpaceTrucker.ViewModel
 			Prompt = prompt;
 			Options = options;
 		}
-
-		public Menu()
-		{
-		}
 	}
 }

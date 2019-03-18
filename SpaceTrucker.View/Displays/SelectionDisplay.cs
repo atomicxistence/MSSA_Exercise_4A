@@ -23,15 +23,6 @@ namespace SpaceTrucker.View
 			PrintSelectionScreen();
 			PrintSelectionBorder();
 
-			//Dummy List Test
-			var dummyMenu = CreateDummyList(1);
-			PrintMenuSelections(dummyMenu);
-			Console.ReadKey(true);
-			dummyMenu = CreateDummyList(2);
-			PrintMenuSelections(dummyMenu);
-			Console.ReadKey(true);
-			var newDummyMenu = CreateDummyList(3);
-			PrintMenuSelections(newDummyMenu);
 		}
 
 		/// <summary>
@@ -156,46 +147,13 @@ namespace SpaceTrucker.View
 
 		private void PrintMenuPrompt(string prompt, int optionWidth)
 		{
+			var promptIndention = 2;
+
 			Console.ForegroundColor = Write.ColorUnselectedOptionFG;
 			Console.BackgroundColor = Write.ColorDisplayBG;
 
 			Console.Write(prompt);
-			Write.EmptySpace(optionWidth - prompt.Length - 2);
-		}
-
-		private Menu CreateDummyList(int dummyListNum)
-		{
-			var dummyList = new List<IOption>();
-			string dummyListPrompt = "Main Menu";
-
-			switch (dummyListNum)
-			{
-				case 1:
-					dummyList.Add(new Option("New Game", true));
-					dummyList.Add(new Option("Continue Game", false));
-					dummyList.Add(new Option("Options", false));
-					dummyList.Add(new Option("Quit", false));
-					break;
-				case 2:
-					dummyList.Add(new Option("New Game", false));
-					dummyList.Add(new Option("Continue Game", true));
-					dummyList.Add(new Option("Options", false));
-					dummyList.Add(new Option("Quit", false));
-					break;
-				case 3:
-					dummyList = new List<IOption>
-					{
-						new Option("Yes", true),
-						new Option("No", false)
-					};
-					dummyListPrompt = "Are you sure?";
-					break;
-				default:
-					break;
-			}
-
-			var menu = new Menu(dummyListPrompt, dummyList);
-			return menu;
+			Write.EmptySpace(optionWidth - prompt.Length - promptIndention);
 		}
 		#endregion
 	}
