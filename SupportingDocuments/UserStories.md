@@ -38,3 +38,15 @@
   - a planet will not buy ores it sells
   - not all planets will offer upgrades (or fuel?)
   
+  ### Trend Reports  
+  
+  * Ore Name (x10)
+  * Top 3 Planets - Lowest Price Selling
+    * Planet Name
+    * Planet Distance
+    * Planet Price
+  * Top 3 Planets - Highest Price Buying
+    * Planet Name
+    * Planet Distance
+    * Planet Price
+  
