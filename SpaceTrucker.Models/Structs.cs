@@ -28,15 +28,15 @@ namespace SpaceTrucker.Models
             speed = GetSpeed(warp);
             distance = GetDistance(o, d);
             duration = (int)Math.Round(distance / (speed * 365.0));
-            fuelUsage = (int)(((double)warp/10.0) * distance);
+            fuelUsage = (int)Math.Round(((double)warp/10.0) * distance);
         }
 
         
         public static int GetDistance(Location o, Location d) 
-                            => (int)Math.Sqrt(Math.Pow(d.x - o.x, 2) + Math.Pow(d.y - o.y, 2));
+                            => (int)Math.Round(Math.Sqrt(Math.Pow(d.x - o.x, 2) + Math.Pow(d.y - o.y, 2)));
 
         public static int GetSpeed(WarpFactor warp)
-                            => (int) Math.Pow((double) warp, 10 / 3.0); // only good for warp <=9
+                            => (int)Math.Round(Math.Pow((double) warp, 10 / 3.0)); // only good for warp <=9
 
     }
 

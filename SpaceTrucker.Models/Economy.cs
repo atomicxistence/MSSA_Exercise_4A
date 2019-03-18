@@ -8,11 +8,22 @@ namespace SpaceTrucker.Models
     public class Economy
     {
         public static List<Planet> planets = new List<Planet>();
+        static List<Ore> allOres = new List<Ore>();
 
         public static void InitializeEconomy()
         {
             // create ores
-            List<Ore> allOres = new List<Ore>();
+            InitOres();
+
+            // create Markets for 12 planets
+            InitPlanets();
+
+            // Set Planets Descriptions:
+            SetPlanetDescription();
+        }
+
+        static void InitOres()
+        {
             allOres.Add(new Ore("Lithium"));
             allOres.Add(new Ore("Gold"));
             allOres.Add(new Ore("Rhodium"));
@@ -23,26 +34,35 @@ namespace SpaceTrucker.Models
             allOres.Add(new Ore("Painite"));
             allOres.Add(new Ore("Blue Garnets"));
             allOres.Add(new Ore("Jadeite"));
+        }
 
-            // create Markets for 12 planets
-            Market EarthMarket = new Market();
-            Market PCbMarket = new Market();
-            Market LbMarket = new Market();
-            Market KbMarket = new Market();
-            Market W1061cMarket = new Market();
-            Market G667CcMarket = new Market();
-            Market T1dMarket = new Market();
-            Market L1140bMarket = new Market();
-            Market G163cMarket = new Market();
-            Market K218bMarket = new Market();
-            Market K23dMarket = new Market();
-            Market Ke438bMarket = new Market();
-            Market Ke186fMarket = new Market();
-
-            Dictionary<Ore, (int price, int qty)> offer= new Dictionary<Ore, (int price, int qty)>();
+        static void InitPlanets()
+        {
+            Dictionary<Ore, (int price, int qty)> offer = new Dictionary<Ore, (int price, int qty)>();
             Dictionary<Ore, int> demand = new Dictionary<Ore, int>();
 
-            // fill earth 
+            // Planets ordered by distance to Earth (home)
+            FillEarth(offer, demand);
+            FillPCb(offer, demand);
+            FillLb(offer, demand);
+            FillKb(offer, demand);
+            FillW1061c(offer, demand);
+            FillG667Cc(offer, demand);
+            FillT1d(offer, demand);
+            FillL1140b(offer, demand);
+            FillG163c(offer, demand);
+            planets.Add(new Planet("Piscium 109b", new Location(106, 0), "P109b")); // Fuel stop only
+            FillK218b(offer, demand);
+            FillK23d(offer, demand);
+            planets.Add(new Planet("Andromedae 14b", new Location(241, -64), "A14b")); // Fuel stop only
+            FillKe438b(offer, demand);
+            FillKe186f(offer, demand);
+
+        }
+
+        static void FillEarth(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market EarthMarket = new Market();
             offer.Add(allOres[0], (1, 100));
             offer.Add(allOres[1], (1200, 50));
             offer.Add(allOres[2], (1500, 25));
@@ -61,8 +81,11 @@ namespace SpaceTrucker.Models
 
             offer.Clear();
             demand.Clear();
+        }
 
-            // fill PCb 
+        static void FillPCb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market PCbMarket = new Market();
             offer.Add(allOres[0], (2, 100));
             offer.Add(allOres[1], (1000, 50));
             offer.Add(allOres[2], (2000, 25));
@@ -81,8 +104,12 @@ namespace SpaceTrucker.Models
 
             offer.Clear();
             demand.Clear();
+        }
 
-            // fill Lb
+        static void FillLb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market LbMarket = new Market();
+
             offer.Add(allOres[0], (4, 100));
             offer.Add(allOres[1], (1100, 50));
             offer.Add(allOres[2], (3000, 25));
@@ -101,8 +128,12 @@ namespace SpaceTrucker.Models
 
             offer.Clear();
             demand.Clear();
+        }
 
-            // fill Kb
+        static void FillKb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market KbMarket = new Market();
+
             offer.Add(allOres[0], (4, 100));
             offer.Add(allOres[2], (3000, 25));
             offer.Add(allOres[3], (600, 50));
@@ -121,8 +152,12 @@ namespace SpaceTrucker.Models
 
             offer.Clear();
             demand.Clear();
+        }
 
-            // fill W1061c
+        static void FillW1061c(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market W1061cMarket = new Market();
+
             offer.Add(allOres[1], (1200, 75));
             offer.Add(allOres[4], (1600000, 25));
             offer.Add(allOres[5], (2400000, 10));
@@ -141,8 +176,12 @@ namespace SpaceTrucker.Models
 
             offer.Clear();
             demand.Clear();
+        }
 
-            // fill G667Cc
+        static void FillG667Cc(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market G667CcMarket = new Market();
+
             offer.Add(allOres[0], (10, 100));
             offer.Add(allOres[1], (2000, 50));
             offer.Add(allOres[3], (1000, 50));
@@ -161,8 +200,12 @@ namespace SpaceTrucker.Models
 
             offer.Clear();
             demand.Clear();
+        }
 
-            // fill T1d
+        static void FillT1d(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market T1dMarket = new Market();
+
             offer.Add(allOres[0], (10, 100));
             offer.Add(allOres[2], (4000, 30));
             offer.Add(allOres[3], (1500, 50));
@@ -182,7 +225,12 @@ namespace SpaceTrucker.Models
             offer.Clear();
             demand.Clear();
 
-            // fill L1140b
+        }
+
+        static void FillL1140b(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market L1140bMarket = new Market();
+
             offer.Add(allOres[0], (18, 75));
             offer.Add(allOres[1], (2900, 50));
             offer.Add(allOres[2], (3000, 50));
@@ -202,7 +250,12 @@ namespace SpaceTrucker.Models
             offer.Clear();
             demand.Clear();
 
-            // fill G163c
+        }
+
+        static void FillG163c(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market G163cMarket = new Market();
+
             offer.Add(allOres[1], (3000, 50));
             offer.Add(allOres[2], (2000, 50));
             offer.Add(allOres[6], (2000000, 10));
@@ -222,11 +275,12 @@ namespace SpaceTrucker.Models
             offer.Clear();
             demand.Clear();
 
-            // create P109b, has only fuel 
-            planets.Add(new Planet("Piscium 109b", new Location(106, 0), "P109b"));
+        }
 
+        static void FillK218b(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market K218bMarket = new Market();
 
-            // fill K218b
             offer.Add(allOres[1], (9500, 25));
             offer.Add(allOres[2], (6000, 50));
             offer.Add(allOres[3], (500, 75));
@@ -246,7 +300,12 @@ namespace SpaceTrucker.Models
             offer.Clear();
             demand.Clear();
 
-            // fill K23d
+        }
+
+        static void FillK23d(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market K23dMarket = new Market();
+
             offer.Add(allOres[0], (40, 100));
             offer.Add(allOres[3], (400, 75));
             offer.Add(allOres[4], (4500000, 15));
@@ -266,10 +325,12 @@ namespace SpaceTrucker.Models
             offer.Clear();
             demand.Clear();
 
-            // create A14b, has only fuel 
-            planets.Add(new Planet("Andromedae 14b", new Location(241, -64), "A14b"));
+        }
 
-            // fill Ke438b
+        static void FillKe438b(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market Ke438bMarket = new Market();
+
             offer.Add(allOres[4], (300000, 25));
             offer.Add(allOres[6], (100000, 30));
             offer.Add(allOres[7], (300000, 20));
@@ -289,7 +350,12 @@ namespace SpaceTrucker.Models
             offer.Clear();
             demand.Clear();
 
-            // fill Ke186f
+        }
+
+        static void FillKe186f(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        {
+            Market Ke186fMarket = new Market();
+
             offer.Add(allOres[5], (400000, 25));
             offer.Add(allOres[6], (50000, 75));
             offer.Add(allOres[7], (200000, 50));
@@ -309,12 +375,15 @@ namespace SpaceTrucker.Models
             offer.Clear();
             demand.Clear();
 
-            // Fill in Planet Description:
-            foreach(var p in planets)
+        }
+
+        static void SetPlanetDescription()
+        {
+            foreach (var p in planets)
             {
                 p.Description = "";
                 p.Description += $"Welcome to {p.Name} a.k.a {p.ShortName}";
-                if(p.MyMarket != null)
+                if (p.MyMarket != null)
                 {
                     p.Description += "\n\nWe offer: \n";
                     foreach (var item in p.MyMarket.OfferedOres)
@@ -334,21 +403,23 @@ namespace SpaceTrucker.Models
                 {
                     p.Description += $"\n\nWe only offer fuel here!";
                 }
-                   
-                    p.Description += $"\n\nYou are {Trip.GetDistance(p.MyLocation, planets[0].MyLocation)} light years from {planets[0].ShortName}.";
-                    p.Description += $"\n\nClosest planets are: ... TODO\n"; // TODO Closest Planets
-            }
 
+                p.Description += $"\n\nYou are {Trip.GetDistance(p.MyLocation, planets[0].MyLocation)} light years from {planets[0].ShortName}.";
+                p.Description += $"\n\nClosest planets are: ... TODO\n"; // TODO Closest Planets
+            }
         }
 
         public static string ToKMB(int num)
         {
-            if (num > 999999)
+            if (num > 999999999 || num < -999999999)
+            {
+                return num.ToString("0,,,.###B", CultureInfo.InvariantCulture);
+            }
+            else if (num > 999999)
             {
                 return num.ToString("0,,.##M", CultureInfo.InvariantCulture);
             }
-            else
-            if (num > 999)
+            else if (num > 999)
             {
                 return num.ToString("0,.#K", CultureInfo.InvariantCulture);
             }
