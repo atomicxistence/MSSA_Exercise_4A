@@ -4,13 +4,13 @@ using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
-	class DisplayManager : IDisplayManager
+	class DisplayManager
 	{
 		#region Class References
 		private List<IDisplay> displays;
 		private List<IViewScreen> viewScreenModes;
 
-		private ViewMode currentMode = ViewMode.TitleScreen;
+		private ViewScreenMode currentMode = ViewScreenMode.TitleScreen;
 
 		private EventBroadcaster eventBroadcaster;
 
@@ -30,6 +30,8 @@ namespace SpaceTrucker.View
 		#region Public Methods
 		public DisplayManager(EventBroadcaster eventBroadcaster)
 		{
+			this.eventBroadcaster = eventBroadcaster;
+
 			Initialize();
 			CompleteRefresh();
 		}

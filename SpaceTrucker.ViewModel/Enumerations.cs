@@ -28,6 +28,14 @@
 		Message,
 		FullMenuSelection,
 		Market,
+	}
 
+	public enum ViewScreenMode
+	{
+		TitleScreen,
+		Map,
+		Inventory,
+		TrendReport,
+		Market,
 	}
 }

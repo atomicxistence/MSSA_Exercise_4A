@@ -1,10 +1,11 @@
 ﻿using System;
+using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
 	class TitleScreen : IViewScreen
 	{
-		public ViewMode ModeType => ViewMode.TitleScreen;
+		public ViewScreenMode ModeType => ViewScreenMode.TitleScreen;
 
 		private Coord origin;
 

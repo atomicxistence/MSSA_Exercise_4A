@@ -3,7 +3,7 @@ using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
-	class UserInput : IUserInput
+	class UserInput
 	{
 		public ActionType AwaitUserKeyResponse(InputRequestType requestType)
 		{

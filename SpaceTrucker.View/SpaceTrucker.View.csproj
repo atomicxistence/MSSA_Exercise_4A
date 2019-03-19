@@ -49,7 +49,6 @@
     <Compile Include="Utilities\Coord.cs" />
     <Compile Include="DisplayManager.cs" />
     <Compile Include="Displays\MainMenuDisplay.cs" />
-    <Compile Include="Utilities\Enumerations.cs" />
     <Compile Include="Displays\HeadsUpDisplay.cs" />
     <Compile Include="Displays\IDisplay.cs" />
     <Compile Include="Abstract\Menu.cs" />

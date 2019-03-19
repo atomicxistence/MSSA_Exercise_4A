@@ -1,8 +1,10 @@
-﻿namespace SpaceTrucker.View
+﻿using SpaceTrucker.ViewModel;
+
+namespace SpaceTrucker.View
 {
 	interface IViewScreen
 	{
-		ViewMode ModeType { get; }
+		ViewScreenMode ModeType { get; }
 		void CompleteRefresh(Coord shipConsoleOrigin);
 	}
 }

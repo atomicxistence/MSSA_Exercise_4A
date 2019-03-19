@@ -7,7 +7,7 @@ namespace SpaceTrucker.View
 	class Game
 	{
 		private DisplayManager display;
-		private IUserInput input;
+		private UserInput input;
 		private EventBroadcaster eventBroadcaster;
 
 		private GameState currentGameState = GameState.MainMenu;
