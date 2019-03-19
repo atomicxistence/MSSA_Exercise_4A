@@ -1,66 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SpaceTrucker.ViewModel
 {
 	public class EventBroadcaster
 	{
-		private int previousSelection = 0;
-		private int currentSelection = 0;
-		private IMenu menuOptions;
+		#region Event Handlers
+		public event EventHandler<string> FuelCells;
+		public event EventHandler<string> Balance;
+		public event EventHandler<string> Location;
+		public event EventHandler<string> ResetDays;
 
-		private ViewScreenMode viewScreenMode = ViewScreenMode.TitleScreen;
-		private GameState gameState = GameState.MainMenu;
+		#endregion
 
-		public void ActionUserInput(ActionType action)
+		internal void ChangeFuelCells(int fuelPercent)
 		{
-			switch (action)
-			{
-				case ActionType.NextItem:
-					currentSelection = currentSelection >= menuOptions.Options.Count
-									 ? 0
-									 : (currentSelection + 1);
-					ChangeMenuSelections();
-					//TODO: send menuOptions to appropriate display
-					break;
-				case ActionType.PreviousItem:
-					currentSelection = currentSelection <= 0
-									 ? menuOptions.Options.Count
-									 : (currentSelection - 1);
-					ChangeMenuSelections();
-					//TODO: send menuOptions to appropriate display
-					break;
-				case ActionType.Select:
-					//TODO: action currently selected option
-					break;
-				case ActionType.Back:
-					//TODO: go back to previous menu?
-					break;
-				case ActionType.NextTable:
-					//TODO: go to next market table
-					break;
-				case ActionType.PreviousTable:
-					//TODO: go to previous market table
-					break;
-				case ActionType.Map:
-					//TODO: change viewscreen to map
-					break;
-				case ActionType.Inventory:
-					//TODO: change viewscreen to inventory
-				case ActionType.TrendReport:
-					//TODO: change viewscreen to trend report
-					break;
-				case ActionType.Quit:
-					//TODO: bring up verification menu
-					break;
-			}
+			var numOfCells = fuelPercent / 5;
+
+			var sb = new StringBuilder(20);
+			sb.Append('▌', numOfCells).Append(' ', 20 - numOfCells);
+
+			FuelCells.Invoke(this, sb.ToString());
 		}
 
-		private void ChangeMenuSelections()
+		internal void ChangeBalance(int balance)
 		{
-			menuOptions.Options[previousSelection].IsSelected = false;
-			menuOptions.Options[currentSelection].IsSelected = true;
-			previousSelection = currentSelection;
+			//TODO: format balance to string with euro symbol
+			Balance.Invoke(this, balance.ToString());
+		}
+
+		internal void ChangeLocation(string planetName)
+		{
+			Location.Invoke(this, planetName);
+		}
+
+		internal void ChangeResetDays(int remainingDays)
+		{
+			//TODO: format remaining days to string with " days"
+			ResetDays.Invoke(this, "");
 		}
 	}
 }

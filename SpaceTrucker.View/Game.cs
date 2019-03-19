@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using SpaceTrucker.ViewModel;
+﻿using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
@@ -9,6 +7,7 @@ namespace SpaceTrucker.View
 		private DisplayManager display;
 		private UserInput input;
 		private EventBroadcaster eventBroadcaster;
+		private GameManager gm;
 
 		private GameState currentGameState = GameState.MainMenu;
 
@@ -17,6 +16,7 @@ namespace SpaceTrucker.View
 			eventBroadcaster = new EventBroadcaster();
 			input = new UserInput();
 			display = new DisplayManager(eventBroadcaster);
+			gm = new GameManager(eventBroadcaster);
 		}
 
 		public void Run()
@@ -33,10 +33,9 @@ namespace SpaceTrucker.View
 
 				} while (action == ActionType.Invalid);
 
-				eventBroadcaster.ActionUserInput(action);
+				gm.ActionUserInput(action);
 			}
 		}
-
 
 		private ActionType GetUserInput(GameState currentGameState)
 		{

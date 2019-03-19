@@ -14,6 +14,8 @@ namespace SpaceTrucker.View
 		public HeadsUpDisplay(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
+
+			eventBroadcaster.FuelCells += PrintFuelCells;
 		}
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
@@ -25,7 +27,7 @@ namespace SpaceTrucker.View
 			PrintBevel();
 			PrintHUDScreen();
 			PrintHUDTable();
-			PrintFuelCells("▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌");
+			PrintFuelCells(this, "▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌");
 			PrintLocation("Earth              ");
 			PrintBalance("€ 100,000,000,000");
 			PrintResetDays("18,249 days");
@@ -35,7 +37,7 @@ namespace SpaceTrucker.View
 		/// Displays the current fuel level
 		/// </summary>
 		/// <param name="fuelLevel">20 characters needed, using "▌"</param>
-		public void PrintFuelCells(string fuelLevel)
+		public void PrintFuelCells(object sender, string fuelLevel)
 		{
 			var fuelOrigin = new Coord(origin.X + 15, origin.Y - 11);
 			PrintOverlay(fuelOrigin, fuelLevel);
