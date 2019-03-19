@@ -18,6 +18,7 @@ namespace SpaceTrucker.View
 		private HeadsUpDisplay hud;
 		private SelectionDisplay selectionScreen;
 		private ViewScreenDisplay viewScreen;
+
 		private TitleScreen titleScreen;
 
 		private int displayWidth = 110;

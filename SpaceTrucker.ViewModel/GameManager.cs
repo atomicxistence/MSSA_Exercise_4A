@@ -13,12 +13,16 @@ namespace SpaceTrucker.ViewModel
 		private GameState gameState = GameState.MainMenu;
 
 		private EventBroadcaster eventBroadcaster;
+		private ConsoleFormatter console;
+		private MenuFactory menuFactory;
 
 		private int fuelPercent = 100;
 
 		public GameManager(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
+			console = new ConsoleFormatter();
+			menuFactory = new MenuFactory();
 		}
 
 		public void ActionUserInput(ActionType action)
@@ -42,13 +46,13 @@ namespace SpaceTrucker.ViewModel
 					break;
 				case ActionType.Select:
 					//TODO: action currently selected option
-					eventBroadcaster.ChangeFuelCells(fuelPercent);
 					fuelPercent -= 5;
+					eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(fuelPercent));
 					break;
 				case ActionType.Back:
 					//TODO: go back to previous menu?
-					eventBroadcaster.ChangeFuelCells(fuelPercent);
 					fuelPercent += 5;
+					eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(fuelPercent));
 					break;
 				case ActionType.NextTable:
 					//TODO: go to next market table
@@ -60,7 +64,7 @@ namespace SpaceTrucker.ViewModel
 					//TODO: change viewscreen to map
 					break;
 				case ActionType.Inventory:
-				//TODO: change viewscreen to inventory
+					//TODO: change viewscreen to inventory
 				case ActionType.TrendReport:
 					//TODO: change viewscreen to trend report
 					break;

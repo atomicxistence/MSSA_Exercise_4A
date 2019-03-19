@@ -16,6 +16,9 @@ namespace SpaceTrucker.View
 			this.eventBroadcaster = eventBroadcaster;
 
 			eventBroadcaster.FuelCells += PrintFuelCells;
+			eventBroadcaster.Location += PrintLocation;
+			eventBroadcaster.Balance += PrintBalance;
+			eventBroadcaster.ResetDays += PrintResetDays;
 		}
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
@@ -28,9 +31,9 @@ namespace SpaceTrucker.View
 			PrintHUDScreen();
 			PrintHUDTable();
 			PrintFuelCells(this, "▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌");
-			PrintLocation("Earth              ");
-			PrintBalance("€ 100,000,000,000");
-			PrintResetDays("18,249 days");
+			PrintLocation(this, "Earth              ");
+			PrintBalance(this, "€ 100,000,000,000");
+			PrintResetDays(this, "18,249 days");
 		}
 
 		/// <summary>
@@ -47,7 +50,7 @@ namespace SpaceTrucker.View
 		/// Displays the current location
 		/// </summary>
 		/// <param name="location">20 characters needed</param>
-		public void PrintLocation(string location)
+		public void PrintLocation(object sender, string location)
 		{
 			var locationOrigin = new Coord(origin.X + 12, origin.Y - 9);
 			PrintOverlay(locationOrigin, location);
@@ -57,7 +60,7 @@ namespace SpaceTrucker.View
 		/// Displays the current account balance
 		/// </summary>
 		/// <param name="balance">17 characters needed, beginning with "€ "</param>
-		public void PrintBalance(string balance)
+		public void PrintBalance(object sender, string balance)
 		{
 			var balanceOrigin = new Coord(origin.X + 11, origin.Y - 7);
 			PrintOverlay(balanceOrigin, balance);
@@ -67,7 +70,7 @@ namespace SpaceTrucker.View
 		/// Displays the current number of days until reset
 		/// </summary>
 		/// <param name="resetDays">11 characters needed, ending with " days"</param>
-		public void PrintResetDays(string resetDays)
+		public void PrintResetDays(object sender, string resetDays)
 		{
 			var resetDayOrigin = new Coord(origin.X + 21, origin.Y - 1);
 			PrintOverlay(resetDayOrigin, resetDays);

@@ -14,20 +14,14 @@ namespace SpaceTrucker.ViewModel
 
 		#endregion
 
-		internal void ChangeFuelCells(int fuelPercent)
+		internal void ChangeFuelCells(string fuelCells)
 		{
-			var numOfCells = fuelPercent / 5;
-
-			var sb = new StringBuilder(20);
-			sb.Append('▌', numOfCells).Append(' ', 20 - numOfCells);
-
-			FuelCells.Invoke(this, sb.ToString());
+			FuelCells.Invoke(this, fuelCells);
 		}
 
-		internal void ChangeBalance(int balance)
+		internal void ChangeBalance(string balance)
 		{
-			//TODO: format balance to string with euro symbol
-			Balance.Invoke(this, balance.ToString());
+			Balance.Invoke(this, balance);
 		}
 
 		internal void ChangeLocation(string planetName)
