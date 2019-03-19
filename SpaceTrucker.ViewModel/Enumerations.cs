@@ -4,6 +4,7 @@
 	{
 		FullSelectionInput,
 		MenuOnly,
+		Market,
 	}
 
 	public enum ActionType

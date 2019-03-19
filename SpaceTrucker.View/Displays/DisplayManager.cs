@@ -12,6 +12,8 @@ namespace SpaceTrucker.View
 
 		private ViewMode currentMode = ViewMode.TitleScreen;
 
+		private GameState currentGameState;
+
 		private ShipConsoleDisplay shipConsole;
 		private HeadsUpDisplay hud;
 		private SelectionDisplay selectionScreen;

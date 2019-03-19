@@ -45,9 +45,9 @@
     <Compile Include="Abstract\ScanLine.cs" />
     <Compile Include="Displays\IViewScreen.cs" />
     <Compile Include="GameManager.cs" />
-    <Compile Include="TitleScreen.cs" />
+    <Compile Include="Displays\TitleScreen.cs" />
     <Compile Include="Utilities\Coord.cs" />
-    <Compile Include="Displays\DisplayManager.cs" />
+    <Compile Include="DisplayManager.cs" />
     <Compile Include="Displays\MainMenuDisplay.cs" />
     <Compile Include="Utilities\Enumerations.cs" />
     <Compile Include="Displays\HeadsUpDisplay.cs" />
