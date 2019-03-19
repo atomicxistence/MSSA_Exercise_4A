@@ -410,7 +410,7 @@ namespace SpaceTrucker.Models
             }
         }
 
-        static void BuildTrendReport()
+        public static void BuildTrendReport()
         { 
             SortedDictionary<int, string> TopSellersPerOre = new SortedDictionary<int, string>();
             SortedDictionary<int, string> TopBuyersPerOre = new SortedDictionary<int, string>();
@@ -421,17 +421,30 @@ namespace SpaceTrucker.Models
                 {
                     var t = (0, 0);
                     int price;
-                    if(p.MyMarket.OfferedOres.TryGetValue(o, out t))
+                    if(p.MyMarket != null)
                     {
-                        TopSellersPerOre.Add(t.Item1, p.ShortName);
-                    }
-                    if (p.MyMarket.InDemandOres.TryGetValue(o, out price))
-                    {
-                        TopBuyersPerOre.Add(price, p.ShortName);
+                        if(p.MyMarket.OfferedOres.TryGetValue(o, out t))
+                        {
+                            if (!TopSellersPerOre.ContainsKey(t.Item1))
+                            {
+                                TopSellersPerOre.Add(t.Item1, p.ShortName);
+                            }
+                        }
+                        if (p.MyMarket.InDemandOres.TryGetValue(o, out price))
+                        {
+                            if (!TopBuyersPerOre.ContainsKey(price))
+                            {
+                                TopBuyersPerOre.Add(price, p.ShortName);
+                            }
+                        }
                     }
                 }
 
-                Console.WriteLine($"{o.name}(${ToKMB(TopSellersPerOre.Keys.First())}-{ToKMB(TopBuyersPerOre.Keys.Last())} {String.Join(", ", TopSellersPerOre.Values.Take(3))} | {String.Join(", ",TopBuyersPerOre.Values.Reverse().Take(3))}");
+                Console.WriteLine($"{o.name} (€{ToKMB(TopSellersPerOre.Keys.First())}-€{ToKMB(TopBuyersPerOre.Keys.Last())}) \n{String.Join(", ", TopSellersPerOre.Values.Take(3))} | {String.Join(", ",TopBuyersPerOre.Values.Reverse().Take(3))}\n");
+
+                TopSellersPerOre.Clear();
+                TopBuyersPerOre.Clear();
+
             }
 
         }
