@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Linq;
 
 namespace SpaceTrucker.Models
 {
@@ -405,8 +406,34 @@ namespace SpaceTrucker.Models
                 }
 
                 p.Description += $"\n\nYou are {Trip.GetDistance(p.MyLocation, planets[0].MyLocation)} light years from {planets[0].ShortName}.";
-                p.Description += $"\n\nClosest planets are: ... TODO\n"; // TODO Closest Planets
+
             }
+        }
+
+        static void BuildTrendReport()
+        { 
+            SortedDictionary<int, string> TopSellersPerOre = new SortedDictionary<int, string>();
+            SortedDictionary<int, string> TopBuyersPerOre = new SortedDictionary<int, string>();
+
+            foreach(var o in allOres)
+            {
+                foreach(var p in planets)
+                {
+                    var t = (0, 0);
+                    int price;
+                    if(p.MyMarket.OfferedOres.TryGetValue(o, out t))
+                    {
+                        TopSellersPerOre.Add(t.Item1, p.ShortName);
+                    }
+                    if (p.MyMarket.InDemandOres.TryGetValue(o, out price))
+                    {
+                        TopBuyersPerOre.Add(price, p.ShortName);
+                    }
+                }
+
+                Console.WriteLine($"{o.name}(${ToKMB(TopSellersPerOre.Keys.First())}-{ToKMB(TopBuyersPerOre.Keys.Last())} {String.Join(", ", TopSellersPerOre.Values.Take(3))} | {String.Join(", ",TopBuyersPerOre.Values.Reverse().Take(3))}");
+            }
+
         }
 
         public static string ToKMB(int num)

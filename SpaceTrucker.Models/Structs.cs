@@ -8,7 +8,7 @@ namespace SpaceTrucker.Models
         public int y;
         public string name;
 
-        public Location(int x, int y, string name = "")
+        public Location(int x, int y, string name = "Unknown")
         {
             this.name = name;
             this.x = x;
