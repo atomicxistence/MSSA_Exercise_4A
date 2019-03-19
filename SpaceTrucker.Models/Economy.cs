@@ -410,12 +410,13 @@ namespace SpaceTrucker.Models
             }
         }
 
-        public static void BuildTrendReport()
+        public static List<Trend> BuildTrendReport()
         { 
             SortedDictionary<int, string> TopSellersPerOre = new SortedDictionary<int, string>();
             SortedDictionary<int, string> TopBuyersPerOre = new SortedDictionary<int, string>();
+            List<Trend> report = new List<Trend>();
 
-            foreach(var o in allOres)
+            foreach (var o in allOres)
             {
                 foreach(var p in planets)
                 {
@@ -440,13 +441,14 @@ namespace SpaceTrucker.Models
                     }
                 }
 
-                Console.WriteLine($"{o.name} (€{ToKMB(TopSellersPerOre.Keys.First())}-€{ToKMB(TopBuyersPerOre.Keys.Last())}) \n{String.Join(", ", TopSellersPerOre.Values.Take(3))} | {String.Join(", ",TopBuyersPerOre.Values.Reverse().Take(3))}\n");
+                report.Add(new Trend(o, ToKMB(TopSellersPerOre.Keys.First()), ToKMB(TopBuyersPerOre.Keys.Last()), 
+                                        TopSellersPerOre.Values.Take(3).ToArray(), TopBuyersPerOre.Values.Reverse().Take(3).ToArray()));
 
                 TopSellersPerOre.Clear();
                 TopBuyersPerOre.Clear();
 
             }
-
+            return report;
         }
 
         public static string ToKMB(int num)

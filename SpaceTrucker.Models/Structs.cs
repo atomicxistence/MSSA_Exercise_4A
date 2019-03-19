@@ -52,10 +52,22 @@ namespace SpaceTrucker.Models
         }
     }
 
-    public struct  OreReport
+    public struct  Trend
     {
         public Ore o;
-        int min;
-        int max;
+        public string minPrice;
+        public string maxPrice;
+
+        public string[] topSellers;
+        public string[] topBuyers;
+
+        public Trend(Ore o, string minPrice, string maxPrice, string[] ts, string[] tb)
+        {
+            this.o = o;
+            this.minPrice = minPrice;
+            this.maxPrice = maxPrice;
+            this.topSellers = ts;
+            this.topBuyers = tb; 
+        }
     }
 }
