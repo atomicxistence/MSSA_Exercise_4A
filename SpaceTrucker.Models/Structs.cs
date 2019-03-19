@@ -50,6 +50,12 @@ namespace SpaceTrucker.Models
             this.name = name;
             this.description = description;
         }
+    }
 
+    public struct  OreReport
+    {
+        public Ore o;
+        int min;
+        int max;
     }
 }

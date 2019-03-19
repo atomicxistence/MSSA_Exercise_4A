@@ -40,8 +40,7 @@ namespace SpaceTrucker.Models
         {
             Trip myTrip = new Trip(CurrentLocation, newLocation, warp);
 
-            CurrentLocation.x = newLocation.x;
-            CurrentLocation.y = newLocation.y;
+            CurrentLocation = newLocation;
             LifeSpan -= myTrip.duration;
             FuelLevel -= myTrip.fuelUsage;
 
