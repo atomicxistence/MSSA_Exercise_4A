@@ -1,13 +1,20 @@
 ﻿using System;
+using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
 	class HeadsUpDisplay : IDisplay
 	{
+		private EventBroadcaster eventBroadcaster;
 		private Coord origin;
 
 		private int hudWidth = 40;
 		private int hudHeight = 13;
+
+		public HeadsUpDisplay(EventBroadcaster eventBroadcaster)
+		{
+			this.eventBroadcaster = eventBroadcaster;
+		}
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
 		{

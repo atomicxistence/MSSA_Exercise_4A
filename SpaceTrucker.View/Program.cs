@@ -9,10 +9,7 @@ namespace SpaceTrucker.View
 		{
 			Console.OutputEncoding = System.Text.Encoding.Unicode;
 
-			var gameManager = new GameManager();
-			var game = new Game(gameManager.GetDisplayReference(), gameManager.GetInputReference());
-
-			game.Run();
+			new Game().Run();
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace SpaceTrucker.View
 
 		private ViewMode currentMode = ViewMode.TitleScreen;
 
-		private GameState currentGameState;
+		private EventBroadcaster eventBroadcaster;
 
 		private ShipConsoleDisplay shipConsole;
 		private HeadsUpDisplay hud;
@@ -28,34 +28,19 @@ namespace SpaceTrucker.View
 		#endregion
 
 		#region Public Methods
-		public DisplayManager()
+		public DisplayManager(EventBroadcaster eventBroadcaster)
 		{
 			Initialize();
 			CompleteRefresh();
 		}
 
-		public void CompleteRefresh()
+
+		public void Refresh()
 		{
-			Console.Clear();
-			Console.CursorVisible = false;
-
-			CenterConsoleWindow();
-			foreach (var display in displays)
-			{
-				display.InitialRefresh(displayOrigin);
-			}
-			RefreshViewScreen();
-		}
-
-		public void Refresh(DisplayInfo newGameInfo)
-		{
-			// TODO: change view mode
-
-			if (WindowSizeHasChanged())
+			if(WindowSizeHasChanged())
 			{
 				CompleteRefresh();
 			}
-
 		}
 		#endregion
 
@@ -83,9 +68,9 @@ namespace SpaceTrucker.View
 		private void InitializeDisplays()
 		{
 			shipConsole = new ShipConsoleDisplay(displayWidth, displayHeight);
-			hud = new HeadsUpDisplay();
-			selectionScreen = new SelectionDisplay();
-			viewScreen = new ViewScreenDisplay();
+			hud = new HeadsUpDisplay(eventBroadcaster);
+			selectionScreen = new SelectionDisplay(eventBroadcaster);
+			viewScreen = new ViewScreenDisplay(eventBroadcaster);
 
 			titleScreen = new TitleScreen();
 			// TODO: add more view screens
@@ -105,6 +90,19 @@ namespace SpaceTrucker.View
 			{
 				titleScreen,
 			};
+		}
+
+		private void CompleteRefresh()
+		{
+			Console.Clear();
+			Console.CursorVisible = false;
+
+			CenterConsoleWindow();
+			foreach (var display in displays)
+			{
+				display.InitialRefresh(displayOrigin);
+			}
+			RefreshViewScreen();
 		}
 
 		private bool WindowSizeHasChanged()

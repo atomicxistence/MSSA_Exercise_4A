@@ -6,12 +6,19 @@ namespace SpaceTrucker.View
 {
 	class SelectionDisplay : IDisplay
 	{
+		private EventBroadcaster eventBroadcaster;
+
 		private Coord origin;
 
 		private int selectionWidth = 57;
 		private int selectionHeight = 13;
 
 		private IMenu previousMenuOptions;
+
+		public SelectionDisplay(EventBroadcaster eventBroadcaster)
+		{
+			this.eventBroadcaster = eventBroadcaster;
+		}
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
 		{

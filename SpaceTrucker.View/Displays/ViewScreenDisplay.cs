@@ -1,13 +1,21 @@
 ﻿using System;
+using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
 {
 	class ViewScreenDisplay : IDisplay
 	{
+		EventBroadcaster eventBroadcaster;
+
 		private Coord origin;
 
 		private int sizeWidth = 106;
 		private int sizeHeight = 30;
+
+		public ViewScreenDisplay(EventBroadcaster eventBroadcaster)
+		{
+			this.eventBroadcaster = eventBroadcaster;
+		}
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
 		{
