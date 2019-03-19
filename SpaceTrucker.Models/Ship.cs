@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SpaceTrucker.Models
 {
@@ -54,13 +55,29 @@ namespace SpaceTrucker.Models
 
         public void Buy(Ore o, int price)
         {
-            // TODO: update inventory, balance and capacity
+            if (Inventory?.Count > (int)MaxCapacity)
+            {
+                throw new Exception($"You cannot buy more than {MaxCapacity} items.");
+            }
+            else if (Balance - price < 0)
+            {
+                throw new Exception($"Insuficient funds, Balance: {Balance}, Price: {price}.");
+            }
+            else
+            {
+                Inventory.Add(o);
+                Balance -= price;
+            }
 
         }
 
         public void Sell(Ore o, int price)
         {
-            // TODO: update inventory, balance and capacity
+            if(Inventory.Contains(o))
+            {
+                Inventory.Remove(o);
+                Balance += price;
+            }
         }
 
     }
