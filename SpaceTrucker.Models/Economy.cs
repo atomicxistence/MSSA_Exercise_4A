@@ -412,37 +412,35 @@ namespace SpaceTrucker.Models
 
         public static List<Trend> BuildTrendReport()
         { 
-            SortedDictionary<int, string> TopSellersPerOre = new SortedDictionary<int, string>();
-            SortedDictionary<int, string> TopBuyersPerOre = new SortedDictionary<int, string>();
+           Dictionary<string, int> TopSellersPerOre = new Dictionary<string, int>();
+           Dictionary<string, int> TopBuyersPerOre = new Dictionary<string, int>();
             List<Trend> report = new List<Trend>();
 
             foreach (var o in allOres)
             {
                 foreach(var p in planets)
                 {
-                    var t = (0, 0);
-                    int price;
-                    if(p.MyMarket != null)
+
+                    if (p.MyMarket != null)
                     {
-                        if(p.MyMarket.OfferedOres.TryGetValue(o, out t))
+                        if (p.MyMarket.OfferedOres.TryGetValue(o, out var t))
                         {
-                            if (!TopSellersPerOre.ContainsKey(t.Item1))
-                            {
-                                TopSellersPerOre.Add(t.Item1, p.ShortName);
-                            }
+                                TopSellersPerOre.Add(p.ShortName, t.price);
                         }
-                        if (p.MyMarket.InDemandOres.TryGetValue(o, out price))
+                        
+                        if (p.MyMarket.InDemandOres.TryGetValue(o, out int price))
                         {
-                            if (!TopBuyersPerOre.ContainsKey(price))
-                            {
-                                TopBuyersPerOre.Add(price, p.ShortName);
-                            }
+                                TopBuyersPerOre.Add(p.ShortName, price);
                         }
                     }
                 }
 
-                report.Add(new Trend(o, ToKMB(TopSellersPerOre.Keys.First()), ToKMB(TopBuyersPerOre.Keys.Last()), 
-                                        TopSellersPerOre.Values.Take(3).ToArray(), TopBuyersPerOre.Values.Reverse().Take(3).ToArray()));
+                var sortedSellers = TopSellersPerOre.OrderBy(x => x.Value).Take(3);
+                var sortedBuyers = TopBuyersPerOre.OrderByDescending(x => x.Value).Take(3);
+
+                report.Add(new Trend(o, ToKMB(sortedSellers.First().Value), ToKMB(sortedBuyers.First().Value),
+                                        sortedSellers.Select(kvp => kvp.Key).ToArray(), 
+                                        sortedBuyers.Select(kvp => kvp.Key).ToArray()));
 
                 TopSellersPerOre.Clear();
                 TopBuyersPerOre.Clear();
