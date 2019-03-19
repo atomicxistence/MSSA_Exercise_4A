@@ -29,10 +29,9 @@ namespace SpaceTrucker.ViewModel
 			Location.Invoke(this, planetName);
 		}
 
-		internal void ChangeResetDays(int remainingDays)
+		internal void ChangeResetDays(string remainingDays)
 		{
-			//TODO: format remaining days to string with " days"
-			ResetDays.Invoke(this, "");
+			ResetDays.Invoke(this, remainingDays);
 		}
 	}
 }
