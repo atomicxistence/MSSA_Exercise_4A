@@ -8,37 +8,36 @@ namespace SpaceTrucker.Models
 {
     public class Economy
     {
-        public static List<Planet> planets = new List<Planet>();
-        static List<Ore> allOres = new List<Ore>();
+        public static List<Planet> planets;
+        public static List<Ore> ores;
+        public static List<Trend> trends;
 
         public static void InitializeEconomy()
         {
-            // create ores
             InitOres();
-
-            // create Markets for 12 planets
             InitPlanets();
-
-            // Set Planets Descriptions:
             SetPlanetDescription();
+            BuildTrendReport();      
         }
 
         static void InitOres()
         {
-            allOres.Add(new Ore("Lithium"));
-            allOres.Add(new Ore("Gold"));
-            allOres.Add(new Ore("Rhodium"));
-            allOres.Add(new Ore("Platinum"));
-            allOres.Add(new Ore("Diamonds"));
-            allOres.Add(new Ore("Black Opals"));
-            allOres.Add(new Ore("Rubies"));
-            allOres.Add(new Ore("Painite"));
-            allOres.Add(new Ore("Blue Garnets"));
-            allOres.Add(new Ore("Jadeite"));
+            ores = new List<Ore>();
+            ores.Add(new Ore("Lithium"));
+            ores.Add(new Ore("Gold"));
+            ores.Add(new Ore("Rhodium"));
+            ores.Add(new Ore("Platinum"));
+            ores.Add(new Ore("Diamonds"));
+            ores.Add(new Ore("Black Opals"));
+            ores.Add(new Ore("Rubies"));
+            ores.Add(new Ore("Painite"));
+            ores.Add(new Ore("Blue Garnets"));
+            ores.Add(new Ore("Jadeite"));
         }
 
         static void InitPlanets()
         {
+            planets = new List<Planet>();
             Dictionary<Ore, (int price, int qty)> offer = new Dictionary<Ore, (int price, int qty)>();
             Dictionary<Ore, int> demand = new Dictionary<Ore, int>();
 
@@ -64,17 +63,17 @@ namespace SpaceTrucker.Models
         static void FillEarth(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market EarthMarket = new Market();
-            offer.Add(allOres[0], (1, 100));
-            offer.Add(allOres[1], (1200, 50));
-            offer.Add(allOres[2], (1500, 25));
-            offer.Add(allOres[3], (1000, 75));
-            offer.Add(allOres[4], (1500000, 15));
+            offer.Add(ores[0], (1, 100));
+            offer.Add(ores[1], (1200, 50));
+            offer.Add(ores[2], (1500, 25));
+            offer.Add(ores[3], (1000, 75));
+            offer.Add(ores[4], (1500000, 15));
 
-            demand.Add(allOres[5], 2100000);
-            demand.Add(allOres[6], 2200000);
-            demand.Add(allOres[7], 7100000);
-            demand.Add(allOres[8], 200000000);
-            demand.Add(allOres[9], 400000000);
+            demand.Add(ores[5], 2100000);
+            demand.Add(ores[6], 2200000);
+            demand.Add(ores[7], 7100000);
+            demand.Add(ores[8], 200000000);
+            demand.Add(ores[9], 400000000);
 
             EarthMarket.UpdateMarket(offer, demand);
 
@@ -87,17 +86,17 @@ namespace SpaceTrucker.Models
         static void FillPCb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market PCbMarket = new Market();
-            offer.Add(allOres[0], (2, 100));
-            offer.Add(allOres[1], (1000, 50));
-            offer.Add(allOres[2], (2000, 25));
-            offer.Add(allOres[3], (500, 75));
-            offer.Add(allOres[4], (1450000, 15));
+            offer.Add(ores[0], (2, 100));
+            offer.Add(ores[1], (1000, 50));
+            offer.Add(ores[2], (2000, 25));
+            offer.Add(ores[3], (500, 75));
+            offer.Add(ores[4], (1450000, 15));
 
-            demand.Add(allOres[5], 2500000);
-            demand.Add(allOres[6], 2300000);
-            demand.Add(allOres[7], 8100000);
-            demand.Add(allOres[8], 190000000);
-            demand.Add(allOres[9], 410000000);
+            demand.Add(ores[5], 2500000);
+            demand.Add(ores[6], 2300000);
+            demand.Add(ores[7], 8100000);
+            demand.Add(ores[8], 190000000);
+            demand.Add(ores[9], 410000000);
 
             PCbMarket.UpdateMarket(offer, demand);
 
@@ -111,17 +110,17 @@ namespace SpaceTrucker.Models
         {
             Market LbMarket = new Market();
 
-            offer.Add(allOres[0], (4, 100));
-            offer.Add(allOres[1], (1100, 50));
-            offer.Add(allOres[2], (3000, 25));
-            offer.Add(allOres[3], (600, 75));
-            offer.Add(allOres[5], (2000000, 10));
+            offer.Add(ores[0], (4, 100));
+            offer.Add(ores[1], (1100, 50));
+            offer.Add(ores[2], (3000, 25));
+            offer.Add(ores[3], (600, 75));
+            offer.Add(ores[5], (2000000, 10));
 
-            demand.Add(allOres[4], 1600000);
-            demand.Add(allOres[6], 2400000);
-            demand.Add(allOres[7], 8000000);
-            demand.Add(allOres[8], 200000000);
-            demand.Add(allOres[9], 450000000);
+            demand.Add(ores[4], 1600000);
+            demand.Add(ores[6], 2400000);
+            demand.Add(ores[7], 8000000);
+            demand.Add(ores[8], 200000000);
+            demand.Add(ores[9], 450000000);
 
             LbMarket.UpdateMarket(offer, demand);
 
@@ -135,17 +134,17 @@ namespace SpaceTrucker.Models
         {
             Market KbMarket = new Market();
 
-            offer.Add(allOres[0], (4, 100));
-            offer.Add(allOres[2], (3000, 25));
-            offer.Add(allOres[3], (600, 50));
-            offer.Add(allOres[4], (1600000, 15));
-            offer.Add(allOres[6], (2000000, 5));
+            offer.Add(ores[0], (4, 100));
+            offer.Add(ores[2], (3000, 25));
+            offer.Add(ores[3], (600, 50));
+            offer.Add(ores[4], (1600000, 15));
+            offer.Add(ores[6], (2000000, 5));
 
-            demand.Add(allOres[1], 1300);
-            demand.Add(allOres[5], 2600000);
-            demand.Add(allOres[7], 7500000);
-            demand.Add(allOres[8], 180000000);
-            demand.Add(allOres[9], 390000000);
+            demand.Add(ores[1], 1300);
+            demand.Add(ores[5], 2600000);
+            demand.Add(ores[7], 7500000);
+            demand.Add(ores[8], 180000000);
+            demand.Add(ores[9], 390000000);
 
             KbMarket.UpdateMarket(offer, demand);
 
@@ -159,17 +158,17 @@ namespace SpaceTrucker.Models
         {
             Market W1061cMarket = new Market();
 
-            offer.Add(allOres[1], (1200, 75));
-            offer.Add(allOres[4], (1600000, 25));
-            offer.Add(allOres[5], (2400000, 10));
-            offer.Add(allOres[6], (1900000, 15));
-            offer.Add(allOres[7], (6000000, 5));
+            offer.Add(ores[1], (1200, 75));
+            offer.Add(ores[4], (1600000, 25));
+            offer.Add(ores[5], (2400000, 10));
+            offer.Add(ores[6], (1900000, 15));
+            offer.Add(ores[7], (6000000, 5));
 
-            demand.Add(allOres[0], 5);
-            demand.Add(allOres[2], 6000);
-            demand.Add(allOres[3], 1200);
-            demand.Add(allOres[8], 200000000);
-            demand.Add(allOres[9], 400000000);
+            demand.Add(ores[0], 5);
+            demand.Add(ores[2], 6000);
+            demand.Add(ores[3], 1200);
+            demand.Add(ores[8], 200000000);
+            demand.Add(ores[9], 400000000);
 
             W1061cMarket.UpdateMarket(offer, demand);
 
@@ -183,17 +182,17 @@ namespace SpaceTrucker.Models
         {
             Market G667CcMarket = new Market();
 
-            offer.Add(allOres[0], (10, 100));
-            offer.Add(allOres[1], (2000, 50));
-            offer.Add(allOres[3], (1000, 50));
-            offer.Add(allOres[5], (1000000, 25));
-            offer.Add(allOres[8], (150000000, 5));
+            offer.Add(ores[0], (10, 100));
+            offer.Add(ores[1], (2000, 50));
+            offer.Add(ores[3], (1000, 50));
+            offer.Add(ores[5], (1000000, 25));
+            offer.Add(ores[8], (150000000, 5));
 
-            demand.Add(allOres[2], 5000);
-            demand.Add(allOres[4], 1800000);
-            demand.Add(allOres[6], 3000000);
-            demand.Add(allOres[7], 7000000);
-            demand.Add(allOres[9], 400000000);
+            demand.Add(ores[2], 5000);
+            demand.Add(ores[4], 1800000);
+            demand.Add(ores[6], 3000000);
+            demand.Add(ores[7], 7000000);
+            demand.Add(ores[9], 400000000);
 
             G667CcMarket.UpdateMarket(offer, demand);
 
@@ -207,17 +206,17 @@ namespace SpaceTrucker.Models
         {
             Market T1dMarket = new Market();
 
-            offer.Add(allOres[0], (10, 100));
-            offer.Add(allOres[2], (4000, 30));
-            offer.Add(allOres[3], (1500, 50));
-            offer.Add(allOres[4], (1800000, 15));
-            offer.Add(allOres[5], (2000000, 10));
+            offer.Add(ores[0], (10, 100));
+            offer.Add(ores[2], (4000, 30));
+            offer.Add(ores[3], (1500, 50));
+            offer.Add(ores[4], (1800000, 15));
+            offer.Add(ores[5], (2000000, 10));
 
-            demand.Add(allOres[1], 3000);
-            demand.Add(allOres[6], 2500000);
-            demand.Add(allOres[7], 7000000);
-            demand.Add(allOres[8], 200000000);
-            demand.Add(allOres[9], 400000000);
+            demand.Add(ores[1], 3000);
+            demand.Add(ores[6], 2500000);
+            demand.Add(ores[7], 7000000);
+            demand.Add(ores[8], 200000000);
+            demand.Add(ores[9], 400000000);
 
             T1dMarket.UpdateMarket(offer, demand);
 
@@ -232,17 +231,17 @@ namespace SpaceTrucker.Models
         {
             Market L1140bMarket = new Market();
 
-            offer.Add(allOres[0], (18, 75));
-            offer.Add(allOres[1], (2900, 50));
-            offer.Add(allOres[2], (3000, 50));
-            offer.Add(allOres[4], (2000000, 10));
-            offer.Add(allOres[7], (5000000, 5));
+            offer.Add(ores[0], (18, 75));
+            offer.Add(ores[1], (2900, 50));
+            offer.Add(ores[2], (3000, 50));
+            offer.Add(ores[4], (2000000, 10));
+            offer.Add(ores[7], (5000000, 5));
 
-            demand.Add(allOres[3], 2000);
-            demand.Add(allOres[5], 2100000);
-            demand.Add(allOres[6], 2500000);
-            demand.Add(allOres[8], 180000000);
-            demand.Add(allOres[9], 500000000);
+            demand.Add(ores[3], 2000);
+            demand.Add(ores[5], 2100000);
+            demand.Add(ores[6], 2500000);
+            demand.Add(ores[8], 180000000);
+            demand.Add(ores[9], 500000000);
 
             L1140bMarket.UpdateMarket(offer, demand);
 
@@ -257,17 +256,17 @@ namespace SpaceTrucker.Models
         {
             Market G163cMarket = new Market();
 
-            offer.Add(allOres[1], (3000, 50));
-            offer.Add(allOres[2], (2000, 50));
-            offer.Add(allOres[6], (2000000, 10));
-            offer.Add(allOres[9], (100000000, 5));
-            offer.Add(allOres[8], (350000000, 5));
+            offer.Add(ores[1], (3000, 50));
+            offer.Add(ores[2], (2000, 50));
+            offer.Add(ores[6], (2000000, 10));
+            offer.Add(ores[9], (100000000, 5));
+            offer.Add(ores[8], (350000000, 5));
 
-            demand.Add(allOres[3], 20);
-            demand.Add(allOres[5], 4000);
-            demand.Add(allOres[6], 3000000);
-            demand.Add(allOres[8], 2200000);
-            demand.Add(allOres[9], 7200000);
+            demand.Add(ores[3], 20);
+            demand.Add(ores[5], 4000);
+            demand.Add(ores[6], 3000000);
+            demand.Add(ores[8], 2200000);
+            demand.Add(ores[9], 7200000);
 
             G163cMarket.UpdateMarket(offer, demand);
 
@@ -282,17 +281,17 @@ namespace SpaceTrucker.Models
         {
             Market K218bMarket = new Market();
 
-            offer.Add(allOres[1], (9500, 25));
-            offer.Add(allOres[2], (6000, 50));
-            offer.Add(allOres[3], (500, 75));
-            offer.Add(allOres[7], (1000000, 15));
-            offer.Add(allOres[9], (3000000, 10));
+            offer.Add(ores[1], (9500, 25));
+            offer.Add(ores[2], (6000, 50));
+            offer.Add(ores[3], (500, 75));
+            offer.Add(ores[7], (1000000, 15));
+            offer.Add(ores[9], (3000000, 10));
 
-            demand.Add(allOres[0], 45);
-            demand.Add(allOres[4], 5000000);
-            demand.Add(allOres[5], 10000000);
-            demand.Add(allOres[6], 3000000);
-            demand.Add(allOres[8], 300000000);
+            demand.Add(ores[0], 45);
+            demand.Add(ores[4], 5000000);
+            demand.Add(ores[5], 10000000);
+            demand.Add(ores[6], 3000000);
+            demand.Add(ores[8], 300000000);
 
             K218bMarket.UpdateMarket(offer, demand);
 
@@ -307,17 +306,17 @@ namespace SpaceTrucker.Models
         {
             Market K23dMarket = new Market();
 
-            offer.Add(allOres[0], (40, 100));
-            offer.Add(allOres[3], (400, 75));
-            offer.Add(allOres[4], (4500000, 15));
-            offer.Add(allOres[5], (8000000, 10));
-            offer.Add(allOres[6], (2500000, 25));
+            offer.Add(ores[0], (40, 100));
+            offer.Add(ores[3], (400, 75));
+            offer.Add(ores[4], (4500000, 15));
+            offer.Add(ores[5], (8000000, 10));
+            offer.Add(ores[6], (2500000, 25));
 
-            demand.Add(allOres[1], 10000);
-            demand.Add(allOres[2], 8000);
-            demand.Add(allOres[7], 2000000);
-            demand.Add(allOres[8], 350000000);
-            demand.Add(allOres[9], 4000000);
+            demand.Add(ores[1], 10000);
+            demand.Add(ores[2], 8000);
+            demand.Add(ores[7], 2000000);
+            demand.Add(ores[8], 350000000);
+            demand.Add(ores[9], 4000000);
 
             K23dMarket.UpdateMarket(offer, demand);
 
@@ -332,17 +331,17 @@ namespace SpaceTrucker.Models
         {
             Market Ke438bMarket = new Market();
 
-            offer.Add(allOres[4], (300000, 25));
-            offer.Add(allOres[6], (100000, 30));
-            offer.Add(allOres[7], (300000, 20));
-            offer.Add(allOres[8], (1000000, 15));
-            offer.Add(allOres[9], (1200000, 5));
+            offer.Add(ores[4], (300000, 25));
+            offer.Add(ores[6], (100000, 30));
+            offer.Add(ores[7], (300000, 20));
+            offer.Add(ores[8], (1000000, 15));
+            offer.Add(ores[9], (1200000, 5));
 
-            demand.Add(allOres[0], 900000);
-            demand.Add(allOres[1], 400000);
-            demand.Add(allOres[2], 50000);
-            demand.Add(allOres[3], 60000);
-            demand.Add(allOres[5], 500000);
+            demand.Add(ores[0], 900000);
+            demand.Add(ores[1], 400000);
+            demand.Add(ores[2], 50000);
+            demand.Add(ores[3], 60000);
+            demand.Add(ores[5], 500000);
 
             Ke438bMarket.UpdateMarket(offer, demand);
 
@@ -357,17 +356,17 @@ namespace SpaceTrucker.Models
         {
             Market Ke186fMarket = new Market();
 
-            offer.Add(allOres[5], (400000, 25));
-            offer.Add(allOres[6], (50000, 75));
-            offer.Add(allOres[7], (200000, 50));
-            offer.Add(allOres[8], (2000000, 5));
-            offer.Add(allOres[9], (1000000, 10));
+            offer.Add(ores[5], (400000, 25));
+            offer.Add(ores[6], (50000, 75));
+            offer.Add(ores[7], (200000, 50));
+            offer.Add(ores[8], (2000000, 5));
+            offer.Add(ores[9], (1000000, 10));
 
-            demand.Add(allOres[0], 1000000);
-            demand.Add(allOres[1], 500000);
-            demand.Add(allOres[2], 45000);
-            demand.Add(allOres[3], 100000);
-            demand.Add(allOres[4], 400000);
+            demand.Add(ores[0], 1000000);
+            demand.Add(ores[1], 500000);
+            demand.Add(ores[2], 45000);
+            demand.Add(ores[3], 100000);
+            demand.Add(ores[4], 400000);
 
             Ke186fMarket.UpdateMarket(offer, demand);
 
@@ -410,17 +409,16 @@ namespace SpaceTrucker.Models
             }
         }
 
-        public static List<Trend> BuildTrendReport()
+        public static void BuildTrendReport()
         { 
            Dictionary<string, int> TopSellersPerOre = new Dictionary<string, int>();
            Dictionary<string, int> TopBuyersPerOre = new Dictionary<string, int>();
-            List<Trend> report = new List<Trend>();
+           trends = new List<Trend>();
 
-            foreach (var o in allOres)
+            foreach (var o in ores)
             {
                 foreach(var p in planets)
                 {
-
                     if (p.MyMarket != null)
                     {
                         if (p.MyMarket.OfferedOres.TryGetValue(o, out var t))
@@ -438,7 +436,7 @@ namespace SpaceTrucker.Models
                 var sortedSellers = TopSellersPerOre.OrderBy(x => x.Value).Take(3);
                 var sortedBuyers = TopBuyersPerOre.OrderByDescending(x => x.Value).Take(3);
 
-                report.Add(new Trend(o, ToKMB(sortedSellers.First().Value), ToKMB(sortedBuyers.First().Value),
+                trends.Add(new Trend(o, ToKMB(sortedSellers.First().Value), ToKMB(sortedBuyers.First().Value),
                                         sortedSellers.Select(kvp => kvp.Key).ToArray(), 
                                         sortedBuyers.Select(kvp => kvp.Key).ToArray()));
 
@@ -446,7 +444,20 @@ namespace SpaceTrucker.Models
                 TopBuyersPerOre.Clear();
 
             }
-            return report;
+        }
+
+        public static string TrendReportToString()
+        {
+            if (trends == null) return "Trend Report Not Available Yet!";
+
+            string str = "";
+            
+            foreach (var item in trends)
+            {
+                str += $"{item.ore.name} (€{item.minPrice}-€{item.maxPrice}) \n{String.Join(", ", item.topSellers)} | {String.Join(", ", item.topBuyers)}\n";
+            }
+
+            return str;
         }
 
         public static string ToKMB(int num)

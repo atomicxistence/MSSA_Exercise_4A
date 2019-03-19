@@ -54,7 +54,7 @@ namespace SpaceTrucker.Models
 
     public struct  Trend
     {
-        public Ore o;
+        public Ore ore;
         public string minPrice;
         public string maxPrice;
 
@@ -63,7 +63,7 @@ namespace SpaceTrucker.Models
 
         public Trend(Ore o, string minPrice, string maxPrice, string[] ts, string[] tb)
         {
-            this.o = o;
+            this.ore = o;
             this.minPrice = minPrice;
             this.maxPrice = maxPrice;
             this.topSellers = ts;
