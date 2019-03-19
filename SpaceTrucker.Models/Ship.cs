@@ -52,18 +52,13 @@ namespace SpaceTrucker.Models
             return FlyToPlanet(newLocation, EngineTopSpeed);
         }
 
-        public void LoadMarchandize(List<Ore> ores)
-        {
-            // TODO: check capacity
-            Inventory = ores;
-        }
-
-        public void Buy(List<Ore> ores, int cost)
+        public void Buy(Ore o, int price)
         {
             // TODO: update inventory, balance and capacity
+
         }
 
-        public void Sell(List<Ore> ores, int price)
+        public void Sell(Ore o, int price)
         {
             // TODO: update inventory, balance and capacity
         }
