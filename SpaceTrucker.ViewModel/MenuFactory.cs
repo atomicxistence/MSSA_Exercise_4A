@@ -5,17 +5,6 @@ namespace SpaceTrucker.ViewModel
 {
 	class MenuFactory
 	{
-		public Menu MainMenu { get; private set; }
-		public Menu GameMenu { get; private set; }
-		public Menu Confirmation { get; private set; }
-		
-		public MenuFactory()
-		{
-			CreateMainMenu();
-			CreateGameMenu();
-			CreateConfirmationMenu();
-		}
-
 		public Menu CreateTravelMenu(Dictionary<Planet, int> closestPlanets = null)
 		{
 			var options = new List<IOption>();
@@ -30,7 +19,7 @@ namespace SpaceTrucker.ViewModel
 			return new Menu("Select a planet to travel to...", options);
 		}
 
-		private void CreateMainMenu()
+		public Menu CreateMainMenu()
 		{
 			var options = new List<IOption>
 			{
@@ -39,10 +28,10 @@ namespace SpaceTrucker.ViewModel
 				new Option("Quit", OptionType.Quit,false),
 			};
 
-			MainMenu = new Menu("Main Menu", options);
+			return new Menu("Main Menu", options);
 		}
 
-		private void CreateGameMenu()
+		public Menu CreateGameMenu()
 		{
 			var options = new List<IOption>
 			{
@@ -52,10 +41,10 @@ namespace SpaceTrucker.ViewModel
 				new Option("Back to Main Menu", OptionType.BackMainMenu,false),
 			};
 
-			GameMenu = new Menu("Select an option below", options);
+			return new Menu("Select an option below", options);
 		}
 
-		private void CreateConfirmationMenu()
+		public Menu CreateConfirmationMenu()
 		{
 			var options = new List<IOption>
 			{
@@ -63,7 +52,7 @@ namespace SpaceTrucker.ViewModel
 				new Option("No", OptionType.No,false),
 			};
 
-			Confirmation = new Menu("Are you sure?", options);
+			return new Menu("Are you sure?", options);
 		}
 	}
 }

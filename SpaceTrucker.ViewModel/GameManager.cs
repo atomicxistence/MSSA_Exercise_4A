@@ -75,7 +75,7 @@ namespace SpaceTrucker.ViewModel
 					PerformSelection();		
 					break;
 				case ActionType.Back:
-					//TODO: go back to previous menu?
+					GoToPreviousMenu();
 					break;
 				case ActionType.NextTable:
 					//TODO: go to next market table
@@ -98,6 +98,7 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
+
 		private void ChangeMenuSelections()
 		{
 			menuOptions.Options[previousSelection].IsSelected = false;
@@ -107,7 +108,7 @@ namespace SpaceTrucker.ViewModel
 
 		private void InitializeDisplayFields()
 		{
-			menuOptions = menuFactory.MainMenu;
+			menuOptions = menuFactory.CreateMainMenu();
 			eventBroadcaster.SelectionDisplayMenu(menuOptions);
 
 			//TODO: initialize viewscreen
@@ -133,6 +134,11 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
+		private void GoToPreviousMenu()
+		{
+			previousSelection = currentSelection = 0;
+
+		}
 
 		private void MainMenuSelection()
 		{
@@ -140,9 +146,8 @@ namespace SpaceTrucker.ViewModel
 			{
 				case OptionType.NewGame:
 					CurrentGameState = GameState.FullMenuSelection;
-					previousSelection = currentSelection = 0;
-					menuOptions = menuFactory.GameMenu;
-					eventBroadcaster.SelectionDisplayMenu(menuOptions);
+					menuOptions = menuFactory.CreateGameMenu();
+					ChangeMenu();
 					break;
 				case OptionType.Continue:
 					break;
@@ -161,25 +166,23 @@ namespace SpaceTrucker.ViewModel
 					closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9);
 					menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
 					CurrentGameState = GameState.Travel;
-					previousSelection = currentSelection = 0;
-					eventBroadcaster.SelectionDisplayMenu(menuOptions);
+					ChangeMenu();
 					break;
 				case OptionType.GoToTradeMarket:
 					//TODO: create trade market menus based on current location
 					CurrentGameState = GameState.Market;
 					CurrentViewMode = ViewScreenMode.Market;
-					previousSelection = currentSelection = 0;
+					ChangeMenu();
 					//TODO: pass market menu to viewscreen
 					break;
 				case OptionType.PurchaseFuel:
 					//TODO: purchase fuel
 					break;
 				case OptionType.BackMainMenu:
-					menuOptions = menuFactory.MainMenu;
+					menuOptions = menuFactory.CreateMainMenu();
 					CurrentViewMode = ViewScreenMode.TitleScreen;
 					CurrentGameState = GameState.MainMenu;
-					previousSelection = currentSelection = 0;
-					eventBroadcaster.SelectionDisplayMenu(menuOptions);
+					ChangeMenu();
 					break;
 			}
 		}
@@ -190,8 +193,13 @@ namespace SpaceTrucker.ViewModel
 			eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
 			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
 			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
-			menuOptions = menuFactory.GameMenu;
+			menuOptions = menuFactory.CreateGameMenu();
 			CurrentGameState = GameState.FullMenuSelection;
+			ChangeMenu();
+		}
+
+		private void ChangeMenu()
+		{
 			previousSelection = currentSelection = 0;
 			eventBroadcaster.SelectionDisplayMenu(menuOptions);
 		}
