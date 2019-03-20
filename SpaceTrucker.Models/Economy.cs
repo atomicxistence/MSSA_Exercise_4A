@@ -460,7 +460,7 @@ namespace SpaceTrucker.Models
             return str;
         }
 
-        public static IEnumerable<KeyValuePair<Planet, int>> ClosestPlanets(Location l)
+        public static IEnumerable<KeyValuePair<Planet, int>> ClosestPlanets(Location l, int count = 3)
         {
             Dictionary<Planet, int> planetDistance = new Dictionary<Planet, int>();
             int distance;
@@ -473,7 +473,7 @@ namespace SpaceTrucker.Models
                 }
             }
 
-            return planetDistance.OrderBy(x => x.Value).Take(3);
+            return planetDistance.OrderBy(x => x.Value).Take(count);
         }
 
        
