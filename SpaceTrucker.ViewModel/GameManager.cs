@@ -136,8 +136,28 @@ namespace SpaceTrucker.ViewModel
 
 		private void GoToPreviousMenu()
 		{
-			previousSelection = currentSelection = 0;
-
+			switch (CurrentGameState)
+			{
+				case GameState.MainMenu:
+					//TODO: go to quit prompt
+					break;
+				case GameState.FullMenuSelection:
+					break;
+				case GameState.Market:
+					menuOptions = menuFactory.CreateGameMenu();
+					ChangeMenuSelections();
+					eventBroadcaster.SelectionDisplayMenu(menuOptions);
+					CurrentGameState = GameState.FullMenuSelection;
+					break;
+				case GameState.Travel:
+					menuOptions = menuFactory.CreateGameMenu();
+					ChangeMenuSelections();
+					eventBroadcaster.SelectionDisplayMenu(menuOptions);
+					CurrentGameState = GameState.FullMenuSelection;
+					break;
+				default:
+					break;
+			}
 		}
 
 		private void MainMenuSelection()
@@ -150,8 +170,10 @@ namespace SpaceTrucker.ViewModel
 					ChangeMenu();
 					break;
 				case OptionType.Continue:
+					// TODO: error message if no save file, else load save game
 					break;
 				case OptionType.SaveGame:
+					// TODO: save the game to JSON
 					break;
 				case OptionType.Quit:
 					break;

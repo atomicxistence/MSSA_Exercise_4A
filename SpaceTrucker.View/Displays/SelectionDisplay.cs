@@ -35,11 +35,6 @@ namespace SpaceTrucker.View
 			PrintBevel();
 			PrintSelectionScreen();
 			PrintSelectionBorder();
-
-			if (previousMenuOptions != null)
-			{
-				PrintMenuSelections(this, previousMenuOptions);
-			}
 		}
 
 		/// <summary>
@@ -53,7 +48,10 @@ namespace SpaceTrucker.View
 			if (previousMenuOptions == null || previousMenuOptions != menu || forceRefresh)
 			{
 				PrintMenuPrompt(menu.Prompt, optionWidth);
-				previousSelection = currentSelection = 0;
+				if (!forceRefresh)
+				{
+					previousSelection = currentSelection = 0;
+				}
 			}
 
 			for (int i = 0; i < menu.Options.Count; i++)
@@ -85,8 +83,6 @@ namespace SpaceTrucker.View
 						currentSelection = i;
 					}
 				}
-
-				forceRefresh = false;
 			}
 
 			if (previousMenuOptions != null && 
@@ -102,6 +98,7 @@ namespace SpaceTrucker.View
 				}
 			}
 
+			forceRefresh = false;
 			previousSelection = currentSelection;
 			previousMenuOptions = menu;
 		}

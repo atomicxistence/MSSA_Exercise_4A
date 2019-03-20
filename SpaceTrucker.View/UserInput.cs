@@ -52,7 +52,7 @@ namespace SpaceTrucker.View
 				case ConsoleKey.T:
 					return ActionType.TrendReport;
 				case ConsoleKey.Escape:
-					return ActionType.Quit;
+					return ActionType.Back;
 				default:
 					return ActionType.Invalid;
 			}
