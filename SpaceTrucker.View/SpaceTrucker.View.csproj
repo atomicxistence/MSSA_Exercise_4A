@@ -49,8 +49,6 @@
     <Compile Include="Displays\DisplayManager.cs" />
     <Compile Include="Displays\HeadsUpDisplay.cs" />
     <Compile Include="Displays\IDisplay.cs" />
-    <Compile Include="Abstract\Menu.cs" />
-    <Compile Include="Abstract\Option.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Displays\SelectionDisplay.cs" />

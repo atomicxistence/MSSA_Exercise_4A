@@ -28,6 +28,7 @@
 		Message,
 		FullMenuSelection,
 		Market,
+		Travel,
 	}
 
 	public enum ViewScreenMode
@@ -37,5 +38,20 @@
 		Inventory,
 		TrendReport,
 		Market,
+	}
+
+	public enum OptionType
+	{
+		NewGame,
+		Continue,
+		SaveGame,
+		Quit,
+		GoToTravel,
+		GoToTradeMarket,
+		PurchaseFuel,
+		BackMainMenu,
+		Planet,
+		Yes,
+		No,
 	}
 }

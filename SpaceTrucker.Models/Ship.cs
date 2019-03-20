@@ -48,12 +48,13 @@ namespace SpaceTrucker.Models
             return myTrip;
         }
 
-        public Trip FlyToPlanet(Location newLocation)
-        {
-            return FlyToPlanet(newLocation, EngineTopSpeed);
-        }
+        public Trip FlyToPlanet(Location newLocation) => FlyToPlanet(newLocation, EngineTopSpeed);
 
-        public void Buy(Ore o, int price)
+		public Trip FlyToPlanet(Planet destination) => FlyToPlanet(destination.MyLocation);
+
+		public Trip FlyToPlanet(Planet destination, WarpFactor warp) => FlyToPlanet(destination.MyLocation, warp);
+
+		public void Buy(Ore o, int price)
         {
             if (Inventory?.Count > (int)MaxCapacity)
             {
