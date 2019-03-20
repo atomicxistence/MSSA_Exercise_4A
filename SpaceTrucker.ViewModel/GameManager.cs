@@ -49,7 +49,6 @@ namespace SpaceTrucker.ViewModel
 			console = new ConsoleFormatter();
 			menuFactory = new MenuFactory();
 			player = new Player();
-			closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9);
 
 			InitializeDisplayFields();
 		}
@@ -159,6 +158,7 @@ namespace SpaceTrucker.ViewModel
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
 				case OptionType.GoToTravel:
+					closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9);
 					menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
 					CurrentGameState = GameState.Travel;
 					previousSelection = currentSelection = 0;
@@ -172,6 +172,7 @@ namespace SpaceTrucker.ViewModel
 					//TODO: pass market menu to viewscreen
 					break;
 				case OptionType.PurchaseFuel:
+					//TODO: purchase fuel
 					break;
 				case OptionType.BackMainMenu:
 					menuOptions = menuFactory.MainMenu;
@@ -192,6 +193,7 @@ namespace SpaceTrucker.ViewModel
 			menuOptions = menuFactory.GameMenu;
 			CurrentGameState = GameState.FullMenuSelection;
 			previousSelection = currentSelection = 0;
+			eventBroadcaster.SelectionDisplayMenu(menuOptions);
 		}
 	}
 }
