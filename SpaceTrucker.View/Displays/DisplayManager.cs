@@ -96,6 +96,7 @@ namespace SpaceTrucker.View
 
 		private void CompleteRefresh()
 		{
+			Console.ResetColor();
 			Console.Clear();
 			Console.CursorVisible = false;
 
