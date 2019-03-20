@@ -46,10 +46,13 @@ namespace SpaceTrucker.ViewModel
 		private void CreateTravelMenu()
 		{
 			var options = new List<IOption>();
+			//TODO: initializing the economy will be handled elsewhere
+			Economy.InitializeEconomy();
+			var closestPlanets = Economy.ClosestPlanets(Economy.planets[0].MyLocation, 9);
 
-			foreach (var planet in Economy.planets)
+			foreach (var planet in closestPlanets)
 			{
-				options.Add(new Option($"{planet.ShortName} - {planet.Name}", false));
+				options.Add(new Option($"{planet.Key.ShortName} - {planet.Key.Name}", false));
 			}
 
 			TravelMenu = new Menu("Select a planet to travel to...", options);

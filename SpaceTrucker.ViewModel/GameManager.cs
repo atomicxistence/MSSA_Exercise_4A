@@ -81,6 +81,18 @@ namespace SpaceTrucker.ViewModel
 		{
 			menuOptions = menuFactory.MainMenu;
 			eventBroadcaster.SelectionDisplayMenu(menuOptions);
+
+			//TODO: initialize viewscreen
+		}
+
+		private void PerformSelection(string optionName)
+		{
+			switch (optionName)
+			{
+				case ""
+				default:
+					break;
+			}
 		}
 	}
 }
