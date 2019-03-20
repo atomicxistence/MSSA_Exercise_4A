@@ -14,10 +14,13 @@ namespace SpaceTrucker.View
 		private int selectionHeight = 13;
 
 		private IMenu previousMenuOptions;
+		private int previousSelection;
+		private int currentSelection;
 
 		public SelectionDisplay(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
+			eventBroadcaster.Menu += PrintMenuSelections;
 		}
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
@@ -29,20 +32,18 @@ namespace SpaceTrucker.View
 			PrintBevel();
 			PrintSelectionScreen();
 			PrintSelectionBorder();
-
 		}
 
 		/// <summary>
 		/// Displays a menu of options for selection with a prompt message
 		/// </summary>
 		/// <param name="menu">Max 9 menu options allowed</param>
-		public void PrintMenuSelections(IMenu menu)
+		public void PrintMenuSelections(object sender, IMenu menu)
 		{
 			var optionWidth = selectionWidth - 2;
 
 			if (previousMenuOptions == null || previousMenuOptions != menu)
 			{
-				Console.SetCursorPosition(origin.X + 2, origin.Y - 11);
 				PrintMenuPrompt(menu.Prompt, optionWidth);
 			}
 
@@ -54,6 +55,7 @@ namespace SpaceTrucker.View
 				{
 					if (menu.Options[i].IsSelected)
 					{
+						previousSelection = i;
 						PrintSelectedOption(menu.Options[i].Title, optionWidth);
 					}
 					else
@@ -63,13 +65,15 @@ namespace SpaceTrucker.View
 				}
 				else
 				{
-					if (previousMenuOptions.Options[i].IsSelected && !menu.Options[i].IsSelected)
+					if (previousSelection == i)
 					{
 						PrintUnselectedOption(menu.Options[i].Title, optionWidth);
 					}
-					else if(!previousMenuOptions.Options[i].IsSelected && menu.Options[i].IsSelected)
+
+					if (menu.Options[i].IsSelected)
 					{
 						PrintSelectedOption(menu.Options[i].Title, optionWidth);
+						currentSelection = i;
 					}
 				}
 			}
@@ -87,6 +91,7 @@ namespace SpaceTrucker.View
 				}
 			}
 
+			previousSelection = currentSelection;
 			previousMenuOptions = menu;
 		}
 
@@ -154,10 +159,12 @@ namespace SpaceTrucker.View
 
 		private void PrintMenuPrompt(string prompt, int optionWidth)
 		{
-			var promptIndention = 2;
+			var promptIndention = 6;
 
 			Console.ForegroundColor = Write.ColorUnselectedOptionFG;
 			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			Console.SetCursorPosition(origin.X + promptIndention, origin.Y - 11);
 
 			Console.Write(prompt);
 			Write.EmptySpace(optionWidth - prompt.Length - promptIndention);

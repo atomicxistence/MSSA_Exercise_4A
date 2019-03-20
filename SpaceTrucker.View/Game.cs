@@ -17,6 +17,8 @@ namespace SpaceTrucker.View
 			input = new UserInput();
 			display = new DisplayManager(eventBroadcaster);
 			gm = new GameManager(eventBroadcaster);
+
+			eventBroadcaster.GameState += ChangeGameState;
 		}
 
 		public void Run()
@@ -50,6 +52,11 @@ namespace SpaceTrucker.View
 				default:
 					return ActionType.Invalid;
 			}
+		}
+
+		private void ChangeGameState(object sender, GameState nextGameState)
+		{
+			currentGameState = nextGameState;
 		}
     }
 }

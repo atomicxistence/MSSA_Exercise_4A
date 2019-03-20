@@ -9,8 +9,7 @@ namespace SpaceTrucker.View
 		#region Class References
 		private List<IDisplay> displays;
 		private List<IViewScreen> viewScreenModes;
-
-		private ViewScreenMode currentMode = ViewScreenMode.TitleScreen;
+		private ViewScreenMode currentViewMode = ViewScreenMode.TitleScreen;
 
 		private EventBroadcaster eventBroadcaster;
 
@@ -32,11 +31,11 @@ namespace SpaceTrucker.View
 		public DisplayManager(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
+			eventBroadcaster.ViewMode += ChangeCurrentViewMode;
 
 			Initialize();
 			CompleteRefresh();
 		}
-
 
 		public void Refresh()
 		{
@@ -135,11 +134,17 @@ namespace SpaceTrucker.View
 		{
 			foreach (var mode in viewScreenModes)
 			{
-				if (mode.ModeType == currentMode)
+				if (mode.ModeType == currentViewMode)
 				{
 					mode.CompleteRefresh(displayOrigin);
 				}
 			}
+		}
+
+		private void ChangeCurrentViewMode(object sender, ViewScreenMode nextViewMode)
+		{
+			currentViewMode = nextViewMode;
+			RefreshViewScreen();
 		}
 		#endregion
 	}

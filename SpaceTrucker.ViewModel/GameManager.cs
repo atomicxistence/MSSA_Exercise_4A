@@ -5,7 +5,7 @@ namespace SpaceTrucker.ViewModel
 {
 	public class GameManager
 	{
-		private int previousSelection = 0;
+		private int previousSelection;
 		private int currentSelection = 0;
 		private IMenu menuOptions;
 
@@ -16,13 +16,13 @@ namespace SpaceTrucker.ViewModel
 		private ConsoleFormatter console;
 		private MenuFactory menuFactory;
 
-		private int fuelPercent = 100;
-
 		public GameManager(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
 			console = new ConsoleFormatter();
 			menuFactory = new MenuFactory();
+
+			InitializeDisplayFields();
 		}
 
 		public void ActionUserInput(ActionType action)
@@ -30,29 +30,25 @@ namespace SpaceTrucker.ViewModel
 			switch (action)
 			{
 				case ActionType.NextItem:
-					currentSelection = currentSelection >= menuOptions.Options.Count
+					currentSelection = currentSelection >= menuOptions.Options.Count - 1
 									 ? 0
 									 : (currentSelection + 1);
 					ChangeMenuSelections();
-					//TODO: send menuOptions to appropriate display
-					
+					eventBroadcaster.SelectionDisplayMenu(menuOptions);
 					break;
 				case ActionType.PreviousItem:
 					currentSelection = currentSelection <= 0
-									 ? menuOptions.Options.Count
+									 ? menuOptions.Options.Count - 1
 									 : (currentSelection - 1);
 					ChangeMenuSelections();
-					//TODO: send menuOptions to appropriate display
+					eventBroadcaster.SelectionDisplayMenu(menuOptions);
 					break;
 				case ActionType.Select:
-					//TODO: action currently selected option
-					fuelPercent -= 5;
-					eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(fuelPercent));
+					//currentSelection = 0;
+					//TODO: action currently selected option		
 					break;
 				case ActionType.Back:
 					//TODO: go back to previous menu?
-					fuelPercent += 5;
-					eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(fuelPercent));
 					break;
 				case ActionType.NextTable:
 					//TODO: go to next market table
@@ -79,6 +75,12 @@ namespace SpaceTrucker.ViewModel
 			menuOptions.Options[previousSelection].IsSelected = false;
 			menuOptions.Options[currentSelection].IsSelected = true;
 			previousSelection = currentSelection;
+		}
+
+		private void InitializeDisplayFields()
+		{
+			menuOptions = menuFactory.MainMenu;
+			eventBroadcaster.SelectionDisplayMenu(menuOptions);
 		}
 	}
 }

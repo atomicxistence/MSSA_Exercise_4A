@@ -22,19 +22,19 @@ namespace SpaceTrucker.ViewModel
 		{
 			var options = new List<IOption>
 			{
-				new Option("Continue Game", false),
+				new Option("Continue Game", true),
 				new Option("New Game", false),
 				new Option("Quit", false),
 			};
 
-			MainMenu = new Menu("Main Menu - Select an option below", options);
+			MainMenu = new Menu("Main Menu", options);
 		}
 
 		private void CreateGameMenu()
 		{
 			var options = new List<IOption>
 			{
-				new Option("Travel to a different planet", false),
+				new Option("Travel to a different planet", true),
 				new Option("View the planet's trade market", false),
 				new Option("Purchase more fuel cells", false),
 				new Option("Back to Main Menu", false),
@@ -59,7 +59,7 @@ namespace SpaceTrucker.ViewModel
 		{
 			var options = new List<IOption>
 			{
-				new Option("Yes", false),
+				new Option("Yes", true),
 				new Option("No", false),
 			};
 

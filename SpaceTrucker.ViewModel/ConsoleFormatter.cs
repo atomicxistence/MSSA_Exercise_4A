@@ -6,7 +6,6 @@ namespace SpaceTrucker.ViewModel
 {
 	class ConsoleFormatter
 	{
-
 		internal string FormatFuelCells(int fuelPercent)
 		{
 			var maxCells = 20;
@@ -43,7 +42,7 @@ namespace SpaceTrucker.ViewModel
 		internal string FormatResetDays(int daysRemaining)
 		{
 			var maxDaysRemaining = 11;
-			var daysPostfix = " days remaining";
+			var daysPostfix = " days";
 			var emptySpaceAmount = maxDaysRemaining - (daysRemaining.ToString().Length + daysPostfix.Length);
 
 			var sb = new StringBuilder(maxDaysRemaining);
