@@ -460,6 +460,37 @@ namespace SpaceTrucker.Models
             return str;
         }
 
+        public static IEnumerable<KeyValuePair<Planet, int>> ClosestPlanets(Location l)
+        {
+            Dictionary<Planet, int> planetDistance = new Dictionary<Planet, int>();
+            int distance;
+            foreach (var p in planets)
+            {
+                distance = Trip.GetDistance(l, p.MyLocation);
+                if (distance != 0)
+                {
+                    planetDistance.Add(p, distance);
+                }
+            }
+
+            return planetDistance.OrderBy(x => x.Value).Take(3);
+        }
+
+       
+        public static void PrintClosestPlanet() // TODO: Remove method, just for testing
+        {
+            Console.Clear();
+            foreach (var p in Economy.planets)
+            {
+                Console.Write($"{p.ShortName}: ");
+                foreach (var pd in Economy.ClosestPlanets(p.MyLocation))
+                {
+                    Console.Write($"{pd.Key.ShortName} ({pd.Value} ly) | ");
+                }
+                Console.WriteLine();
+            }
+        }
+
         public static string ToKMB(int num)
         {
             if (num > 999999999 || num < -999999999)
