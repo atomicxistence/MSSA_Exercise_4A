@@ -17,6 +17,8 @@ namespace SpaceTrucker.View
 		private int previousSelection;
 		private int currentSelection;
 
+		private bool forceRefresh = false;
+
 		public SelectionDisplay(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
@@ -25,6 +27,7 @@ namespace SpaceTrucker.View
 
 		public void InitialRefresh(Coord shipConsoleOrigin)
 		{
+			forceRefresh = true;
 			int offsetX = 51;
 			int offsetY = 2;
 			origin = new Coord(shipConsoleOrigin.X + offsetX, shipConsoleOrigin.Y - offsetY);
@@ -32,7 +35,11 @@ namespace SpaceTrucker.View
 			PrintBevel();
 			PrintSelectionScreen();
 			PrintSelectionBorder();
-			//TODO: reprint menu on a refresh
+
+			if (previousMenuOptions != null)
+			{
+				PrintMenuSelections(this, previousMenuOptions);
+			}
 		}
 
 		/// <summary>
@@ -43,7 +50,7 @@ namespace SpaceTrucker.View
 		{
 			var optionWidth = selectionWidth - 2;
 
-			if (previousMenuOptions == null || previousMenuOptions != menu)
+			if (previousMenuOptions == null || previousMenuOptions != menu || forceRefresh)
 			{
 				PrintMenuPrompt(menu.Prompt, optionWidth);
 				previousSelection = currentSelection = 0;
@@ -53,7 +60,7 @@ namespace SpaceTrucker.View
 			{
 				Console.SetCursorPosition(origin.X + 1, origin.Y - 9 + i);
 
-				if (previousMenuOptions == null || previousMenuOptions != menu)
+				if (previousMenuOptions == null || previousMenuOptions != menu || forceRefresh)
 				{
 					if (menu.Options[i].IsSelected)
 					{
@@ -78,6 +85,8 @@ namespace SpaceTrucker.View
 						currentSelection = i;
 					}
 				}
+
+				forceRefresh = false;
 			}
 
 			if (previousMenuOptions != null && 
@@ -96,8 +105,6 @@ namespace SpaceTrucker.View
 			previousSelection = currentSelection;
 			previousMenuOptions = menu;
 		}
-
-
 
 		#region Private Methods
 		private void PrintBevel()

@@ -19,6 +19,10 @@ namespace SpaceTrucker.View
 		private ViewScreenDisplay viewScreen;
 
 		private TitleScreen titleScreen;
+		private Message messageScreen;
+		private Map mapScreen;
+		private Market marketScreen;
+		private TrendReport trendReportScreen;
 
 		private int displayWidth = 110;
 		private int displayHeight = 50;
@@ -75,7 +79,11 @@ namespace SpaceTrucker.View
 			viewScreen = new ViewScreenDisplay(eventBroadcaster);
 
 			titleScreen = new TitleScreen();
-			// TODO: add more view screens
+			messageScreen = new Message();
+			mapScreen = new Map();
+			marketScreen = new Market();
+			trendReportScreen = new TrendReport();
+
 		}
 
 		private void AddDisplaysToList()
@@ -91,6 +99,10 @@ namespace SpaceTrucker.View
 			viewScreenModes = new List<IViewScreen>
 			{
 				titleScreen,
+				messageScreen,
+				mapScreen,
+				marketScreen,
+				trendReportScreen,
 			};
 		}
 
@@ -144,6 +156,10 @@ namespace SpaceTrucker.View
 
 		private void ChangeCurrentViewMode(object sender, ViewScreenMode nextViewMode)
 		{
+			if (currentViewMode != nextViewMode)
+			{
+				viewScreen.PrintBlankViewScreen();
+			}
 			currentViewMode = nextViewMode;
 			RefreshViewScreen();
 		}

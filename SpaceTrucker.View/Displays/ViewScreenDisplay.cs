@@ -42,7 +42,7 @@ namespace SpaceTrucker.View
 			}
 		}
 
-		private void PrintBlankViewScreen()
+		internal void PrintBlankViewScreen()
 		{
 			Console.ForegroundColor = Write.ColorDisplayFG;
 			Console.BackgroundColor = Write.ColorDisplayBG;
