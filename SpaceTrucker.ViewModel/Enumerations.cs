@@ -38,6 +38,7 @@
 		Inventory,
 		TrendReport,
 		Market,
+		Message,
 	}
 
 	public enum OptionType

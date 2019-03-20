@@ -45,6 +45,7 @@
     <Compile Include="Displays\ViewScreens\IViewScreen.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Displays\ViewScreens\TitleScreen.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="Utilities\Coord.cs" />
     <Compile Include="Displays\DisplayManager.cs" />
     <Compile Include="Displays\HeadsUpDisplay.cs" />

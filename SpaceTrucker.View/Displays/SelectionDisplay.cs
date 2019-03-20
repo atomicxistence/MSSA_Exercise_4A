@@ -32,6 +32,7 @@ namespace SpaceTrucker.View
 			PrintBevel();
 			PrintSelectionScreen();
 			PrintSelectionBorder();
+			//TODO: reprint menu on a refresh
 		}
 
 		/// <summary>
@@ -45,6 +46,7 @@ namespace SpaceTrucker.View
 			if (previousMenuOptions == null || previousMenuOptions != menu)
 			{
 				PrintMenuPrompt(menu.Prompt, optionWidth);
+				previousSelection = currentSelection = 0;
 			}
 
 			for (int i = 0; i < menu.Options.Count; i++)
