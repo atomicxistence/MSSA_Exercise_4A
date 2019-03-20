@@ -134,16 +134,6 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-		private void TravelToSelectedPlanet()
-		{
-			player.MyShip.FlyToPlanet(closestPlanets.Keys.ElementAt(currentSelection));
-			eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.name));
-			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
-			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
-			CurrentGameState = GameState.FullMenuSelection;
-			previousSelection = currentSelection = 0;
-			menuOptions = menuFactory.GameMenu;
-		}
 
 		private void MainMenuSelection()
 		{
@@ -191,6 +181,17 @@ namespace SpaceTrucker.ViewModel
 					eventBroadcaster.SelectionDisplayMenu(menuOptions);
 					break;
 			}
+		}
+
+		private void TravelToSelectedPlanet()
+		{
+			player.MyShip.FlyToPlanet(closestPlanets.Keys.ElementAt(currentSelection));
+			eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
+			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
+			menuOptions = menuFactory.GameMenu;
+			CurrentGameState = GameState.FullMenuSelection;
+			previousSelection = currentSelection = 0;
 		}
 	}
 }

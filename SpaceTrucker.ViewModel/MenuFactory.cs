@@ -22,7 +22,7 @@ namespace SpaceTrucker.ViewModel
 
 			foreach (var planet in closestPlanets)
 			{
-				options.Add(new Option($"{planet.Key.ShortName} - {planet.Key.Name}", OptionType.Planet,false));
+				options.Add(new Option($"{planet.Key.Name} ({planet.Key.ShortName})", OptionType.Planet,false));
 			}
 
 			options[0].IsSelected = true;

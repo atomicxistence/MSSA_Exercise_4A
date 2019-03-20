@@ -23,7 +23,8 @@ namespace SpaceTrucker.Models
             this.ShortName = shortName;
             this.Description = description;
             this.MyLocation = myLocation;
-            this.MyLocation.name = shortName;
+            this.MyLocation.shortName = shortName;
+			this.MyLocation.longName = name;
             this.hasUpgrade = hasUpgrade;
 
             this.MyMarket = myMarket;

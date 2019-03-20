@@ -12,7 +12,11 @@ namespace SpaceTrucker.View
 
 		public void CompleteRefresh(Coord shipConsoleOrigin)
 		{
-			throw new NotImplementedException();
+			int offsetX = 6;
+			int offsetY = 18;
+			origin = new Coord(shipConsoleOrigin.X + offsetX, shipConsoleOrigin.Y - offsetY);
 		}
+
+
 	}
 }

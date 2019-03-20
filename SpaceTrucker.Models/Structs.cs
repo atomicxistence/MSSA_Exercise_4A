@@ -6,11 +6,13 @@ namespace SpaceTrucker.Models
     {
         public int x;
         public int y;
-        public string name;
+        public string shortName;
+		public string longName;
 
-        public Location(int x, int y, string name = "Unknown")
+        public Location(int x, int y, string shortName = "Unknown", string longName = "Unknown")
         {
-            this.name = name;
+            this.shortName = shortName;
+			this.longName = longName;
             this.x = x;
             this.y = y;
         }
@@ -27,7 +29,7 @@ namespace SpaceTrucker.Models
         {
             speed = GetSpeed(warp);
             distance = GetDistance(o, d);
-            duration = (int)Math.Round(distance / (speed * 365.0));
+            duration = (int)Math.Round(((double)distance / speed) * 365.0);
             fuelUsage = (int)Math.Round(((double)warp/10.0) * distance);
         }
 
