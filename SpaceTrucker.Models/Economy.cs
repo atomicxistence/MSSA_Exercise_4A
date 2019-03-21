@@ -20,7 +20,7 @@ namespace SpaceTrucker.Models
             BuildTrendReport();      
         }
 
-        static void InitOres()
+        private static void InitOres()
         {
             ores = new List<Ore>();
             ores.Add(new Ore("Lithium"));
@@ -35,7 +35,7 @@ namespace SpaceTrucker.Models
             ores.Add(new Ore("Jadeite"));
         }
 
-        static void InitPlanets()
+        private static void InitPlanets()
         {
             planets = new List<Planet>();
             Dictionary<Ore, (int price, int qty)> offer = new Dictionary<Ore, (int price, int qty)>();
@@ -60,7 +60,7 @@ namespace SpaceTrucker.Models
 
         }
 
-        static void FillEarth(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillEarth(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market EarthMarket = new Market();
             offer.Add(ores[0], (1, 100));
@@ -83,7 +83,7 @@ namespace SpaceTrucker.Models
             demand.Clear();
         }
 
-        static void FillPCb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillPCb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market PCbMarket = new Market();
             offer.Add(ores[0], (2, 100));
@@ -106,7 +106,7 @@ namespace SpaceTrucker.Models
             demand.Clear();
         }
 
-        static void FillLb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillLb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market LbMarket = new Market();
 
@@ -130,7 +130,7 @@ namespace SpaceTrucker.Models
             demand.Clear();
         }
 
-        static void FillKb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillKb(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market KbMarket = new Market();
 
@@ -154,7 +154,7 @@ namespace SpaceTrucker.Models
             demand.Clear();
         }
 
-        static void FillW1061c(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillW1061c(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market W1061cMarket = new Market();
 
@@ -178,7 +178,7 @@ namespace SpaceTrucker.Models
             demand.Clear();
         }
 
-        static void FillG667Cc(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillG667Cc(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market G667CcMarket = new Market();
 
@@ -202,7 +202,7 @@ namespace SpaceTrucker.Models
             demand.Clear();
         }
 
-        static void FillT1d(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillT1d(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market T1dMarket = new Market();
 
@@ -227,7 +227,7 @@ namespace SpaceTrucker.Models
 
         }
 
-        static void FillL1140b(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillL1140b(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market L1140bMarket = new Market();
 
@@ -252,7 +252,7 @@ namespace SpaceTrucker.Models
 
         }
 
-        static void FillG163c(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillG163c(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market G163cMarket = new Market();
 
@@ -277,7 +277,7 @@ namespace SpaceTrucker.Models
 
         }
 
-        static void FillK218b(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillK218b(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market K218bMarket = new Market();
 
@@ -302,7 +302,7 @@ namespace SpaceTrucker.Models
 
         }
 
-        static void FillK23d(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillK23d(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market K23dMarket = new Market();
 
@@ -327,7 +327,7 @@ namespace SpaceTrucker.Models
 
         }
 
-        static void FillKe438b(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillKe438b(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market Ke438bMarket = new Market();
 
@@ -352,7 +352,7 @@ namespace SpaceTrucker.Models
 
         }
 
-        static void FillKe186f(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
+        private static void FillKe186f(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market Ke186fMarket = new Market();
 
@@ -377,7 +377,7 @@ namespace SpaceTrucker.Models
 
         }
 
-        static void SetPlanetDescription()
+        private static void SetPlanetDescription()
         {
             foreach (var p in planets)
             {
@@ -409,7 +409,7 @@ namespace SpaceTrucker.Models
             }
         }
 
-        public static void BuildTrendReport()
+        private static void BuildTrendReport()
         { 
            Dictionary<string, int> TopSellersPerOre = new Dictionary<string, int>();
            Dictionary<string, int> TopBuyersPerOre = new Dictionary<string, int>();

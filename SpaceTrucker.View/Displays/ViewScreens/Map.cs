@@ -20,7 +20,7 @@ namespace SpaceTrucker.View
 				" G667Cc ○                                                                                                 ",
 				"             ○ PCb                                                    ˙                                   ",
                 "  ○         ⓿                          ○ P109b                                                          ˙ ",
-				" G163C     Earth                                            ˙                                             ",
+				" G163c     Earth                                            ˙                                             ",
 				"                                                                                      ˙                   ",
 				"                                                                                                          ",
                 "    ˙    Kb ○ ⃝ W1061c                                                     ˙                              ",
