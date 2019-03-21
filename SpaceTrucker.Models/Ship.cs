@@ -33,9 +33,6 @@ namespace SpaceTrucker.Models
             this.MaxCapacity = Capacity.Small;
 
             this.Inventory = new List<Ore>();
-
-			// TODO: TEMP Hard code initial Inventory
-			Inventory.Add(Economy.ores[0]);
         }
 
         public void FlyToPlanet(Location newLocation, WarpFactor warp)
@@ -66,7 +63,7 @@ namespace SpaceTrucker.Models
         {
             if (Inventory?.Count > (int)MaxCapacity)
             {
-                throw new Exception($"You cannot buy more than {MaxCapacity} items.");
+                throw new Exception($"You cannot buy more than {(int)MaxCapacity} items.");
             }
             else if (Balance - price < 0)
             {
