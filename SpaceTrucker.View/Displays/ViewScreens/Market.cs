@@ -14,6 +14,10 @@ namespace SpaceTrucker.View
 		public Market(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
+
+			eventBroadcaster.MarketBuy += PrintMarketBuy;
+			eventBroadcaster.MarketSell += PrintMarketSell;
+			eventBroadcaster.MarketInventory += PrintMarketInventory;
 		}
 
 		public void CompleteRefresh(Coord shipConsoleOrigin)
@@ -22,15 +26,7 @@ namespace SpaceTrucker.View
 			int offsetY = 18;
 			origin = new Coord(shipConsoleOrigin.X + offsetX, shipConsoleOrigin.Y - offsetY);
 
-			PrintMarket();
-		}
-
-		private void PrintMarket()
-		{
 			PrintMarketTable();
-			PrintMarketBuy();
-			PrintMarketSell();
-			PrintMarketInventory();
 		}
 
 		private void PrintMarketTable()
@@ -55,10 +51,10 @@ namespace SpaceTrucker.View
 				"│                                                   │                                                    │",
 				"│                                                   │                                                    │",
 				"│                                                   │                                                    │",
-				"├───────────────┬───────────────────────────────────┴────────────────────────────────────────────────────┤",
-				"│  INVENTORY  ○─┘                                                                                        │",
+				"╰───────────────────────────────────────────────────┴────────────────────────────────────────────────────╯",
+				"╭────────────────┬───────────────────────────────────────────────────────────────────────────────────────╮",
+				"│   INVENTORY  ○─┘                                                                                       │",                        
 				"├────────────────────────────────────────────────────────────────────────────────────────────────────────┤",
-				"│                                                                                                        │",
 				"│                                                                                                        │",
 				"│                                                                                                        │",
 				"│                                                                                                        │",
@@ -79,19 +75,41 @@ namespace SpaceTrucker.View
 			}
 		}
 
-		private void PrintMarketBuy()
+		private void PrintMarketBuy(object sender, string[] marketBuyTable)
 		{
-			// TODO: market buy formatting
+			Console.ForegroundColor = Write.ColorDisplayFG;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			for (int i = 0; i < marketBuyTable.Length; i++)
+			{
+				Console.SetCursorPosition(origin.X + 3, origin.Y - 24 + i);
+				Console.Write(marketBuyTable[i]);
+			}
 		}
 
-		private void PrintMarketSell()
+		private void PrintMarketSell(object sender, string[] marketSellTable)
 		{
-			// TODO: market sell formatting
+			Console.ForegroundColor = Write.ColorDisplayFG;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			for (int i = 0; i < marketSellTable.Length; i++)
+			{
+				Console.SetCursorPosition(origin.X + 55, origin.Y - 24 + i);
+				Console.Write(marketSellTable[i]);
+			}
 		}
 
-		private void PrintMarketInventory()
+		private void PrintMarketInventory(object sender, string[] marketInventoryTable)
 		{
-			// TODO: inventory formatting
+			Console.ForegroundColor = Write.ColorDisplayFG;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			//TODO: adjust for loop to print more than 5 items
+			for (int i = 0; i < marketInventoryTable.Length; i++)
+			{
+				Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + i);
+				Console.Write(marketInventoryTable[i]);
+			}
 		}
 	}
 }

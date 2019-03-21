@@ -1,6 +1,8 @@
-﻿using System;
+﻿using SpaceTrucker.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace SpaceTrucker.ViewModel
 {
@@ -49,6 +51,17 @@ namespace SpaceTrucker.ViewModel
 			sb.Append(daysRemaining.ToString()).Append(' ', emptySpaceAmount);
 
 			return sb.ToString();
+		}
+
+		internal string[] FormatMarketPriceTable(Dictionary<Ore,int> marketTable)
+		{
+			//TODO: format market table
+			throw new NotImplementedException();
+		}
+
+		internal string[] FormatInventoryTable(List<Ore> inventory)
+		{
+			return inventory.Select(o => o.name).ToArray();
 		}
 	}
 }

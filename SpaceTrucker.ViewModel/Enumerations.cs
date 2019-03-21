@@ -17,7 +17,7 @@
 		Back,
 		Map,
 		TrendReport,
-		WarpLevel,
+		Market,
 		Quit,
 		Invalid,
 	}

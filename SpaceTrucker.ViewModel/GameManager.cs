@@ -34,6 +34,7 @@ namespace SpaceTrucker.ViewModel
 		private IMenu menuOptions;
 
 		private Player player;
+		private Planet currentPlanet;
 
 		private Dictionary<Planet, int> closestPlanets;
 
@@ -87,8 +88,8 @@ namespace SpaceTrucker.ViewModel
 				case ActionType.Map:
 					CurrentViewMode = ViewScreenMode.Map;
 					break;
-				case ActionType.WarpLevel:
-					CurrentViewMode = ViewScreenMode.Inventory;
+				case ActionType.Market:
+					CurrentViewMode = ViewScreenMode.Market;
 					break;
 				case ActionType.TrendReport:
 					CurrentViewMode = ViewScreenMode.TrendReport;
@@ -207,7 +208,8 @@ namespace SpaceTrucker.ViewModel
 
 		private void TravelToSelectedPlanet()
 		{
-			player.MyShip.FlyToPlanet(closestPlanets.Keys.ElementAt(currentSelection));
+			currentPlanet = closestPlanets.Keys.ElementAt(currentSelection);
+			player.MyShip.FlyToPlanet(currentPlanet);
 			eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
 			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
 			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SpaceTrucker.ViewModel
 {
@@ -13,6 +11,10 @@ namespace SpaceTrucker.ViewModel
 		public event EventHandler<string[]> Message;
 
 		public event EventHandler<IMenu> Menu;
+
+		public event EventHandler<string[]> MarketBuy;
+		public event EventHandler<string[]> MarketSell;
+		public event EventHandler<string[]> MarketInventory;
 
 		public event EventHandler<string> FuelCells;
 		public event EventHandler<string> Balance;
@@ -59,6 +61,21 @@ namespace SpaceTrucker.ViewModel
 		internal void ChangeResetDays(string remainingDays)
 		{
 			ResetDays?.Invoke(this, remainingDays);
+		}
+
+		internal void UpdateMarketBuyTable(string[] marketBuyTable)
+		{
+			MarketBuy?.Invoke(this, marketBuyTable);
+		}
+
+		internal void UpdateMarketSellTable(string[] marketSellTable)
+		{
+			MarketBuy?.Invoke(this, marketSellTable);
+		}
+
+		internal void UpdateMarketInventoryTable(string[] marketInventoryTable)
+		{
+			MarketBuy?.Invoke(this, marketInventoryTable);
 		}
 		#endregion
 	}
