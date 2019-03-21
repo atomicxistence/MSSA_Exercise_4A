@@ -27,5 +27,14 @@ namespace SpaceTrucker.Models
             }
         }
 
+        public Dictionary<Ore, int> OfferedOresWithoutQty()
+        {
+            Dictionary<Ore, int> offeredOresWithoutQty = new Dictionary<Ore, int>();
+            foreach (var item in OfferedOres)
+            {
+                offeredOresWithoutQty.Add(item.Key, item.Value.price);
+            }
+            return offeredOresWithoutQty;
+        }
     }
 }
