@@ -32,7 +32,13 @@ namespace SpaceTrucker.ViewModel
 			},
 			new string[]
 			{
-				" "
+				"> Incoming Transmission:                      ",
+				" ------ Weyland Consortium Dispatch --------- ",
+				" Pilot, your balance is unsatisfactory.       ",
+				" Recalibrate your nav settings and plot the   ",
+				" optimal route. Reevaluating reset maintenance",
+				" deadline...                                  ",
+				"> End Transmission_                           ",
 			}
 		};
 	}
