@@ -134,7 +134,7 @@ namespace SpaceTrucker.View
 		{
 			var table = new string[]
 				{
-					"┌──────────────────────────────────────┐",
+					"╭──────────────────────────────────────╮",
 					"│ Fuel Cells [                     ]   │",
 					"├──────────────────────────────────────┤",
 					"│ Location:                            │",
@@ -146,7 +146,7 @@ namespace SpaceTrucker.View
 					"│                                      │",
 					"│ -----------------------------------  │",
 					"│ Scheduled Reset in                   │",
-					"└──────────────────────────────────────┘"
+					"╰──────────────────────────────────────╯"
 				};
 
 			Console.ForegroundColor = Write.ColorDisplayTable;

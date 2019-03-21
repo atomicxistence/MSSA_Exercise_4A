@@ -142,11 +142,11 @@ namespace SpaceTrucker.View
 			
 			// Top border
 			Console.SetCursorPosition(origin.X, origin.Y - 12);
-			Console.Write("┌─                                                     ─┐");
+			Console.Write("╭─                                                     ─╮");
 
 			//Bottom border
 			Console.SetCursorPosition(origin.X, origin.Y);
-			Console.Write("└─                                                     ─┘");
+			Console.Write("╰─                                                     ─╯");
 		}
 
 		private static void PrintSelectedOption(string menuOption, int optionWidth)

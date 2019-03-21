@@ -11,10 +11,10 @@ namespace SpaceTrucker.View
 
 		private string[] map = new string[]
 			{
-                "┌─                                                                            ┌─                        ─┐",
-                "      ˙                                            .              ˙             TRADE_ROUTE : ALPHA.8.00  ",
-                "        ○        ○ T1d           ˙                                            └─                        ─┘",
-                "      L1140b                                                                                              ",
+				"╭─                                                                                                      ─╮",
+				"      ˙                                            .              ˙      ┌─                        ─┐     ",
+				"        ○        ○ T1d           ˙                                         TRADE_ROUTE : ALPHA.8.00       ",
+				"      L1140b                                                             └─                        ─┘     ",
                 "                                         ˙                    ˙                                           ",
 				"      ˙     ○ Lb                                                                       .                  ",
 				" G667Cc ○                                                                                                 ",
@@ -39,8 +39,8 @@ namespace SpaceTrucker.View
 				"                                                                                                          ",
 				"                                                                                  ○ KE438b                ",
                 "                    ˙                               .                                                     ",
-				"                                                                                                          ",				
-				"└─                                                                                                      ─┘",
+				"                                                                                                          ",
+				"╰─                                                                                                      ─╯",
 			};
 
 		public void CompleteRefresh(Coord shipConsoleOrigin)
