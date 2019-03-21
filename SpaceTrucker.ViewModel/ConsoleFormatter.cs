@@ -29,14 +29,14 @@ namespace SpaceTrucker.ViewModel
 			return sb.ToString();
 		}
 
-		internal string FormatBalance(int balance)
+		internal string FormatBalance(long balance)
 		{
 			var maxBalanceLength = 17;
-			var currencyPrefix = "฿ ";
+			var currencyPrefix = "฿";
 			var emptySpaceAmount = maxBalanceLength - (balance.ToString().Length + currencyPrefix.Length);
 
 			var sb = new StringBuilder(maxBalanceLength);
-			sb.Append(currencyPrefix).Append(balance).Append(' ', emptySpaceAmount);
+			sb.Append(currencyPrefix).Append(balance.ToString("N0")).Append(' ', emptySpaceAmount);
 
 			return sb.ToString();
 		}

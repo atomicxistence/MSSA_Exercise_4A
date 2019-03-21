@@ -105,6 +105,7 @@ namespace SpaceTrucker.ViewModel
 		}
 
 		#region Private Methods
+
 		private void ChangeMenuSelections()
 		{
 			menuOptions.Options[previousSelection].IsSelected = false;
@@ -117,8 +118,15 @@ namespace SpaceTrucker.ViewModel
 			menuOptions = menuFactory.CreateMainMenu();
 			eventBroadcaster.SelectionDisplayMenu(menuOptions);
 
-			//TODO: initialize viewscreen
+			eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+			eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
+			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
 		}
+
+		#endregion
+
+		#region Menu State Machine
 
 		private void PerformSelection()
 		{
@@ -205,8 +213,6 @@ namespace SpaceTrucker.ViewModel
                     ChangeMenu();
                     break;
                 case OptionType.GoToTradeMarket:
-                    CurrentViewMode = ViewScreenMode.Market;
-					DisplayCurrentMarketInfo();
 					menuOptions = menuFactory.CreateBuySellMenu();
 					CurrentGameState = GameState.MarketMenu;
 					ChangeMenu();
@@ -235,6 +241,8 @@ namespace SpaceTrucker.ViewModel
 			eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
 			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
 			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
+
+
 			menuOptions = menuFactory.CreateGameMenu();
 			CurrentGameState = GameState.GameMenu;
 			ChangeMenu();
@@ -262,8 +270,28 @@ namespace SpaceTrucker.ViewModel
 
 		private void TransactionSelection()
 		{
-			// TODO: buy/sell transaction stuff
+			var oreName = menuOptions.Options[currentSelection].Title;
+			KeyValuePair<Ore, int> selectedOre;
+
+			switch (menuOptions.Options[currentSelection].OptionType)
+			{
+
+				case OptionType.OreBuy:
+					var buyList = currentPlanet.MyMarket.OfferedOresWithoutQty();
+					selectedOre = buyList.ElementAt(currentSelection);
+					player.MyShip.Buy(selectedOre.Key, selectedOre.Value);
+					break;
+				case OptionType.OreSell:
+					var sellList = currentPlanet.MyMarket.InDemandOres;
+					selectedOre = sellList.ElementAt(currentSelection);
+					player.MyShip.Sell(selectedOre.Key, selectedOre.Value);
+					break;
+			}
 		}
+
+		#endregion
+
+		#region Utilities
 
 		private void DisplayCurrentMarketInfo()
 		{
@@ -309,6 +337,7 @@ namespace SpaceTrucker.ViewModel
 			previousSelection = currentSelection = 0;
 			eventBroadcaster.SelectionDisplayMenu(menuOptions);
 		}
+
 		#endregion
 	}
 }

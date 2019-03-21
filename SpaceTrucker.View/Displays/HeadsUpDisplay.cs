@@ -11,6 +11,12 @@ namespace SpaceTrucker.View
 		private int hudWidth = 40;
 		private int hudHeight = 13;
 
+		private string _fuelLevel = " ";
+		private string _location = " ";
+		private string _balance = " ";
+		private string _resetDays = " ";
+
+
 		public HeadsUpDisplay(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
@@ -30,10 +36,10 @@ namespace SpaceTrucker.View
 			PrintBevel();
 			PrintHUDScreen();
 			PrintHUDTable();
-			PrintFuelCells(this, "▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌");
-			PrintLocation(this, "Earth              ");
-			PrintBalance(this, "฿ 1,000,000");
-			PrintResetDays(this, "18,250 days");
+			PrintFuelCells(this, _fuelLevel);
+			PrintLocation(this, _location);
+			PrintBalance(this, _balance);
+			PrintResetDays(this, _resetDays);
 		}
 
 		/// <summary>
@@ -42,6 +48,7 @@ namespace SpaceTrucker.View
 		/// <param name="fuelLevel">20 characters needed, using "▌"</param>
 		public void PrintFuelCells(object sender, string fuelLevel)
 		{
+			_fuelLevel = fuelLevel;
 			var fuelOrigin = new Coord(origin.X + 15, origin.Y - 11);
 
 			Console.ForegroundColor = Write.ColorHighFuel;
@@ -70,6 +77,7 @@ namespace SpaceTrucker.View
 		/// <param name="location">20 characters needed</param>
 		public void PrintLocation(object sender, string location)
 		{
+			_location = location;
 			var locationOrigin = new Coord(origin.X + 12, origin.Y - 9);
 			PrintOverlay(locationOrigin, location);
 		}
@@ -80,6 +88,7 @@ namespace SpaceTrucker.View
 		/// <param name="balance">17 characters needed, beginning with "€ "</param>
 		public void PrintBalance(object sender, string balance)
 		{
+			_balance = balance;
 			var balanceOrigin = new Coord(origin.X + 11, origin.Y - 7);
 			PrintOverlay(balanceOrigin, balance);
 		}
@@ -90,6 +99,7 @@ namespace SpaceTrucker.View
 		/// <param name="resetDays">11 characters needed, ending with " days"</param>
 		public void PrintResetDays(object sender, string resetDays)
 		{
+			_resetDays = resetDays;
 			var resetDayOrigin = new Coord(origin.X + 21, origin.Y - 1);
 			PrintOverlay(resetDayOrigin, resetDays);
 		}
