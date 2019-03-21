@@ -11,6 +11,7 @@ namespace SpaceTrucker.Models
         public static List<Planet> planets;
         public static List<Ore> ores;
         public static List<Trend> trends;
+        public static int fuelCost = 10;
 
         public static void InitializeEconomy()
         {

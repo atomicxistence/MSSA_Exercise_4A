@@ -211,6 +211,10 @@ namespace SpaceTrucker.ViewModel
 					eventBroadcaster.ChangeViewScreenMode(ViewScreenMode.Message);
 					eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
 					break;
+                    //TODO: purchase fuel
+                    player.MyShip.Refuel(Economy.fuelCost);
+                    eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+                    break;
 				case OptionType.BackMainMenu:
 					menuOptions = menuFactory.CreateMainMenu();
 					CurrentViewMode = ViewScreenMode.TitleScreen;
