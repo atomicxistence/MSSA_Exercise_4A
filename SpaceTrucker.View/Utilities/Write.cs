@@ -18,6 +18,10 @@ namespace SpaceTrucker.View
 		public static ConsoleColor ColorMessageFG => ConsoleColor.Cyan;
 		public static ConsoleColor ColorMessageBG => ConsoleColor.Black;
 
+		public static ConsoleColor ColorHighFuel => ConsoleColor.Cyan;
+		public static ConsoleColor ColorLowFuel => ConsoleColor.Yellow;
+		public static ConsoleColor ColorUrgentFuel => ConsoleColor.Red;
+
 		public static string SelectionIndicator => " ► ";
 
 		public static void EmptySpace(int width)

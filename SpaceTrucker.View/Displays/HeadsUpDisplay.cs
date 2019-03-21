@@ -32,7 +32,7 @@ namespace SpaceTrucker.View
 			PrintHUDTable();
 			PrintFuelCells(this, "▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌");
 			PrintLocation(this, "Earth              ");
-			PrintBalance(this, "฿1,000,000");
+			PrintBalance(this, "฿ 1,000,000");
 			PrintResetDays(this, "18,250 days");
 		}
 
@@ -43,7 +43,25 @@ namespace SpaceTrucker.View
 		public void PrintFuelCells(object sender, string fuelLevel)
 		{
 			var fuelOrigin = new Coord(origin.X + 15, origin.Y - 11);
-			PrintOverlay(fuelOrigin, fuelLevel);
+
+			Console.ForegroundColor = Write.ColorHighFuel;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			if (fuelLevel.IndexOf(' ') < 7)
+			{
+				Console.ForegroundColor = Write.ColorLowFuel;
+			}
+			if (fuelLevel.IndexOf(' ') < 3)
+			{
+				Console.ForegroundColor = Write.ColorUrgentFuel;
+			}
+			if (!fuelLevel.Contains(" "))
+			{
+				Console.ForegroundColor = Write.ColorHighFuel;
+			}
+
+			Console.SetCursorPosition(fuelOrigin.X, fuelOrigin.Y);
+			Console.Write(fuelLevel);
 		}
 
 		/// <summary>
