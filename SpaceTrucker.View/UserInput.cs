@@ -47,8 +47,8 @@ namespace SpaceTrucker.View
 					return ActionType.Select;
 				case ConsoleKey.M:
 					return ActionType.Map;
-				case ConsoleKey.I:
-					return ActionType.Inventory;
+				case ConsoleKey.W:
+					return ActionType.WarpLevel;
 				case ConsoleKey.T:
 					return ActionType.TrendReport;
 				case ConsoleKey.Escape:

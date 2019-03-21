@@ -17,7 +17,7 @@
 		Back,
 		Map,
 		TrendReport,
-		Inventory,
+		WarpLevel,
 		Quit,
 		Invalid,
 	}
@@ -27,7 +27,6 @@
 		MainMenu,
 		Message,
 		FullMenuSelection,
-		Market,
 		Travel,
 	}
 

@@ -47,7 +47,6 @@ namespace SpaceTrucker.View
 				case GameState.Message:
 					return input.AwaitUserKeyResponse(InputRequestType.MenuOnly);
 				case GameState.FullMenuSelection:
-				case GameState.Market:
 				case GameState.Travel:
 					return input.AwaitUserKeyResponse(InputRequestType.FullSelectionInput);
 				default:

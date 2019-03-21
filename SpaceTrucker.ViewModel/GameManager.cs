@@ -87,7 +87,7 @@ namespace SpaceTrucker.ViewModel
 				case ActionType.Map:
 					CurrentViewMode = ViewScreenMode.Map;
 					break;
-				case ActionType.Inventory:
+				case ActionType.WarpLevel:
 					CurrentViewMode = ViewScreenMode.Inventory;
 					break;
 				case ActionType.TrendReport:
@@ -127,19 +127,11 @@ namespace SpaceTrucker.ViewModel
 				case GameState.FullMenuSelection:
 					GameMenuSelections();
 					break;
-				case GameState.Market:
-                    DisplaySelectedPlanetMarket();
-                    break;
 				case GameState.Travel:
 					TravelToSelectedPlanet();
 					break;
 			}
 		}
-
-        private void DisplaySelectedPlanetMarket()
-        {
-            throw new NotImplementedException();
-        }
 
         private void GoToPreviousMenu()
 		{
@@ -149,12 +141,6 @@ namespace SpaceTrucker.ViewModel
 					//TODO: go to quit prompt
 					break;
 				case GameState.FullMenuSelection:
-					break;
-				case GameState.Market:
-					menuOptions = menuFactory.CreateGameMenu();
-					ChangeMenuSelections();
-					eventBroadcaster.SelectionDisplayMenu(menuOptions);
-					CurrentGameState = GameState.FullMenuSelection;
 					break;
 				case GameState.Travel:
 					menuOptions = menuFactory.CreateGameMenu();
@@ -199,18 +185,10 @@ namespace SpaceTrucker.ViewModel
                     break;
                 case OptionType.GoToTradeMarket:
                     //TODO: create trade market menus based on current location
-                    CurrentGameState = GameState.Market;
                     CurrentViewMode = ViewScreenMode.Market;
-                    ChangeMenu();
                     //TODO: pass market menu to viewscreen
                     break;
                 case OptionType.PurchaseFuel:
-                    //TODO: purchase fuel
-
-                    //TESTING!!
-                    eventBroadcaster.ChangeViewScreenMode(ViewScreenMode.Message);
-                    eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
-                    //TODO: purchase fuel
                     if (player.MyShip.FuelLevel < 100)
                     {
                         player.MyShip.Refuel(Economy.fuelCost);

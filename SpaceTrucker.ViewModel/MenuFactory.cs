@@ -44,7 +44,7 @@ namespace SpaceTrucker.ViewModel
 			return new Menu("Select an option below", options);
 		}
 
-		public Menu CreateConfirmationMenu()
+		public Menu CreateConfirmationMenu(string prompt)
 		{
 			var options = new List<IOption>
 			{
@@ -52,7 +52,7 @@ namespace SpaceTrucker.ViewModel
 				new Option("No", OptionType.No,false),
 			};
 
-			return new Menu("Are you sure?", options);
+			return new Menu(prompt, options);
 		}
 	}
 }
