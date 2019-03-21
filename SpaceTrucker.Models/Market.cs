@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SpaceTrucker.Models
 {
@@ -25,6 +26,7 @@ namespace SpaceTrucker.Models
             {
                 InDemandOres.Add(item.Key, item.Value);
             }
+            InDemandOres = InDemandOres.OrderByDescending(v => v.Value).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
 
         public Dictionary<Ore, int> OfferedOresWithoutQty()
@@ -34,7 +36,7 @@ namespace SpaceTrucker.Models
             {
                 offeredOresWithoutQty.Add(item.Key, item.Value.price);
             }
-            return offeredOresWithoutQty;
+            return offeredOresWithoutQty.OrderBy(v => v.Value).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
     }
 }

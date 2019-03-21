@@ -57,10 +57,9 @@ namespace SpaceTrucker.ViewModel
 		{
 			var priceOffsetX = 34;
 			var pricePrefix = "฿";
-			var sortedMarketTable = marketTable.OrderBy(x => x.Value);
 
-			var oreName = sortedMarketTable.Select(o => o.Key.name).ToArray();
-			var orePrice = sortedMarketTable.Select(o => o.Value).ToArray();
+			var oreName = marketTable.Select(o => o.Key.name).ToArray();
+			var orePrice = marketTable.Select(o => o.Value).ToArray();
 			var priceArray = new string[marketTable.Count];
 
 			for (int i = 0; i < oreName.Length; i++)
