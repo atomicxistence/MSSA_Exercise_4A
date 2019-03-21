@@ -15,6 +15,8 @@ namespace SpaceTrucker.View
 		public static ConsoleColor ColorSelectedOptionBG => ConsoleColor.Green;
 		public static ConsoleColor ColorUnselectedOptionFG => ConsoleColor.DarkGreen;
 		public static ConsoleColor ColorDisplayTable => ConsoleColor.DarkYellow;
+		public static ConsoleColor ColorMessageFG => ConsoleColor.Cyan;
+		public static ConsoleColor ColorMessageBG => ConsoleColor.Black;
 
 		public static string SelectionIndicator => " ► ";
 

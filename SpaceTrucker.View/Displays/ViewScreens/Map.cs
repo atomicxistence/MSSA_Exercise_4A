@@ -42,39 +42,6 @@ namespace SpaceTrucker.View
 				"                                                                                                          ",				
 				"└─                                                                                                      ─┘",
 			};
-		//private string[] starField = new string[]
-		//{
-		//	"                                                                                                          ",
-		//	"                          ˙                                                                    ˙          ",
-		//	"                                                               ˙              TRADE_ROUTE : ALPHA.8.00    ",
-		//	"      ˙                                                                                                   ",
-		//	"                                                                                                          ",
-		//	"                                                         ˙                                                ",
-		//	"                                                                                                  ˙       ",
-		//	"                                                  ˙                                                       ",
-		//	"                                                                                                          ",
-		//	"                        ˙                                                                                 ",
-		//	"    ˙                                                                                                     ",
-		//	"                                                   ˙                                        ˙             ",
-		//	"                                                                           ˙                              ",
-		//	"                                                                                                          ",
-		//	"           ˙                                                                                              ",
-		//	"                                                                                                          ",
-		//	"                                                                                                          ",
-		//	"                              ˙                                                                           ",
-		//	"                                                               ˙                                          ",
-		//	"                                                                                                          ",
-		//	"             ˙                                                                                            ",
-		//	"                                                                                       ˙                  ",
-		//	"                                                                                                          ",
-		//	"                                                    ˙                                                     ",
-		//	"                                                                                                          ",
-		//	"                                                                                                          ",
-		//	"                                                                                                          ",
-		//	"                            ˙                                                                             ",
-		//	"      ˙                                                          ˙                   ˙                    ",
-		//	"                                                                                                          ",
-		//};
 
 		public void CompleteRefresh(Coord shipConsoleOrigin)
 		{

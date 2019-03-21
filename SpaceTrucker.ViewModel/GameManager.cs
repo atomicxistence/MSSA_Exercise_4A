@@ -206,6 +206,10 @@ namespace SpaceTrucker.ViewModel
 					break;
 				case OptionType.PurchaseFuel:
 					//TODO: purchase fuel
+
+					//TESTING!!
+					eventBroadcaster.ChangeViewScreenMode(ViewScreenMode.Message);
+					eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
 					break;
 				case OptionType.BackMainMenu:
 					menuOptions = menuFactory.CreateMainMenu();

@@ -9,6 +9,12 @@ namespace SpaceTrucker.View
 		public ViewScreenMode ModeType => ViewScreenMode.TrendReport;
 
 		private Coord origin;
+		private EventBroadcaster eventBroadcaster;
+
+		public TrendReport(EventBroadcaster eventBroadcaster)
+		{
+			this.eventBroadcaster = eventBroadcaster;
+		}
 
 		public void CompleteRefresh(Coord shipConsoleOrigin)
 		{

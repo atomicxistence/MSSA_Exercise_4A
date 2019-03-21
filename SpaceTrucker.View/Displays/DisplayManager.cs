@@ -79,10 +79,10 @@ namespace SpaceTrucker.View
 			viewScreen = new ViewScreenDisplay(eventBroadcaster);
 
 			titleScreen = new TitleScreen();
-			messageScreen = new Message();
+			messageScreen = new Message(eventBroadcaster);
 			mapScreen = new Map();
-			marketScreen = new Market();
-			trendReportScreen = new TrendReport();
+			marketScreen = new Market(eventBroadcaster);
+			trendReportScreen = new TrendReport(eventBroadcaster);
 
 		}
 
@@ -156,10 +156,6 @@ namespace SpaceTrucker.View
 
 		private void ChangeCurrentViewMode(object sender, ViewScreenMode nextViewMode)
 		{
-			if (currentViewMode != nextViewMode)
-			{
-				viewScreen.PrintBlankViewScreen();
-			}
 			currentViewMode = nextViewMode;
 			RefreshViewScreen();
 		}
