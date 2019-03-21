@@ -4,8 +4,10 @@ namespace SpaceTrucker.ViewModel
 {
 	class Messages
 	{
+		      //|---------- Max Length of Message Box ---------|
+
 		internal static List<string[]> narrative = new List<string[]>
-		{	  //|----------------------------------------------|
+		{	  
 			new string[]
 			{
 				"> Incoming Transmission:                      ",
