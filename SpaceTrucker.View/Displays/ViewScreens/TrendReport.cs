@@ -23,6 +23,10 @@ namespace SpaceTrucker.View
 			origin = new Coord(shipConsoleOrigin.X + offsetX, shipConsoleOrigin.Y - offsetY);
 		}
 
+		public void EventUnsubscribe() { }
+
+		public void EventSubscribe() { }
+
 		private void PrintTrendReport()
 		{
 			// TODO: print trend report, how are we sending the latest trend report?

@@ -149,7 +149,12 @@ namespace SpaceTrucker.View
 			{
 				if (mode.ModeType == currentViewMode)
 				{
+					mode.EventSubscribe();
 					mode.CompleteRefresh(displayOrigin);
+				}
+				else
+				{
+					mode.EventUnsubscribe();
 				}
 			}
 		}

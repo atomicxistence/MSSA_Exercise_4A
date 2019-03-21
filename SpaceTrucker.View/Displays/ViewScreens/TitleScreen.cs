@@ -52,6 +52,10 @@ namespace SpaceTrucker.View
 			PrintTitle();
 		}
 
+		public void EventUnsubscribe() { }
+
+		public void EventSubscribe() { }
+
 		private void PrintTitle()
 		{
 			Console.ForegroundColor = Write.ColorDefaultFG;

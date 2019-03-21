@@ -29,6 +29,10 @@ namespace SpaceTrucker.View
 			origin = new Coord(shipConsoleOrigin.X + offsetX, shipConsoleOrigin.Y - offsetY);
 		}
 
+		public void EventUnsubscribe() { }
+
+		public void EventSubscribe() { }
+
 		private void PrintMessage(object sender, string[] incomingMessage)
 		{
 			message = incomingMessage;

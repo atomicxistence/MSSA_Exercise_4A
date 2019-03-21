@@ -280,11 +280,13 @@ namespace SpaceTrucker.ViewModel
 					var buyList = currentPlanet.MyMarket.OfferedOresWithoutQty();
 					selectedOre = buyList.ElementAt(currentSelection);
 					player.MyShip.Buy(selectedOre.Key, selectedOre.Value);
+					UpdateAfterTransaction();
 					break;
 				case OptionType.OreSell:
 					var sellList = currentPlanet.MyMarket.InDemandOres;
 					selectedOre = sellList.ElementAt(currentSelection);
 					player.MyShip.Sell(selectedOre.Key, selectedOre.Value);
+					UpdateAfterTransaction();
 					break;
 			}
 		}
@@ -330,6 +332,12 @@ namespace SpaceTrucker.ViewModel
 			menuOptions = menuFactory.CreateOreMenu(prompt, ores, optionType);
 			CurrentGameState = GameState.TransactionMenu;
 			ChangeMenu();
+		}
+
+		private void UpdateAfterTransaction()
+		{
+			eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+			eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
 		}
 
 		private void ChangeMenu()

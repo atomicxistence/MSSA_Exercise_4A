@@ -11,6 +11,8 @@ namespace SpaceTrucker.View
 		private Coord origin;
 		private EventBroadcaster eventBroadcaster;
 
+		private int previousInventoryLength = 0;
+
 		public Market(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
@@ -27,6 +29,20 @@ namespace SpaceTrucker.View
 			origin = new Coord(shipConsoleOrigin.X + offsetX, shipConsoleOrigin.Y - offsetY);
 
 			PrintMarketTable();
+		}
+
+		public void EventUnsubscribe()
+		{
+			eventBroadcaster.MarketBuy -= PrintMarketBuy;
+			eventBroadcaster.MarketSell -= PrintMarketSell;
+			eventBroadcaster.MarketInventory -= PrintMarketInventory;
+		}
+
+		public void EventSubscribe()
+		{
+			eventBroadcaster.MarketBuy += PrintMarketBuy;
+			eventBroadcaster.MarketSell += PrintMarketSell;
+			eventBroadcaster.MarketInventory += PrintMarketInventory;
 		}
 
 		private void PrintMarketTable()
@@ -104,12 +120,22 @@ namespace SpaceTrucker.View
 			Console.ForegroundColor = Write.ColorDisplayFG;
 			Console.BackgroundColor = Write.ColorDisplayBG;
 
+			if (previousInventoryLength > marketInventoryTable.Length)
+			{
+				for (int i = marketInventoryTable.Length; i < previousInventoryLength; i++)
+				{
+					Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + i);
+					Write.EmptySpace(25);
+				}
+			}
 			//TODO: adjust for loop to print more than 5 items
 			for (int i = 0; i < marketInventoryTable.Length; i++)
 			{
 				Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + i);
 				Console.Write(marketInventoryTable[i]);
 			}
+
+			previousInventoryLength = marketInventoryTable.Length;
 		}
 	}
 }

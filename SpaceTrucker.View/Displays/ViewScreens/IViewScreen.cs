@@ -6,5 +6,7 @@ namespace SpaceTrucker.View
 	{
 		ViewScreenMode ModeType { get; }
 		void CompleteRefresh(Coord shipConsoleOrigin);
+		void EventUnsubscribe();
+		void EventSubscribe();
 	}
 }
