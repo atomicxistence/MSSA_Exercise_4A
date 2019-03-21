@@ -189,31 +189,34 @@ namespace SpaceTrucker.ViewModel
 
 		private void GameMenuSelections()
 		{
-			switch (menuOptions.Options[currentSelection].OptionType)
-			{
-				case OptionType.GoToTravel:
-					closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9);
-					menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
-					CurrentGameState = GameState.Travel;
-					ChangeMenu();
-					break;
-				case OptionType.GoToTradeMarket:
-					//TODO: create trade market menus based on current location
-					CurrentGameState = GameState.Market;
-					CurrentViewMode = ViewScreenMode.Market;
-					ChangeMenu();
-					//TODO: pass market menu to viewscreen
-					break;
-				case OptionType.PurchaseFuel:
-					//TODO: purchase fuel
-
-					//TESTING!!
-					eventBroadcaster.ChangeViewScreenMode(ViewScreenMode.Message);
-					eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
-					break;
+            switch (menuOptions.Options[currentSelection].OptionType)
+            {
+                case OptionType.GoToTravel:
+                    closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9);
+                    menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
+                    CurrentGameState = GameState.Travel;
+                    ChangeMenu();
+                    break;
+                case OptionType.GoToTradeMarket:
+                    //TODO: create trade market menus based on current location
+                    CurrentGameState = GameState.Market;
+                    CurrentViewMode = ViewScreenMode.Market;
+                    ChangeMenu();
+                    //TODO: pass market menu to viewscreen
+                    break;
+                case OptionType.PurchaseFuel:
                     //TODO: purchase fuel
-                    player.MyShip.Refuel(Economy.fuelCost);
-                    eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+
+                    //TESTING!!
+                    eventBroadcaster.ChangeViewScreenMode(ViewScreenMode.Message);
+                    eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
+                    //TODO: purchase fuel
+                    if (player.MyShip.FuelLevel < 100)
+                    {
+                        player.MyShip.Refuel(Economy.fuelCost);
+                        eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+                        eventBroadcaster.ChangeBalance(console.FormatBalance((int)player.MyShip.Balance));
+                    }
                     break;
 				case OptionType.BackMainMenu:
 					menuOptions = menuFactory.CreateMainMenu();

@@ -26,11 +26,11 @@ namespace SpaceTrucker.Models
             this.LifeSpan = 18250; // days
             this.Balance = 1000000; // Creds 
 
-            this.CurrentLocation = new Location(0, 0, "Home", "Earth"); 
+            this.CurrentLocation = new Location(0, 0, "Home", "Earth");
             this.FuelLevel = 100; // percentage 
             this.EngineTopSpeed = WarpFactor.WarpFive;
-            this.WeaponSystemPower = WeaponSystem.Weak; 
-            this.MaxCapacity = Capacity.Small; 
+            this.WeaponSystemPower = WeaponSystem.Weak;
+            this.MaxCapacity = Capacity.Small;
 
             this.Inventory = new List<Ore>();
 
@@ -41,7 +41,7 @@ namespace SpaceTrucker.Models
         {
             Trip myTrip = new Trip(CurrentLocation, newLocation, warp);
 
-            if(myTrip.fuelUsage > 100 || FuelLevel < myTrip.fuelUsage)
+            if (myTrip.fuelUsage > 100 || FuelLevel < myTrip.fuelUsage)
             {
                 throw new Exception("Fuel needed to complete trip exceeds tank capacity or current fuel level!");
             }
@@ -49,7 +49,7 @@ namespace SpaceTrucker.Models
             {
                 throw new Exception("You won't make it before to your destination before rest maintenance is due!");
             }
-               
+
             CurrentLocation = newLocation;
             LifeSpan -= myTrip.duration;
             FuelLevel -= myTrip.fuelUsage;
@@ -57,11 +57,11 @@ namespace SpaceTrucker.Models
 
         public void FlyToPlanet(Location newLocation) => FlyToPlanet(newLocation, EngineTopSpeed);
 
-		public void FlyToPlanet(Planet destination) => FlyToPlanet(destination.MyLocation);
+        public void FlyToPlanet(Planet destination) => FlyToPlanet(destination.MyLocation);
 
-		public void FlyToPlanet(Planet destination, WarpFactor warp) => FlyToPlanet(destination.MyLocation, warp);
+        public void FlyToPlanet(Planet destination, WarpFactor warp) => FlyToPlanet(destination.MyLocation, warp);
 
-		public void Buy(Ore o, int price)
+        public void Buy(Ore o, int price)
         {
             if (Inventory?.Count > (int)MaxCapacity)
             {
@@ -81,7 +81,7 @@ namespace SpaceTrucker.Models
 
         public void Sell(Ore o, int price)
         {
-            if(Inventory.Contains(o))
+            if (Inventory.Contains(o))
             {
                 Inventory.Remove(o);
                 Balance += price;
@@ -99,6 +99,7 @@ namespace SpaceTrucker.Models
             else
             {
                 Balance -= topOff;
+                FuelLevel = 100;
             }
         }
 
