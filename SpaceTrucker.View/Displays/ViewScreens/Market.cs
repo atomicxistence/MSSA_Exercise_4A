@@ -28,15 +28,18 @@ namespace SpaceTrucker.View
 		private void PrintMarket()
 		{
 			PrintMarketTable();
+			PrintMarketBuy();
+			PrintMarketSell();
+			PrintMarketInventory();
 		}
 
 		private void PrintMarketTable()
 		{
 			var table = new string[]
 			{
-				"┌────────┬──────────────────────────────────────────┬──────────┬─────────────────────────────────────────┐",
+				"╭────────┬──────────────────────────────────────────┬──────────┬─────────────────────────────────────────╮",
 				"│  BUY ○─┘                                          │   SELL ○─┘                                         │",
-				"│    Item                    Price            QTY   │    Item                    Price            QTY    │",
+				"│    Item                    Price            QTY   │    Item                    Price                   │",
 				"├───────────────────────────────────────────────────┼────────────────────────────────────────────────────┤",
 				"│                                                   │                                                    │",
 				"│                                                   │                                                    │",
@@ -63,7 +66,7 @@ namespace SpaceTrucker.View
 				"│                                                                                                        │",
 				"│                                                                                                        │",
 				"│                                                                                                        │",
-				"└────────────────────────────────────────────────────────────────────────────────────────────────────────┘",
+				"╰────────────────────────────────────────────────────────────────────────────────────────────────────────╯",
 			};
 
 			Console.ForegroundColor = Write.ColorDisplayTable;
@@ -74,6 +77,21 @@ namespace SpaceTrucker.View
 				Console.SetCursorPosition(origin.X, origin.Y - 29 + i);
 				Console.Write(table[i]);
 			}
+		}
+
+		private void PrintMarketBuy()
+		{
+			// TODO: market buy formatting
+		}
+
+		private void PrintMarketSell()
+		{
+			// TODO: market sell formatting
+		}
+
+		private void PrintMarketInventory()
+		{
+			// TODO: inventory formatting
 		}
 	}
 }

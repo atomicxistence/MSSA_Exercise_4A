@@ -39,6 +39,45 @@ namespace SpaceTrucker.ViewModel
 				" optimal route. Reevaluating reset maintenance",
 				" deadline...                                  ",
 				"> End Transmission_                           ",
+			},
+			new string[]
+			{
+				"> Incoming Transmission:                      ",
+				" ----- Weyland Consortium Dispatch ---------- ",
+				" Headquarters is pleased with your current    ",
+				" performance, Pilot. Proceed to ALPHA.8.01.   ",
+				" Uploading latest trend reports. Keep this up ",
+				" and we'll outfit the whole fleet with your   ",
+				" Cortana chip!                                ",
+				"> End Transmission_                           ",
+			},
+			new string[]
+			{
+				"> Incoming Transmission:                      ",
+				" -----------  LilSkippy 52.001 -------------- ",
+				" Well I'll be a monkey's uncle.  I haven't    ",
+				" seen one of your model out this far, in a    ",
+				" long time. Just been me and my nephew Bonzo  ",
+				" Centrorian titanium out here. Got any of them",
+				" good Weyland trade tips?                     ",
+				"> End Transmission_                           ",
+			},
+			new string[]
+			{
+				"> Incoming Transmission:                      ",
+				" ------ Weyland Consortium Dispatch --------- ",
+				" YOU ARE OVERDUE FOR MAINTENANCE THX-1138.    ",
+				" REPORT TO OUTPOST ALPHA.460 IMMEDIATELY.     ",
+				"> End Transmission_                           ",
+			},
+			new string[]
+			{
+				"> Incoming Transmission:                      ",
+				" ----- Weyland Consortium Dispatch ---------- ",
+				" THX-1138, your current balance has exceeded  ",
+				" expectations. Please reroute and report to   ",
+				" Weyland R&D on Earth.                        ",
+				"> End Transmission_                           ",
 			}
 		};
 	}
