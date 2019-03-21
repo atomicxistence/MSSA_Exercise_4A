@@ -35,6 +35,11 @@ namespace SpaceTrucker.View
 			PrintBevel();
 			PrintSelectionScreen();
 			PrintSelectionBorder();
+
+			if (previousMenuOptions != null)
+			{
+				PrintMenuSelections(this, previousMenuOptions);
+			}
 		}
 
 		/// <summary>

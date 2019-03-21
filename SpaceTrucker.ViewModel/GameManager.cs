@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using SpaceTrucker.Models;
 
 namespace SpaceTrucker.ViewModel
@@ -50,6 +50,7 @@ namespace SpaceTrucker.ViewModel
 			console = new ConsoleFormatter();
 			menuFactory = new MenuFactory();
 			player = new Player();
+			currentPlanet = Economy.planets[0];
 
 			InitializeDisplayFields();
 		}
@@ -79,17 +80,20 @@ namespace SpaceTrucker.ViewModel
                     previousSelection = currentSelection = 0;
                     GoToPreviousMenu();
 					break;
-				case ActionType.NextTable:
-					//TODO: go to next market table
+				case ActionType.IncreaseWarpFactor:
+					//TODO: increase current warp factor
+					//TODO: event display current warp factor
 					break;
-				case ActionType.PreviousTable:
-					//TODO: go to previous market table
+				case ActionType.DecreaseWarpFactor:
+					//TODO: decrease current warp factor
+					//TODO: event display current warp factor
 					break;
 				case ActionType.Map:
 					CurrentViewMode = ViewScreenMode.Map;
 					break;
 				case ActionType.Market:
 					CurrentViewMode = ViewScreenMode.Market;
+					DisplayCurrentMarketInfo();
 					break;
 				case ActionType.TrendReport:
 					CurrentViewMode = ViewScreenMode.TrendReport;
@@ -100,7 +104,7 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-
+		#region Private Methods
 		private void ChangeMenuSelections()
 		{
 			menuOptions.Options[previousSelection].IsSelected = false;
@@ -123,13 +127,19 @@ namespace SpaceTrucker.ViewModel
 				case GameState.MainMenu:
 					MainMenuSelection();
 					break;
-				case GameState.Message:
+				case GameState.ConfirmationMenu:
 					break;
-				case GameState.FullMenuSelection:
-					GameMenuSelections();
+				case GameState.GameMenu:
+					GameMenuSelection();
 					break;
-				case GameState.Travel:
-					TravelToSelectedPlanet();
+				case GameState.TravelMenu:
+					TravelMenuSelection();
+					break;
+				case GameState.MarketMenu:
+					BuySellSelection();
+					break;
+				case GameState.TransactionMenu:
+					TransactionSelection();
 					break;
 			}
 		}
@@ -141,13 +151,23 @@ namespace SpaceTrucker.ViewModel
 				case GameState.MainMenu:
 					//TODO: go to quit prompt
 					break;
-				case GameState.FullMenuSelection:
+				case GameState.ConfirmationMenu:
 					break;
-				case GameState.Travel:
+				case GameState.GameMenu:
+					CurrentGameState = GameState.MainMenu;
+					menuOptions = menuFactory.CreateMainMenu();
+					ChangeMenu();
+					break;
+				case GameState.MarketMenu:
+				case GameState.TravelMenu:
+					CurrentGameState = GameState.GameMenu;
 					menuOptions = menuFactory.CreateGameMenu();
-					ChangeMenuSelections();
-					eventBroadcaster.SelectionDisplayMenu(menuOptions);
-					CurrentGameState = GameState.FullMenuSelection;
+					ChangeMenu();
+					break;
+				case GameState.TransactionMenu:
+					CurrentGameState = GameState.MarketMenu;
+					menuOptions = menuFactory.CreateBuySellMenu();
+					ChangeMenu();
 					break;
 				default:
 					break;
@@ -159,7 +179,7 @@ namespace SpaceTrucker.ViewModel
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
 				case OptionType.NewGame:
-					CurrentGameState = GameState.FullMenuSelection;
+					CurrentGameState = GameState.GameMenu;
 					menuOptions = menuFactory.CreateGameMenu();
 					ChangeMenu();
 					break;
@@ -174,21 +194,23 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-		private void GameMenuSelections()
+		private void GameMenuSelection()
 		{
             switch (menuOptions.Options[currentSelection].OptionType)
             {
                 case OptionType.GoToTravel:
                     closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9);
                     menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
-                    CurrentGameState = GameState.Travel;
+                    CurrentGameState = GameState.TravelMenu;
                     ChangeMenu();
                     break;
                 case OptionType.GoToTradeMarket:
-                    //TODO: create trade market menus based on current location
                     CurrentViewMode = ViewScreenMode.Market;
-                    //TODO: pass market menu to viewscreen
-                    break;
+					DisplayCurrentMarketInfo();
+					menuOptions = menuFactory.CreateBuySellMenu();
+					CurrentGameState = GameState.MarketMenu;
+					ChangeMenu();
+					break;
                 case OptionType.PurchaseFuel:
                     if (player.MyShip.FuelLevel < 100)
                     {
@@ -206,7 +228,7 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-		private void TravelToSelectedPlanet()
+		private void TravelMenuSelection()
 		{
 			currentPlanet = closestPlanets.Keys.ElementAt(currentSelection);
 			player.MyShip.FlyToPlanet(currentPlanet);
@@ -214,7 +236,71 @@ namespace SpaceTrucker.ViewModel
 			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
 			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
 			menuOptions = menuFactory.CreateGameMenu();
-			CurrentGameState = GameState.FullMenuSelection;
+			CurrentGameState = GameState.GameMenu;
+			ChangeMenu();
+		}
+
+		private void BuySellSelection()
+		{
+			List<string> ores;
+			string prompt;
+
+			switch (menuOptions.Options[currentSelection].OptionType)
+			{
+				case OptionType.GoToBuy:
+					ores = FormatTransactionList(currentPlanet.MyMarket.OfferedOresWithoutQty());
+					prompt = $"{currentPlanet.Name} is currently selling...";
+					DisplayTransactionMenu(ores, prompt, OptionType.OreBuy);
+					break;
+				case OptionType.GoToSell:
+					ores = FormatTransactionList(currentPlanet.MyMarket.InDemandOres);
+					prompt = $"{currentPlanet.Name} is currently buying...";
+					DisplayTransactionMenu(ores, prompt, OptionType.OreSell);
+					break;
+			}
+		}
+
+		private void TransactionSelection()
+		{
+			// TODO: buy/sell transaction stuff
+		}
+
+		private void DisplayCurrentMarketInfo()
+		{
+			eventBroadcaster.UpdateMarketBuyTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.OfferedOresWithoutQty()));
+			eventBroadcaster.UpdateMarketSellTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.InDemandOres));
+			eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
+		}
+
+		private List<string> FormatTransactionList(Dictionary<Ore, int> marketTable)
+		{
+			var priceOffsetX = 40;
+			var pricePrefix = "฿";
+			var sortedMarketTable = marketTable.OrderBy(x => x.Value);
+
+			var oreName = sortedMarketTable.Select(o => o.Key.name).ToArray();
+			var orePrice = sortedMarketTable.Select(o => o.Value).ToArray();
+			var priceArray = new List<string>();
+
+			for (int i = 0; i < oreName.Length; i++)
+			{
+				var emptySpace = priceOffsetX - oreName[i].Length;
+
+				var sb = new StringBuilder();
+				sb.Append(oreName[i]).Append(' ', emptySpace);
+				sb.Append(pricePrefix);
+				sb.Append(Economy.ToKMB(orePrice[i]));
+
+				priceArray.Add(sb.ToString());
+			}
+
+			return priceArray;
+		}
+
+		private void DisplayTransactionMenu(List<string> ores, string prompt, OptionType optionType)
+		{
+			menuOptions = menuFactory.CreateOreMenu(prompt, ores, optionType);
+			CurrentGameState = GameState.TransactionMenu;
 			ChangeMenu();
 		}
 
@@ -223,5 +309,6 @@ namespace SpaceTrucker.ViewModel
 			previousSelection = currentSelection = 0;
 			eventBroadcaster.SelectionDisplayMenu(menuOptions);
 		}
+		#endregion
 	}
 }

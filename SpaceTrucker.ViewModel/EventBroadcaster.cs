@@ -70,12 +70,12 @@ namespace SpaceTrucker.ViewModel
 
 		internal void UpdateMarketSellTable(string[] marketSellTable)
 		{
-			MarketBuy?.Invoke(this, marketSellTable);
+			MarketSell?.Invoke(this, marketSellTable);
 		}
 
 		internal void UpdateMarketInventoryTable(string[] marketInventoryTable)
 		{
-			MarketBuy?.Invoke(this, marketInventoryTable);
+			MarketInventory?.Invoke(this, marketInventoryTable);
 		}
 		#endregion
 	}

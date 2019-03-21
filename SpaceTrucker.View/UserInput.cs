@@ -66,14 +66,10 @@ namespace SpaceTrucker.View
 					return ActionType.NextItem;
 				case ConsoleKey.UpArrow:
 					return ActionType.PreviousItem;
-				case ConsoleKey.RightArrow:
-					return ActionType.NextTable;
-				case ConsoleKey.LeftArrow:
-					return ActionType.PreviousTable;
 				case ConsoleKey.Enter:
 					return ActionType.Select;
 				case ConsoleKey.Escape:
-					return ActionType.Back;
+					return ActionType.Quit;
 				default:
 					return ActionType.Invalid;
 			}

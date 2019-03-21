@@ -55,8 +55,27 @@ namespace SpaceTrucker.ViewModel
 
 		internal string[] FormatMarketPriceTable(Dictionary<Ore,int> marketTable)
 		{
-			//TODO: format market table
-			throw new NotImplementedException();
+			var priceOffsetX = 34;
+			var pricePrefix = "฿";
+			var sortedMarketTable = marketTable.OrderBy(x => x.Value);
+
+			var oreName = sortedMarketTable.Select(o => o.Key.name).ToArray();
+			var orePrice = sortedMarketTable.Select(o => o.Value).ToArray();
+			var priceArray = new string[marketTable.Count];
+
+			for (int i = 0; i < oreName.Length; i++)
+			{
+				var emptySpace = priceOffsetX - oreName[i].Length;
+
+				var sb = new StringBuilder();
+				sb.Append(oreName[i]).Append(' ', emptySpace);
+				sb.Append(pricePrefix);
+				sb.Append(Economy.ToKMB(orePrice[i]));
+
+				priceArray[i] = sb.ToString();
+			}
+
+			return priceArray;
 		}
 
 		internal string[] FormatInventoryTable(List<Ore> inventory)

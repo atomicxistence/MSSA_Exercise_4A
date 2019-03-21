@@ -5,7 +5,7 @@ namespace SpaceTrucker.ViewModel
 {
 	class MenuFactory
 	{
-		public Menu CreateTravelMenu(Dictionary<Planet, int> closestPlanets = null)
+		internal Menu CreateTravelMenu(Dictionary<Planet, int> closestPlanets = null)
 		{
 			var options = new List<IOption>();
 
@@ -19,7 +19,7 @@ namespace SpaceTrucker.ViewModel
 			return new Menu("Select a planet to travel to...", options);
 		}
 
-		public Menu CreateMainMenu()
+		internal Menu CreateMainMenu()
 		{
 			var options = new List<IOption>
 			{
@@ -31,25 +31,50 @@ namespace SpaceTrucker.ViewModel
 			return new Menu("Main Menu", options);
 		}
 
-		public Menu CreateGameMenu()
+		internal Menu CreateGameMenu()
 		{
 			var options = new List<IOption>
 			{
 				new Option("Travel to a different planet", OptionType.GoToTravel,true),
-				new Option("View the planet's trade market", OptionType.GoToTradeMarket,false),
+				new Option("Trade with the planet's market", OptionType.GoToTradeMarket,false),
 				new Option("Purchase more fuel cells", OptionType.PurchaseFuel,false),
-				new Option("Back to Main Menu", OptionType.BackMainMenu,false),
+				new Option("Main Menu", OptionType.BackMainMenu,false),
 			};
 
 			return new Menu("Select an option below", options);
 		}
 
-		public Menu CreateConfirmationMenu(string prompt)
+		internal Menu CreateBuySellMenu()
 		{
 			var options = new List<IOption>
 			{
-				new Option("Yes", OptionType.Yes,true),
-				new Option("No", OptionType.No,false),
+				new Option("Buy", OptionType.GoToBuy, true),
+				new Option("Sell", OptionType.GoToSell, false),
+			};
+
+			return new Menu("Trade Market", options);
+		}
+
+		internal Menu CreateOreMenu(string prompt, List<string> ores, OptionType optionType)
+		{
+			var options = new List<IOption>();
+
+			foreach (var ore in ores)
+			{
+				options.Add(new Option(ore, optionType, false));
+			}
+
+			options[0].IsSelected = true;
+
+			return new Menu(prompt, options);
+		}
+
+		internal Menu CreateConfirmationMenu(string prompt)
+		{
+			var options = new List<IOption>
+			{
+				new Option("Yes", OptionType.Yes, true),
+				new Option("No", OptionType.No, false),
 			};
 
 			return new Menu(prompt, options);

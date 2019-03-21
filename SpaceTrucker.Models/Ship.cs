@@ -18,7 +18,7 @@ namespace SpaceTrucker.Models
 
         public WeaponSystem WeaponSystemPower { get; set; }
 
-        private List<Ore> Inventory { get; set; }
+        public List<Ore> Inventory { get; set; }
 
         public Ship(string name)
         {
@@ -34,7 +34,8 @@ namespace SpaceTrucker.Models
 
             this.Inventory = new List<Ore>();
 
-            // TODO: Hard code initial Inventory
+			// TODO: TEMP Hard code initial Inventory
+			Inventory.Add(Economy.ores[0]);
         }
 
         public void FlyToPlanet(Location newLocation, WarpFactor warp)

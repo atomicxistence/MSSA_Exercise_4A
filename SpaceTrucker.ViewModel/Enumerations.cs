@@ -11,8 +11,8 @@
 	{
 		NextItem,
 		PreviousItem,
-		NextTable,
-		PreviousTable,
+		IncreaseWarpFactor,
+		DecreaseWarpFactor,
 		Select,
 		Back,
 		Map,
@@ -25,9 +25,11 @@
 	public enum GameState
 	{
 		MainMenu,
-		Message,
-		FullMenuSelection,
-		Travel,
+		ConfirmationMenu,
+		GameMenu,
+		TravelMenu,
+		MarketMenu,
+		TransactionMenu,
 	}
 
 	public enum ViewScreenMode
@@ -48,6 +50,10 @@
 		Quit,
 		GoToTravel,
 		GoToTradeMarket,
+		GoToBuy,
+		GoToSell,
+		OreBuy,
+		OreSell,
 		PurchaseFuel,
 		BackMainMenu,
 		Planet,
