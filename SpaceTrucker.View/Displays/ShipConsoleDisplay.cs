@@ -50,8 +50,8 @@ namespace SpaceTrucker.View
 			var buttonCharacters = new List<string>
 			{
 				"M",
-				"I",
-				"T"
+				"T",
+				"W"
 			};
 
 			Console.BackgroundColor = Write.ColorSurfaceBG;

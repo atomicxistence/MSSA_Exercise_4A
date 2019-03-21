@@ -26,7 +26,7 @@ namespace SpaceTrucker.Models
             this.LifeSpan = 18250; // days
             this.Balance = 1000000; // Creds 
 
-            this.CurrentLocation = new Location(0, 0, "Earth"); 
+            this.CurrentLocation = new Location(0, 0, "Home", "Earth"); 
             this.FuelLevel = 100; // percentage 
             this.EngineTopSpeed = WarpFactor.WarpFive;
             this.WeaponSystemPower = WeaponSystem.Weak; 
@@ -37,22 +37,29 @@ namespace SpaceTrucker.Models
             // TODO: Hard code initial Inventory
         }
 
-        public Trip  FlyToPlanet(Location newLocation, WarpFactor warp)
+        public void FlyToPlanet(Location newLocation, WarpFactor warp)
         {
             Trip myTrip = new Trip(CurrentLocation, newLocation, warp);
 
+            if(myTrip.fuelUsage > 100 || FuelLevel < myTrip.fuelUsage)
+            {
+                throw new Exception("Fuel needed to complete trip exceeds tank capacity or current fuel level!");
+            }
+            else if (LifeSpan - myTrip.duration < 0)
+            {
+                throw new Exception("You won't make it before to your destination before rest maintenance is due!");
+            }
+               
             CurrentLocation = newLocation;
             LifeSpan -= myTrip.duration;
             FuelLevel -= myTrip.fuelUsage;
-
-            return myTrip;
         }
 
-        public Trip FlyToPlanet(Location newLocation) => FlyToPlanet(newLocation, EngineTopSpeed);
+        public void FlyToPlanet(Location newLocation) => FlyToPlanet(newLocation, EngineTopSpeed);
 
-		public Trip FlyToPlanet(Planet destination) => FlyToPlanet(destination.MyLocation);
+		public void FlyToPlanet(Planet destination) => FlyToPlanet(destination.MyLocation);
 
-		public Trip FlyToPlanet(Planet destination, WarpFactor warp) => FlyToPlanet(destination.MyLocation, warp);
+		public void FlyToPlanet(Planet destination, WarpFactor warp) => FlyToPlanet(destination.MyLocation, warp);
 
 		public void Buy(Ore o, int price)
         {
@@ -78,6 +85,20 @@ namespace SpaceTrucker.Models
             {
                 Inventory.Remove(o);
                 Balance += price;
+            }
+        }
+
+        public void Refuel(int price)
+        {
+            int topOff = price * (100 - FuelLevel);
+
+            if (Balance - topOff < 0)
+            {
+                throw new Exception($"Insuficient funds to Refuel.");
+            }
+            else
+            {
+                Balance -= topOff;
             }
         }
 

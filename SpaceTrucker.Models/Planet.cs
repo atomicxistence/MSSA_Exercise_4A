@@ -17,6 +17,8 @@ namespace SpaceTrucker.Models
 
         public bool hasUpgrade { get; }
 
+        public int fuelCost = 10;
+
         public Planet(string name, Location myLocation, string shortName="", Market myMarket = null, string description = "",  bool hasUpgrade = false)
         {
             this.Name = name;

@@ -394,7 +394,7 @@ namespace SpaceTrucker.Models
                     p.Description += "\nWe buy: \n";
                     foreach (var item in p.MyMarket.InDemandOres)
                     {
-                        p.Description += $"- {item.Key.name} (${ToKMB(item.Value)})\n";
+                        p.Description += $"- {item.Key.name} (฿{ToKMB(item.Value)})\n";
                     }
 
                     p.Description += "\nListed prices are per unit.";
@@ -454,7 +454,7 @@ namespace SpaceTrucker.Models
             
             foreach (var item in trends)
             {
-                str += $"{item.ore.name} (€{item.minPrice}-€{item.maxPrice}) \n{String.Join(", ", item.topSellers)} | {String.Join(", ", item.topBuyers)}\n";
+                str += $"{item.ore.name} (฿{item.minPrice}-฿{item.maxPrice}) \n{String.Join(", ", item.topSellers)} | {String.Join(", ", item.topBuyers)}\n";
             }
 
             return str;

@@ -32,8 +32,8 @@ namespace SpaceTrucker.View
 			PrintHUDTable();
 			PrintFuelCells(this, "▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌");
 			PrintLocation(this, "Earth              ");
-			PrintBalance(this, "€ 100,000,000,000");
-			PrintResetDays(this, "18,249 days");
+			PrintBalance(this, "฿1,000,000");
+			PrintResetDays(this, "18,250 days");
 		}
 
 		/// <summary>

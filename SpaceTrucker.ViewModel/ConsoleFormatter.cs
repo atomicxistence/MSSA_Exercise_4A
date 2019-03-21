@@ -30,7 +30,7 @@ namespace SpaceTrucker.ViewModel
 		internal string FormatBalance(int balance)
 		{
 			var maxBalanceLength = 17;
-			var currencyPrefix = "€ ";
+			var currencyPrefix = "฿ ";
 			var emptySpaceAmount = maxBalanceLength - (balance.ToString().Length + currencyPrefix.Length);
 
 			var sb = new StringBuilder(maxBalanceLength);

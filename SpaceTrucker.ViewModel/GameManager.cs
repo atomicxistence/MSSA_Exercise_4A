@@ -75,7 +75,8 @@ namespace SpaceTrucker.ViewModel
 					PerformSelection();		
 					break;
 				case ActionType.Back:
-					GoToPreviousMenu();
+                    previousSelection = currentSelection = 0;
+                    GoToPreviousMenu();
 					break;
 				case ActionType.NextTable:
 					//TODO: go to next market table
@@ -127,14 +128,20 @@ namespace SpaceTrucker.ViewModel
 					GameMenuSelections();
 					break;
 				case GameState.Market:
-					break;
+                    DisplaySelectedPlanetMarket();
+                    break;
 				case GameState.Travel:
 					TravelToSelectedPlanet();
 					break;
 			}
 		}
 
-		private void GoToPreviousMenu()
+        private void DisplaySelectedPlanetMarket()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GoToPreviousMenu()
 		{
 			switch (CurrentGameState)
 			{
