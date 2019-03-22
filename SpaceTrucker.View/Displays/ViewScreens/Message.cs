@@ -70,10 +70,10 @@ namespace SpaceTrucker.View
 			Console.ForegroundColor = Write.ColorDisplayTable;
 
 			Console.SetCursorPosition(origin.X, origin.Y);
-			Console.Write("└─                                              ─┘");
+			Console.Write("╰─                                              ─╯");
 
 			Console.SetCursorPosition(origin.X, origin.Y - messageBoxHeight);
-			Console.Write("┌─                                              ─┐");
+			Console.Write("╭─                                              ─╮");
 		}
 	}
 }

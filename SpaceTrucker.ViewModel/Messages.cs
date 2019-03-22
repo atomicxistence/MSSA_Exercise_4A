@@ -4,10 +4,10 @@ namespace SpaceTrucker.ViewModel
 {
 	class Messages
 	{
-		      //|---------- Max Length of Message Box ---------|
+		//|---------- Max Length of Message Box ---------|
 
 		internal static List<string[]> narrative = new List<string[]>
-		{	  
+		{
 			new string[]
 			{
 				"> Incoming Transmission:                      ",
@@ -80,5 +80,15 @@ namespace SpaceTrucker.ViewModel
 				"> End Transmission_                           ",
 			}
 		};
+
+		internal static string[] errorPlanetNoShop = new string[]
+			{
+				"> Error Message:                              ",
+				" -------------------------------------------- ",
+				" This planet does not have a trade market.    ",
+				" Charge your fuel cells and continue on your  ",
+				" route.                                       ",
+				"> End Message_                                ",
+			};
 	}
 }
