@@ -42,6 +42,7 @@ namespace SpaceTrucker.ViewModel
 
 		private bool thresholdLowAlert = true;
 		private bool thresholdHighAlert = true;
+		private bool gameStart = true;
 		private int thresholdWinBalance = 1000000000;
 		private int thresholdLowBalance = 1500;
 		private int thresholdHighBalance = 700000000;
@@ -165,17 +166,23 @@ namespace SpaceTrucker.ViewModel
 			}
 
 			// check if balance is above positive threshold -> positive message
-			if (player.MyShip.Balance < thresholdHighBalance)
+			if (player.MyShip.Balance < thresholdHighBalance && thresholdHighAlert)
 			{
 				thresholdHighAlert = true;
 			}
-			if (player.MyShip.Balance > thresholdHighBalance)
+			if (player.MyShip.Balance > thresholdHighBalance && thresholdHighAlert)
 			{
 				CurrentViewMode = ViewScreenMode.Message;
 				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[3]);
 				thresholdHighAlert = false;
 			}
-			// check if days are at ??? -> narrative injection message
+			// TODO: check if days are at ??? -> narrative injection message
+			if (gameStart && player.MyShip.LifeSpan == 18249 && CurrentGameState == GameState.GameMenu)
+			{
+				CurrentViewMode = ViewScreenMode.Message;
+				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
+				gameStart = false;
+			}
 
 			return false;
 		}
