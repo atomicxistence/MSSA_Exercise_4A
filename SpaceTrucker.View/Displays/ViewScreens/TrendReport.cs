@@ -100,10 +100,10 @@ namespace SpaceTrucker.View
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.ForegroundColor = Write.ColorDisplayFG;
                 }
 
-                Console.SetCursorPosition(origin.X + 3, origin.Y - 22 + i);
+                Console.SetCursorPosition(origin.X + 3, origin.Y - 21 + i);
                 Console.Write(trendReport[i]);
             }
         }
