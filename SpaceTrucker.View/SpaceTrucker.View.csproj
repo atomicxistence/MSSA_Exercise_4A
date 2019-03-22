@@ -49,7 +49,7 @@
     <Compile Include="Displays\ViewScreens\Map.cs" />
     <Compile Include="Displays\ViewScreens\TrendReport.cs" />
     <Compile Include="Displays\ViewScreens\Market.cs" />
-    <Compile Include="TravelAnimation.cs" />
+    <Compile Include="Displays\ViewScreens\TravelAnimation.cs" />
     <Compile Include="Utilities\Coord.cs" />
     <Compile Include="Displays\DisplayManager.cs" />
     <Compile Include="Displays\HeadsUpDisplay.cs" />

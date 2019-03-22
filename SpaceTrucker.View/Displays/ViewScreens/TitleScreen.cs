@@ -67,5 +67,22 @@ namespace SpaceTrucker.View
 				Console.Write(title[i]);
 			}
 		}
+
+		private void PrintHotKeys()
+		{
+			var hotKeys = new string[]
+			{
+				" ",
+			};
+
+			Console.ForegroundColor = Write.ColorDefaultFG;
+			Console.BackgroundColor = Write.ColorDisplayBG;
+
+			for (int i = 0; i < title.Length; i++)
+			{
+				Console.SetCursorPosition(origin.X + , origin.Y - 10 + i);
+				Console.Write(hotKeys[i]);
+			}
+		}
 	}
 }
