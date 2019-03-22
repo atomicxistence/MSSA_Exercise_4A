@@ -98,11 +98,17 @@ namespace SpaceTrucker.ViewModel
                 var emptySpace = priceOffsetX - item.ore.name.Length + 1;
                 sb.Append(item.ore.name).Append(' ', emptySpace);
 
-                var priceRange = $"{currencyPrefix}{item.minPrice} - {currencyPrefix}{item.maxPrice}";
-                emptySpace = priceOffsetX - priceRange.Length;
                 sb.Append('│', 1).Append(' ', 1);
 
-                sb.Append(priceRange).Append(' ', emptySpace);
+                var priceMin = $"{currencyPrefix}{item.minPrice}";
+                var priceMax = $"{currencyPrefix}{item.maxPrice}";
+                
+                emptySpace = 6 - priceMin.Length;
+                sb.Append(priceMin).Append(' ', emptySpace);
+                sb.Append('-', 1).Append(' ', 1);
+
+                emptySpace = 8 - priceMax.Length;
+                sb.Append(priceMax).Append(' ', emptySpace);
                 sb.Append('│', 1).Append(' ', 1);
 
                 foreach (var seller in item.topSellers)
