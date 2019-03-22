@@ -20,21 +20,6 @@ namespace SpaceTrucker.View
 			}
 		}
 
-		public string AwaitUserTypeResponse(int maxStringLength)
-		{
-			Console.CursorVisible = true;
-			var input = Console.ReadLine();
-			Console.CursorVisible = false;
-
-			if (input.Length > maxStringLength)
-			{
-				//TODO: is this the right way to throw an exception???
-				throw new Exception($"{maxStringLength} max characters: {input.Length} given");
-			}
-
-			return input;
-		}
-
 		private ActionType FullSelection(ConsoleKey input)
 		{
 			switch (input)

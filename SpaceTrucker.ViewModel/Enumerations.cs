@@ -25,7 +25,7 @@
 	public enum GameState
 	{
 		MainMenu,
-		ConfirmationMenu,
+		QuitMenu,
 		GameMenu,
 		TravelMenu,
 		MarketMenu,
@@ -40,6 +40,7 @@
 		TrendReport,
 		Market,
 		Message,
+		TravelAnimation,
 	}
 
 	public enum OptionType

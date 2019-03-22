@@ -166,7 +166,7 @@ namespace SpaceTrucker.ViewModel
 			}
 
 			// check if balance is above positive threshold -> positive message
-			if (player.MyShip.Balance < thresholdHighBalance && thresholdHighAlert)
+			if (player.MyShip.Balance < thresholdHighBalance)
 			{
 				thresholdHighAlert = true;
 			}
@@ -218,7 +218,8 @@ namespace SpaceTrucker.ViewModel
 				case GameState.MainMenu:
 					MainMenuSelection();
 					break;
-				case GameState.ConfirmationMenu:
+				case GameState.QuitMenu:
+					QuitMenuSelection();
 					break;
 				case GameState.GameMenu:
 					GameMenuSelection();
@@ -240,9 +241,14 @@ namespace SpaceTrucker.ViewModel
 			switch (CurrentGameState)
 			{
 				case GameState.MainMenu:
-					//TODO: go to quit prompt
+					CurrentGameState = GameState.QuitMenu;
+					menuOptions = menuFactory.CreateConfirmationMenu("Are you sure you want to quit?");
+					ChangeMenu();
 					break;
-				case GameState.ConfirmationMenu:
+				case GameState.QuitMenu:
+					CurrentGameState = GameState.MainMenu;
+					menuOptions = menuFactory.CreateMainMenu();
+					ChangeMenu();
 					break;
 				case GameState.GameMenu:
 					CurrentGameState = GameState.MainMenu;
@@ -281,6 +287,24 @@ namespace SpaceTrucker.ViewModel
 					// TODO: save the game to JSON
 					break;
 				case OptionType.Quit:
+					CurrentGameState = GameState.QuitMenu;
+					menuOptions = menuFactory.CreateConfirmationMenu("Are you sure you want to quit?");
+					ChangeMenu();
+					break;
+			}
+		}
+
+		private void QuitMenuSelection()
+		{
+			switch (menuOptions.Options[currentSelection].OptionType)
+			{
+				case OptionType.Yes:
+					Environment.Exit(0);
+					break;
+				case OptionType.No:
+					CurrentGameState = GameState.MainMenu;
+					menuOptions = menuFactory.CreateMainMenu();
+					ChangeMenu();
 					break;
 			}
 		}

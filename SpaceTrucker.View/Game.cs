@@ -45,7 +45,7 @@ namespace SpaceTrucker.View
 			switch (currentGameState)
 			{
 				case GameState.MainMenu:
-				case GameState.ConfirmationMenu:
+				case GameState.QuitMenu:
 					return input.AwaitUserKeyResponse(InputRequestType.MenuOnly);
 				case GameState.MarketMenu:
 				case GameState.TransactionMenu:
