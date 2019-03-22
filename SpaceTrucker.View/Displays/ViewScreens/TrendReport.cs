@@ -15,6 +15,8 @@ namespace SpaceTrucker.View
 		{
 			this.eventBroadcaster = eventBroadcaster;
             this.eventBroadcaster.TrendReport += PrintTrendReport;
+
+            
         }
 
         public void EventUnsubscribe() {;}
@@ -86,12 +88,22 @@ namespace SpaceTrucker.View
 
         private void PrintTrendReport(object sender, string[] trendReport)
         {
-            Console.ForegroundColor = Write.ColorDefaultFG;
+            
             Console.BackgroundColor = Write.ColorDisplayBG;
 
             for (int i = 0; i < trendReport.Length; i++)
             {
-                Console.SetCursorPosition(origin.X + 3, origin.Y - 21 + i);
+                if (i % 2 == 0)
+                {
+                    Console.ForegroundColor = Write.ColorDefaultFG;
+                    
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                }
+
+                Console.SetCursorPosition(origin.X + 3, origin.Y - 22 + i);
                 Console.Write(trendReport[i]);
             }
         }
