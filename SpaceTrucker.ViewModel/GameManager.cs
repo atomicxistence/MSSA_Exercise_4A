@@ -84,11 +84,13 @@ namespace SpaceTrucker.ViewModel
 				case ActionType.IncreaseWarpFactor:
 					//TODO: increase current warp factor
 					//TODO: event display current warp factor
+					CurrentViewMode = ViewScreenMode.Message;
 					eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
 					break;
 				case ActionType.DecreaseWarpFactor:
 					//TODO: decrease current warp factor
 					//TODO: event display current warp factor
+					CurrentViewMode = ViewScreenMode.Message;
 					eventBroadcaster.SendMessageToViewScreen(Messages.narrative[1]);
 					break;
 				case ActionType.Map:

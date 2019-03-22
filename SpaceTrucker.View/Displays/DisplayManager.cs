@@ -29,9 +29,11 @@ namespace SpaceTrucker.View
 
 		private Coord displayOrigin;
 		private Coord currentWindowSize;
+
 		#endregion
 
 		#region Public Methods
+
 		public DisplayManager(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
@@ -48,6 +50,7 @@ namespace SpaceTrucker.View
 				CompleteRefresh();
 			}
 		}
+
 		#endregion
 
 		#region Private Methods

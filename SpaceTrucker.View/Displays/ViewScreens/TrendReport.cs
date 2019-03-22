@@ -15,8 +15,6 @@ namespace SpaceTrucker.View
 		{
 			this.eventBroadcaster = eventBroadcaster;
             this.eventBroadcaster.TrendReport += PrintTrendReport;
-
-            
         }
 
         public void EventUnsubscribe() {;}
@@ -24,9 +22,9 @@ namespace SpaceTrucker.View
         public void EventSubscribe(){;}
         
 
-            public void CompleteRefresh(Coord shipConsoleOrigin)
+        public void CompleteRefresh(Coord shipConsoleOrigin)
 		{
-			int offsetX = 3;
+			int offsetX = 2;
 			int offsetY = 18;
 			origin = new Coord(shipConsoleOrigin.X + offsetX, shipConsoleOrigin.Y - offsetY);
             PrintTrendReportTable();
@@ -36,41 +34,42 @@ namespace SpaceTrucker.View
 		{
             var table = new string[]
             {
-                "                                     ╭─                          ─╮                                     ",
-                "                                        TOP SECRET: TREND REPORT                                        ",
-                "                                     ╰─                          ─╯                                     ",
-                "                                                                                                        ",
-                "╭──────────────────┬─────────────────┬────────────────────────────────┬────────────────────────────────╮",
-                "│ Item             │   Price Range   │          Top 3 Sellers         │          Top 3 Buyers          │",
-                "├──────────────────┼─────────────────┼──────────┬──────────┬──────────┼──────────┬──────────┬──────────┤",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "│                  │                 │          │          │          │          │          │          │",
-                "╰──────────────────┴─────────────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────╯",
-                " ╭─                                                                                                   ─╮",
-                "   Important Note:                                                                                      ",
-                "                                                                                                        ",
-                " ╰─                                                                                                   ─╯",
-            };
+				"                                                                                                          ",
+				"                                      ╭─                          ─╮                                      ",
+                "                                         TOP SECRET: TREND REPORT                                         ",
+                "                                      ╰─                          ─╯                                      ",
+                "                                                                                                          ",
+                " ╭──────────────────┬─────────────────┬────────────────────────────────┬────────────────────────────────╮ ",
+                " │ Item             │   Price Range   │          Top 3 Sellers         │          Top 3 Buyers          │ ",
+                " ├──────────────────┼─────────────────┼──────────┬──────────┬──────────┼──────────┬──────────┬──────────┤ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " │                  │                 │          │          │          │          │          │          │ ",
+                " ╰──────────────────┴─────────────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────╯ ",
+                "  ╭─                                                                                                   ─╮ ",
+                "    Important Note:                                                                                       ",
+                "                                                                                                          ",
+                "  ╰─                                                                                                   ─╯ ",
+			};
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.BackgroundColor = Write.ColorDisplayBG;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Console.SetCursorPosition(origin.X, origin.Y - 29 + i);
                 Console.Write(table[i]);
@@ -92,7 +91,7 @@ namespace SpaceTrucker.View
 
             for (int i = 0; i < trendReport.Length; i++)
             {
-                Console.SetCursorPosition(origin.X + 2, origin.Y - 22 + i);
+                Console.SetCursorPosition(origin.X + 3, origin.Y - 21 + i);
                 Console.Write(trendReport[i]);
             }
         }
