@@ -274,27 +274,27 @@ namespace SpaceTrucker.ViewModel
 					try
 					{
 						ores = FormatTransactionList(currentPlanet.MyMarket.OfferedOresWithoutQty());
+						prompt = $"{currentPlanet.Name} is currently selling...";
+						DisplayTransactionMenu(ores, prompt, OptionType.OreBuy);
 					}
 					catch (NullReferenceException)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
 						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
 					}
-					prompt = $"{currentPlanet.Name} is currently selling...";
-					DisplayTransactionMenu(ores, prompt, OptionType.OreBuy);
 					break;
 				case OptionType.GoToSell:
 					try
 					{
 						ores = FormatTransactionList(currentPlanet.MyMarket.InDemandOres);
+						prompt = $"{currentPlanet.Name} is currently buying...";
+						DisplayTransactionMenu(ores, prompt, OptionType.OreSell);
 					}
 					catch (NullReferenceException)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
 						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
 					}
-					prompt = $"{currentPlanet.Name} is currently buying...";
-					DisplayTransactionMenu(ores, prompt, OptionType.OreSell);
 					break;
 			}
 		}

@@ -52,6 +52,7 @@ namespace SpaceTrucker.View
 			}
 
 			Console.Beep(1000, 20);
+			Thread.Sleep(20);
 			Console.Beep(1200, 10);
 		}
 

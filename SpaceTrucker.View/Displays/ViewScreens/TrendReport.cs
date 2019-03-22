@@ -68,7 +68,7 @@ namespace SpaceTrucker.View
                 "  ╰─                                                                                                   ─╯ ",
 			};
 
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = Write.ColorMessageFG;
             Console.BackgroundColor = Write.ColorDisplayBG;
 
             for (int i = 0; i < 5; i++)

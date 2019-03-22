@@ -8,6 +8,7 @@ namespace SpaceTrucker.View
 		static void Main(string[] args)
 		{
 			Console.OutputEncoding = System.Text.Encoding.Unicode;
+			Console.Title = "    Space Trucker    |      Jeff Adams & Sam Amara";
 
 			new Game().Run();
 		}

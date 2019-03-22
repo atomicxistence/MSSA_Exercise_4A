@@ -116,6 +116,7 @@ namespace SpaceTrucker.View
 			Console.CursorVisible = false;
 
 			CenterConsoleWindow();
+
 			foreach (var display in displays)
 			{
 				display.InitialRefresh(displayOrigin);
