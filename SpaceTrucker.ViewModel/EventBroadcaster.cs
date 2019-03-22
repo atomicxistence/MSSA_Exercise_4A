@@ -21,6 +21,7 @@ namespace SpaceTrucker.ViewModel
 		public event EventHandler<string> FuelCells;
 		public event EventHandler<string> Balance;
 		public event EventHandler<string> Location;
+		public event EventHandler<int> Warp;
 		public event EventHandler<string> ResetDays;
 		#endregion
 
@@ -58,6 +59,11 @@ namespace SpaceTrucker.ViewModel
 		internal void ChangeLocation(string planetName)
 		{
 			Location?.Invoke(this, planetName);
+		}
+
+		internal void ChangeWarpFactor(int warpFactor)
+		{
+			Warp?.Invoke(this, warpFactor);
 		}
 
 		internal void ChangeResetDays(string remainingDays)

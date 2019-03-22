@@ -10,6 +10,7 @@ namespace SpaceTrucker.ViewModel
 	{
 		private ViewScreenMode _currentViewMode = ViewScreenMode.TitleScreen;
 		private GameState _currentGameState = GameState.MainMenu;
+		private int _currentWarpFactor = 5;
 		
 		internal ViewScreenMode CurrentViewMode
 		{
@@ -29,8 +30,21 @@ namespace SpaceTrucker.ViewModel
 				eventBroadcaster.ChangeGameState(_currentGameState);
 			}
 		}
+		internal int CurrentWarpFactor
+		{
+			get => _currentWarpFactor;
+			set
+			{
+				_currentWarpFactor = value;
+				eventBroadcaster.ChangeWarpFactor(_currentWarpFactor);
+			}
+		}
 
 		private bool thresholdLowAlert = true;
+		private bool thresholdHighAlert = true;
+		private int thresholdWinBalance = 1000000000;
+		private int thresholdLowBalance = 1500;
+		private int thresholdHighBalance = 700000000;
 
 		private int previousSelection;
 		private int currentSelection = 0;
@@ -84,16 +98,16 @@ namespace SpaceTrucker.ViewModel
                     GoToPreviousMenu();
 					break;
 				case ActionType.IncreaseWarpFactor:
-					//TODO: increase current warp factor
-					//TODO: event display current warp factor
-					CurrentViewMode = ViewScreenMode.Message;
-					eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
+					if (CurrentWarpFactor + 1 <= (int)player.MyShip.EngineTopSpeed)
+					{
+						CurrentWarpFactor += 1;
+					}
 					break;
 				case ActionType.DecreaseWarpFactor:
-					//TODO: decrease current warp factor
-					//TODO: event display current warp factor
-					CurrentViewMode = ViewScreenMode.Message;
-					eventBroadcaster.SendMessageToViewScreen(Messages.narrative[1]);
+					if (CurrentWarpFactor - 1 > 0)
+					{
+						CurrentWarpFactor -= 1;
+					}
 					break;
 				case ActionType.Map:
 					CurrentViewMode = ViewScreenMode.Map;
@@ -131,27 +145,35 @@ namespace SpaceTrucker.ViewModel
 				return true;
 			}
 			// check if balance is above winning threshold -> game over (win)
-			if (player.MyShip.Balance > 1000000000)
+			if (player.MyShip.Balance >= thresholdWinBalance)
 			{
 				CurrentViewMode = ViewScreenMode.Message;
 				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[6]);
 				return true;
 			}
+
 			// check if balance is below negative threshold -> warning message
-			if (player.MyShip.Balance > 1500)
+			if (player.MyShip.Balance > thresholdLowBalance)
 			{
 				thresholdLowAlert = true;
 			}
-			if (player.MyShip.Balance < 1500 && thresholdLowAlert)
+			if (player.MyShip.Balance < thresholdLowBalance && thresholdLowAlert)
 			{
 				CurrentViewMode = ViewScreenMode.Message;
 				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[2]);
 				thresholdLowAlert = false;
 			}
-			// check if balance is above positive threshold -> positive message
-			if (player.MyShip.Balance > 700000000)
-			{
 
+			// check if balance is above positive threshold -> positive message
+			if (player.MyShip.Balance < thresholdHighBalance)
+			{
+				thresholdHighAlert = true;
+			}
+			if (player.MyShip.Balance > thresholdHighBalance)
+			{
+				CurrentViewMode = ViewScreenMode.Message;
+				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[3]);
+				thresholdHighAlert = false;
 			}
 			// check if days are at ??? -> narrative injection message
 

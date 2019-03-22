@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
@@ -15,6 +16,7 @@ namespace SpaceTrucker.View
 		private string _location = " ";
 		private string _balance = " ";
 		private string _resetDays = " ";
+		private int _warp = 5;
 
 
 		public HeadsUpDisplay(EventBroadcaster eventBroadcaster)
@@ -24,6 +26,7 @@ namespace SpaceTrucker.View
 			eventBroadcaster.FuelCells += PrintFuelCells;
 			eventBroadcaster.Location += PrintLocation;
 			eventBroadcaster.Balance += PrintBalance;
+			eventBroadcaster.Warp += PrintWarpFactor;
 			eventBroadcaster.ResetDays += PrintResetDays;
 		}
 
@@ -39,6 +42,7 @@ namespace SpaceTrucker.View
 			PrintFuelCells(this, _fuelLevel);
 			PrintLocation(this, _location);
 			PrintBalance(this, _balance);
+			PrintWarpFactor(this, _warp);
 			PrintResetDays(this, _resetDays);
 		}
 
@@ -94,6 +98,24 @@ namespace SpaceTrucker.View
 		}
 
 		/// <summary>
+		/// Displays the current warp factor
+		/// </summary>
+		/// <param name="warp">provide an index of the current warp factor</param>
+		public void PrintWarpFactor(object sender, int warp)
+		{
+			_warp = warp;
+
+			var totalSpace = 16;
+			var warpOffsetX = warp + 1;
+			var warpOrigin = new Coord(origin.X + 13 + warpOffsetX, origin.Y - 4);
+
+			var sb = new StringBuilder();
+			sb.Append(' ', warpOffsetX).Append(Write.WarpIndicator).Append(' ', totalSpace - warpOffsetX);
+
+			PrintOverlay(warpOrigin, sb.ToString());
+		}
+
+		/// <summary>
 		/// Displays the current number of days until reset
 		/// </summary>
 		/// <param name="resetDays">11 characters needed, ending with " days"</param>
@@ -140,9 +162,9 @@ namespace SpaceTrucker.View
 					"│ Location:                            │",
 					"├──────────────────────────────────────┤",
 					"│ Balance:                             │",
-					"│                                      │",
-					"│                                      │",
-					"│                                      │",
+					"├──────────────────────────────────────┤",
+					"│ Warp Factor ┌  1 2 3 4 5 6 7 8 9  ┐  │",
+					"│             └                     ┘  │",
 					"│                                      │",
 					"│ -----------------------------------  │",
 					"│ Scheduled Reset in                   │",

@@ -23,6 +23,7 @@ namespace SpaceTrucker.View
 		public static ConsoleColor ColorUrgentFuel => ConsoleColor.Red;
 
 		public static string SelectionIndicator => " ► ";
+		public static string WarpIndicator => "▲";
 
 		public static void EmptySpace(int width)
 		{
