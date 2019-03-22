@@ -43,6 +43,10 @@ namespace SpaceTrucker.View
 					return ActionType.NextItem;
 				case ConsoleKey.UpArrow:
 					return ActionType.PreviousItem;
+				case ConsoleKey.RightArrow:
+					return ActionType.IncreaseWarpFactor;
+				case ConsoleKey.LeftArrow:
+					return ActionType.DecreaseWarpFactor;
 				case ConsoleKey.Enter:
 					return ActionType.Select;
 				case ConsoleKey.M:

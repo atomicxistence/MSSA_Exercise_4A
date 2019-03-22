@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Threading;
 using SpaceTrucker.ViewModel;
 
 namespace SpaceTrucker.View
@@ -48,7 +48,11 @@ namespace SpaceTrucker.View
 			{
 				Console.SetCursorPosition(origin.X + 2, origin.Y - messageBoxHeight + 2 + i);
 				Console.Write(message[i]);
+				Thread.Sleep(100);
 			}
+
+			Console.Beep(1000, 20);
+			Console.Beep(1200, 10);
 		}
 
 		private void PrintMessageBox()

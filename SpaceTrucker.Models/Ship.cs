@@ -61,7 +61,7 @@ namespace SpaceTrucker.Models
 
         public void Buy(Ore o, int price)
         {
-            if (Inventory?.Count > (int)MaxCapacity)
+            if (Inventory?.Count >= (int)MaxCapacity)
             {
                 throw new Exception($"You cannot buy more than {(int)MaxCapacity} items.");
             }
