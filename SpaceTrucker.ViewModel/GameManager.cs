@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SpaceTrucker.Models;
@@ -99,6 +100,7 @@ namespace SpaceTrucker.ViewModel
 					break;
 				case ActionType.TrendReport:
 					CurrentViewMode = ViewScreenMode.TrendReport;
+                    DisplayTrendReport();
 					break;
 				case ActionType.Quit:
 					//TODO: bring up verification menu
@@ -106,9 +108,10 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-		#region Private Methods
 
-		private void ChangeMenuSelections()
+        #region Private Methods
+
+        private void ChangeMenuSelections()
 		{
 			menuOptions.Options[previousSelection].IsSelected = false;
 			menuOptions.Options[currentSelection].IsSelected = true;
@@ -293,9 +296,14 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Utilities
+        #region Utilities
+
+        private void DisplayTrendReport()
+        {
+            eventBroadcaster.UpdateTrendReport(console.FormatTrendReport(Economy.trends));
+        }
 
 		private void DisplayCurrentMarketInfo()
 		{

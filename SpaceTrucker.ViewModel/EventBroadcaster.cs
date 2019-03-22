@@ -12,7 +12,9 @@ namespace SpaceTrucker.ViewModel
 
 		public event EventHandler<IMenu> Menu;
 
-		public event EventHandler<string[]> MarketBuy;
+        public event EventHandler<string[]> TrendReport;
+
+        public event EventHandler<string[]> MarketBuy;
 		public event EventHandler<string[]> MarketSell;
 		public event EventHandler<string[]> MarketInventory;
 
@@ -77,6 +79,11 @@ namespace SpaceTrucker.ViewModel
 		{
 			MarketInventory?.Invoke(this, marketInventoryTable);
 		}
-		#endregion
-	}
+
+        internal void UpdateTrendReport(string[] trendReport)
+        {
+            TrendReport?.Invoke(this, trendReport);
+        }
+        #endregion
+    }
 }
