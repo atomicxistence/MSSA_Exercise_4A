@@ -23,7 +23,7 @@ namespace SpaceTrucker.Models
         public Ship(string name)
         {
             this.Name = name;
-            this.LifeSpan = 18250; // days
+            this.LifeSpan = 18249; // days
             this.Balance = 1000000; // Creds 
 
             this.CurrentLocation = new Location(0, 0, "Home", "Earth");

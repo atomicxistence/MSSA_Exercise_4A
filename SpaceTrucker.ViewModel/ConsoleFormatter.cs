@@ -50,7 +50,7 @@ namespace SpaceTrucker.ViewModel
             var emptySpaceAmount = maxDaysRemaining - (daysRemaining.ToString().Length + daysPostfix.Length);
 
             var sb = new StringBuilder(maxDaysRemaining);
-            sb.Append(daysRemaining.ToString()).Append(' ', emptySpaceAmount);
+            sb.Append(daysRemaining.ToString("N0")).Append(daysPostfix).Append(' ', emptySpaceAmount);
 
             return sb.ToString();
         }
