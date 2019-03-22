@@ -30,6 +30,8 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
+		private bool thresholdLowAlert = true;
+
 		private int previousSelection;
 		private int currentSelection = 0;
 		private IMenu menuOptions;
@@ -118,6 +120,43 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
+		public bool GameOver()
+		{
+			// check if days are below threshold -> game over (loss)
+			// check if balance is below losing threshold -> game over (loss)
+			if (player.MyShip.LifeSpan < 1 || player.MyShip.Balance <= 0)
+			{
+				CurrentViewMode = ViewScreenMode.Message;
+				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[5]);
+				return true;
+			}
+			// check if balance is above winning threshold -> game over (win)
+			if (player.MyShip.Balance > 1000000000)
+			{
+				CurrentViewMode = ViewScreenMode.Message;
+				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[6]);
+				return true;
+			}
+			// check if balance is below negative threshold -> warning message
+			if (player.MyShip.Balance > 1500)
+			{
+				thresholdLowAlert = true;
+			}
+			if (player.MyShip.Balance < 1500 && thresholdLowAlert)
+			{
+				CurrentViewMode = ViewScreenMode.Message;
+				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[2]);
+				thresholdLowAlert = false;
+			}
+			// check if balance is above positive threshold -> positive message
+			if (player.MyShip.Balance > 700000000)
+			{
+
+			}
+			// check if days are at ??? -> narrative injection message
+
+			return false;
+		}
 
         #region Private Methods
 
@@ -251,16 +290,23 @@ namespace SpaceTrucker.ViewModel
 
 		private void TravelMenuSelection()
 		{
-			currentPlanet = closestPlanets.Keys.ElementAt(currentSelection);
-			player.MyShip.FlyToPlanet(currentPlanet);
-			eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
-			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
-			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
+			try
+			{
+				currentPlanet = closestPlanets.Keys.ElementAt(currentSelection);
+				player.MyShip.FlyToPlanet(currentPlanet);
+				eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
+				eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+				eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
 
-
-			menuOptions = menuFactory.CreateGameMenu();
-			CurrentGameState = GameState.GameMenu;
-			ChangeMenu();
+				menuOptions = menuFactory.CreateGameMenu();
+				CurrentGameState = GameState.GameMenu;
+				ChangeMenu();
+			}
+			catch (Exception)
+			{
+				CurrentViewMode = ViewScreenMode.Message;
+				eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
+			}
 		}
 
 		private void BuySellSelection()
@@ -308,10 +354,18 @@ namespace SpaceTrucker.ViewModel
 			{
 
 				case OptionType.OreBuy:
-					var buyList = currentPlanet.MyMarket.OfferedOresWithoutQty();
-					selectedOre = buyList.ElementAt(currentSelection);
-					player.MyShip.Buy(selectedOre.Key, selectedOre.Value);
-					UpdateAfterTransaction();
+					try
+					{
+						var buyList = currentPlanet.MyMarket.OfferedOresWithoutQty();
+						selectedOre = buyList.ElementAt(currentSelection);
+						player.MyShip.Buy(selectedOre.Key, selectedOre.Value);
+						UpdateAfterTransaction();
+					}
+					catch (Exception)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorInventoryFull);
+					}
 					break;
 				case OptionType.OreSell:
 					var sellList = currentPlanet.MyMarket.InDemandOres;

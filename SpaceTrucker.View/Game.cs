@@ -36,6 +36,7 @@ namespace SpaceTrucker.View
 				} while (action == ActionType.Invalid);
 
 				gm.ActionUserInput(action);
+				gm.GameOver();
 			}
 		}
 

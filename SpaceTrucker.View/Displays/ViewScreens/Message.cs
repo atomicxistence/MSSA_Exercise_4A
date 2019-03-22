@@ -14,7 +14,7 @@ namespace SpaceTrucker.View
 		private string[] message;
 
 		private int messageBoxWidth = 50;
-		private int messageBoxHeight = 10;
+		private int messageBoxHeight = 12;
 
 		public Message(EventBroadcaster eventBroadcaster)
 		{
@@ -46,9 +46,13 @@ namespace SpaceTrucker.View
 
 			for (int i = 0; i < message.Length; i++)
 			{
-				Console.SetCursorPosition(origin.X + 2, origin.Y - messageBoxHeight + 2 + i);
+				Console.SetCursorPosition(origin.X + 2, origin.Y - messageBoxHeight + 1 + i);
 				Console.Write(message[i]);
-				Thread.Sleep(100);
+
+				if (i > 2 && i < message.Length - 1)
+				{
+					Thread.Sleep(500);
+				}
 			}
 
 			Console.Beep(1000, 20);
