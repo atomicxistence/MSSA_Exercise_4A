@@ -98,7 +98,15 @@ namespace SpaceTrucker.ViewModel
 					break;
 				case ActionType.Market:
 					CurrentViewMode = ViewScreenMode.Market;
-					DisplayCurrentMarketInfo();
+					try
+					{
+						DisplayCurrentMarketInfo();
+					}
+					catch (NullReferenceException)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+					}
 					break;
 				case ActionType.TrendReport:
 					CurrentViewMode = ViewScreenMode.TrendReport;
@@ -257,18 +265,34 @@ namespace SpaceTrucker.ViewModel
 
 		private void BuySellSelection()
 		{
-			List<string> ores;
+			List<string> ores = new List<string> { "" };
 			string prompt;
 
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
 				case OptionType.GoToBuy:
-					ores = FormatTransactionList(currentPlanet.MyMarket.OfferedOresWithoutQty());
+					try
+					{
+						ores = FormatTransactionList(currentPlanet.MyMarket.OfferedOresWithoutQty());
+					}
+					catch (NullReferenceException)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+					}
 					prompt = $"{currentPlanet.Name} is currently selling...";
 					DisplayTransactionMenu(ores, prompt, OptionType.OreBuy);
 					break;
 				case OptionType.GoToSell:
-					ores = FormatTransactionList(currentPlanet.MyMarket.InDemandOres);
+					try
+					{
+						ores = FormatTransactionList(currentPlanet.MyMarket.InDemandOres);
+					}
+					catch (NullReferenceException)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+					}
 					prompt = $"{currentPlanet.Name} is currently buying...";
 					DisplayTransactionMenu(ores, prompt, OptionType.OreSell);
 					break;
