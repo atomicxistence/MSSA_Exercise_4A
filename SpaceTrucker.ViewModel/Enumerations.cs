@@ -22,7 +22,7 @@
 		Invalid,
 	}
 
-	public enum GameState
+	public enum MenuState
 	{
 		MainMenu,
 		QuitMenu,

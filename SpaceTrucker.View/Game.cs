@@ -9,7 +9,7 @@ namespace SpaceTrucker.View
 		private EventBroadcaster eventBroadcaster;
 		private GameManager gm;
 
-		private GameState currentGameState = GameState.MainMenu;
+		private MenuState currentGameState = MenuState.MainMenu;
 
 		public Game()
 		{
@@ -40,24 +40,24 @@ namespace SpaceTrucker.View
 			}
 		}
 
-		private ActionType GetUserInput(GameState currentGameState)
+		private ActionType GetUserInput(MenuState currentGameState)
 		{
 			switch (currentGameState)
 			{
-				case GameState.MainMenu:
-				case GameState.QuitMenu:
+				case MenuState.MainMenu:
+				case MenuState.QuitMenu:
 					return input.AwaitUserKeyResponse(InputRequestType.MenuOnly);
-				case GameState.MarketMenu:
-				case GameState.TransactionMenu:
-				case GameState.GameMenu:
-				case GameState.TravelMenu:
+				case MenuState.MarketMenu:
+				case MenuState.TransactionMenu:
+				case MenuState.GameMenu:
+				case MenuState.TravelMenu:
 					return input.AwaitUserKeyResponse(InputRequestType.FullSelectionInput);
 				default:
 					return ActionType.Invalid;
 			}
 		}
 
-		private void ChangeGameState(object sender, GameState nextGameState)
+		private void ChangeGameState(object sender, MenuState nextGameState)
 		{
 			currentGameState = nextGameState;
 		}

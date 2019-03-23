@@ -38,11 +38,11 @@ namespace SpaceTrucker.View
             {
 				"                                                                                                          ",
                 "                                      ┌─                          ─┐                                      ",
-                "                                         TOP SECRET: TREND REPORT                                         ",
+                "                                        CONFIDENTIAL: TREND REPORT                                        ",
                 "                                      └─                          ─┘                                      ",
                 "                                                                                                          ",
                 " ╭──────────────────┬─────────────────┬────────────────────────────────┬────────────────────────────────╮ ",
-                " │ Item             │   Price Range   │          Top 3 Sellers         │          Top 3 Buyers          │ ",
+                " │ Item             │   Price Range   │      Top 3 Being Offered       │        Top 3 In Demand         │ ",
                 " ├──────────────────┼─────────────────┼──────────┬──────────┬──────────┼──────────┬──────────┬──────────┤ ",
                 " │                  │                 │          │          │          │          │          │          │ ",
                 " │                  │                 │          │          │          │          │          │          │ ",
@@ -63,8 +63,8 @@ namespace SpaceTrucker.View
                 " │                  │                 │          │          │          │          │          │          │ ",
                 " ╰──────────────────┴─────────────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────╯ ",
                 "  ┌─                                                                                                   ─┐ ",
-                "    Important:                                                                                            ",
-                "                                                                                                          ",
+                "    Important:     This report is property of Weyland Consortium. Any transmission of this report to      ",
+                "                   outside agents will result in IMMEDIATE reset maintenance.                             ",
                 "  └─                                                                                                   ─┘ ",
 			};
 

@@ -9,7 +9,7 @@ namespace SpaceTrucker.ViewModel
 	public class GameManager
 	{
 		private ViewScreenMode _currentViewMode = ViewScreenMode.TitleScreen;
-		private GameState _currentGameState = GameState.MainMenu;
+		private MenuState _currentGameState = MenuState.MainMenu;
 		private int _currentWarpFactor;
 		
 		internal ViewScreenMode CurrentViewMode
@@ -21,8 +21,7 @@ namespace SpaceTrucker.ViewModel
 				eventBroadcaster.ChangeViewScreenMode(_currentViewMode);
 			}
 		}
-
-		internal GameState CurrentGameState
+		internal MenuState CurrentMenuState
 		{
 			get => _currentGameState;
 			set
@@ -31,7 +30,6 @@ namespace SpaceTrucker.ViewModel
 				eventBroadcaster.ChangeGameState(_currentGameState);
 			}
 		}
-
 		internal int CurrentWarpFactor
 		{
 			get => _currentWarpFactor;
@@ -186,7 +184,7 @@ namespace SpaceTrucker.ViewModel
 				thresholdHighAlert = false;
 			}
 			// TODO: check if days are at ??? -> narrative injection message
-			if (gameStart && player.MyShip.LifeSpan == 18249 && CurrentGameState == GameState.GameMenu)
+			if (gameStart && player.MyShip.LifeSpan == 18249 && CurrentMenuState == MenuState.GameMenu)
 			{
 				CurrentViewMode = ViewScreenMode.Message;
 				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
@@ -231,24 +229,24 @@ namespace SpaceTrucker.ViewModel
 
 		private void PerformSelection()
 		{
-			switch (CurrentGameState)
+			switch (CurrentMenuState)
 			{
-				case GameState.MainMenu:
+				case MenuState.MainMenu:
 					MainMenuSelection();
 					break;
-				case GameState.QuitMenu:
+				case MenuState.QuitMenu:
 					QuitMenuSelection();
 					break;
-				case GameState.GameMenu:
+				case MenuState.GameMenu:
 					GameMenuSelection();
 					break;
-				case GameState.TravelMenu:
+				case MenuState.TravelMenu:
 					TravelMenuSelection();
 					break;
-				case GameState.MarketMenu:
+				case MenuState.MarketMenu:
 					BuySellSelection();
 					break;
-				case GameState.TransactionMenu:
+				case MenuState.TransactionMenu:
 					TransactionSelection();
 					break;
 			}
@@ -257,31 +255,31 @@ namespace SpaceTrucker.ViewModel
 
         private void GoToPreviousMenu()
 		{
-			switch (CurrentGameState)
+			switch (CurrentMenuState)
 			{
-				case GameState.MainMenu:
-					CurrentGameState = GameState.QuitMenu;
+				case MenuState.MainMenu:
+					CurrentMenuState = MenuState.QuitMenu;
 					menuOptions = menuFactory.CreateConfirmationMenu("Are you sure you want to quit?");
 					ChangeMenu();
 					break;
-				case GameState.QuitMenu:
-					CurrentGameState = GameState.MainMenu;
+				case MenuState.QuitMenu:
+					CurrentMenuState = MenuState.MainMenu;
 					menuOptions = menuFactory.CreateMainMenu();
 					ChangeMenu();
 					break;
-				case GameState.GameMenu:
-					CurrentGameState = GameState.MainMenu;
+				case MenuState.GameMenu:
+					CurrentMenuState = MenuState.MainMenu;
 					menuOptions = menuFactory.CreateMainMenu();
 					ChangeMenu();
 					break;
-				case GameState.MarketMenu:
-				case GameState.TravelMenu:
-					CurrentGameState = GameState.GameMenu;
+				case MenuState.MarketMenu:
+				case MenuState.TravelMenu:
+					CurrentMenuState = MenuState.GameMenu;
 					menuOptions = menuFactory.CreateGameMenu();
 					ChangeMenu();
 					break;
-				case GameState.TransactionMenu:
-					CurrentGameState = GameState.MarketMenu;
+				case MenuState.TransactionMenu:
+					CurrentMenuState = MenuState.MarketMenu;
 					menuOptions = menuFactory.CreateBuySellMenu();
 					ChangeMenu();
 					break;
@@ -295,7 +293,7 @@ namespace SpaceTrucker.ViewModel
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
 				case OptionType.NewGame:
-					CurrentGameState = GameState.GameMenu;
+					CurrentMenuState = MenuState.GameMenu;
 					menuOptions = menuFactory.CreateGameMenu();
 					ChangeMenu();
 					break;
@@ -306,7 +304,7 @@ namespace SpaceTrucker.ViewModel
 					// TODO: save the game to JSON
 					break;
 				case OptionType.Quit:
-					CurrentGameState = GameState.QuitMenu;
+					CurrentMenuState = MenuState.QuitMenu;
 					menuOptions = menuFactory.CreateConfirmationMenu("Are you sure you want to quit?");
 					ChangeMenu();
 					break;
@@ -321,7 +319,7 @@ namespace SpaceTrucker.ViewModel
 					Environment.Exit(0);
 					break;
 				case OptionType.No:
-					CurrentGameState = GameState.MainMenu;
+					CurrentMenuState = MenuState.MainMenu;
 					menuOptions = menuFactory.CreateMainMenu();
 					ChangeMenu();
 					break;
@@ -333,12 +331,12 @@ namespace SpaceTrucker.ViewModel
             switch (menuOptions.Options[currentSelection].OptionType)
             {
                 case OptionType.GoToTravel:
-                    CurrentGameState = GameState.TravelMenu;
+                    CurrentMenuState = MenuState.TravelMenu;
                     UpdateTravelMenu();
                     break;
                 case OptionType.GoToTradeMarket:
 					menuOptions = menuFactory.CreateBuySellMenu();
-					CurrentGameState = GameState.MarketMenu;
+					CurrentMenuState = MenuState.MarketMenu;
 					ChangeMenu();
 					break;
                 case OptionType.PurchaseFuel:
@@ -352,7 +350,7 @@ namespace SpaceTrucker.ViewModel
 				case OptionType.BackMainMenu:
 					menuOptions = menuFactory.CreateMainMenu();
 					CurrentViewMode = ViewScreenMode.TitleScreen;
-					CurrentGameState = GameState.MainMenu;
+					CurrentMenuState = MenuState.MainMenu;
 					ChangeMenu();
 					break;
 			}
@@ -360,7 +358,7 @@ namespace SpaceTrucker.ViewModel
 
         private void UpdateTravelMenu()
         {
-            if (CurrentGameState == GameState.TravelMenu)
+            if (CurrentMenuState == MenuState.TravelMenu)
             {
                 closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9,
                                                         (WarpFactor)CurrentWarpFactor,
@@ -370,6 +368,11 @@ namespace SpaceTrucker.ViewModel
                 ChangeMenu();
             }
         }
+
+		private void TravelConfirmationMenuSelection()
+		{
+
+		}
 
         private void TravelMenuSelection()
 		{
@@ -382,7 +385,7 @@ namespace SpaceTrucker.ViewModel
 				eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
 
 				menuOptions = menuFactory.CreateGameMenu();
-				CurrentGameState = GameState.GameMenu;
+				CurrentMenuState = MenuState.GameMenu;
 				ChangeMenu();
 			}
 			catch (Exception)
@@ -404,7 +407,7 @@ namespace SpaceTrucker.ViewModel
 					try
 					{
 						ores = FormatTransactionList(currentPlanet.MyMarket.OfferedOresWithoutQty);
-						prompt = $"{currentPlanet.Name} is currently selling...";
+						prompt = $"{currentPlanet.Name} is currently offering...";
 						DisplayTransactionMenu(ores, prompt, OptionType.OreBuy);
 					}
 					catch (NullReferenceException)
@@ -418,7 +421,7 @@ namespace SpaceTrucker.ViewModel
 					try
 					{
 						ores = FormatTransactionList(currentPlanet.MyMarket.InDemandOres);
-						prompt = $"{currentPlanet.Name} is currently buying...";
+						prompt = $"{currentPlanet.Name} is currently demanding...";
 						DisplayTransactionMenu(ores, prompt, OptionType.OreSell);
 					}
 					catch (NullReferenceException)
@@ -507,7 +510,7 @@ namespace SpaceTrucker.ViewModel
 		private void DisplayTransactionMenu(List<string> ores, string prompt, OptionType optionType)
 		{
 			menuOptions = menuFactory.CreateOreMenu(prompt, ores, optionType);
-			CurrentGameState = GameState.TransactionMenu;
+			CurrentMenuState = MenuState.TransactionMenu;
 			ChangeMenu();
 		}
 
