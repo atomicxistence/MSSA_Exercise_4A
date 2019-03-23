@@ -400,6 +400,7 @@ namespace SpaceTrucker.ViewModel
 						eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
 						eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
 						eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
+						currentPlanet = destinationPlanet;
 
 						menuOptions = menuFactory.CreateGameMenu();
 						CurrentMenuState = MenuState.GameMenu;
