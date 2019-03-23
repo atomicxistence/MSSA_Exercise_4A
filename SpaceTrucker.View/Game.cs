@@ -9,7 +9,10 @@ namespace SpaceTrucker.View
 		private EventBroadcaster eventBroadcaster;
 		private GameManager gm;
 
-		private MenuState currentGameState = MenuState.MainMenu;
+		private bool gameOver = false;
+
+		private MenuState currentMenuState = MenuState.MainMenu;
+		private GameState currentGameState = GameState.ApplicationOpen;
 
 		public Game()
 		{
@@ -18,6 +21,7 @@ namespace SpaceTrucker.View
 			display = new DisplayManager(eventBroadcaster);
 			gm = new GameManager(eventBroadcaster);
 
+			eventBroadcaster.MenuState += ChangeMenuState;
 			eventBroadcaster.GameState += ChangeGameState;
 		}
 
@@ -25,18 +29,18 @@ namespace SpaceTrucker.View
 		{
 			var action = ActionType.Invalid;
 
-			while (true)
+			while (!gameOver)
 			{
 				display.Refresh();
+				gm.GameStateCheck();
 
 				do
 				{
-					action = GetUserInput(currentGameState);
+					action = GetUserInput(currentMenuState);
 
 				} while (action == ActionType.Invalid);
 
 				gm.ActionUserInput(action);
-				gm.GameOver();
 			}
 		}
 
@@ -59,8 +63,17 @@ namespace SpaceTrucker.View
 			}
 		}
 
-		private void ChangeGameState(object sender, MenuState nextGameState)
+		private void ChangeMenuState(object sender, MenuState nextMenuState)
 		{
+			currentMenuState = nextMenuState;
+		}
+
+		private void ChangeGameState(object sender, GameState nextGameState)
+		{
+			if (nextGameState == GameState.GameOver)
+			{
+				gameOver = true;
+			}
 			currentGameState = nextGameState;
 		}
     }

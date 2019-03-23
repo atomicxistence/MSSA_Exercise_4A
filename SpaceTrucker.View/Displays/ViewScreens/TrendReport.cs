@@ -15,8 +15,6 @@ namespace SpaceTrucker.View
 		{
 			this.eventBroadcaster = eventBroadcaster;
             this.eventBroadcaster.TrendReport += PrintTrendReport;
-
-            
         }
 
         public void EventUnsubscribe() {;}

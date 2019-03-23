@@ -23,6 +23,7 @@ namespace SpaceTrucker.View
 		private Map mapScreen;
 		private Market marketScreen;
 		private TrendReport trendReportScreen;
+		private OpeningNarrative openingNarrative;
 
 		private int displayWidth = 110;
 		private int displayHeight = 50;
@@ -86,6 +87,7 @@ namespace SpaceTrucker.View
 			mapScreen = new Map();
 			marketScreen = new Market(eventBroadcaster);
 			trendReportScreen = new TrendReport(eventBroadcaster);
+			openingNarrative = new OpeningNarrative();
 
 		}
 
@@ -106,6 +108,7 @@ namespace SpaceTrucker.View
 				mapScreen,
 				marketScreen,
 				trendReportScreen,
+				openingNarrative,
 			};
 		}
 

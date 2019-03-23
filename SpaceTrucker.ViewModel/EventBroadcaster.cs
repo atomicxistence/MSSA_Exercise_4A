@@ -5,8 +5,9 @@ namespace SpaceTrucker.ViewModel
 	public class EventBroadcaster
 	{
 		#region Event Handlers
-		public event EventHandler<MenuState> GameState;
+		public event EventHandler<MenuState> MenuState;
 		public event EventHandler<ViewScreenMode> ViewMode;
+		public event EventHandler<GameState> GameState;
 
 		public event EventHandler<string[]> Message;
 
@@ -29,7 +30,12 @@ namespace SpaceTrucker.ViewModel
         #endregion
 
         #region Event Triggers
-        internal void ChangeGameState(MenuState nextGameState)
+        internal void ChangeMenuState(MenuState nextMenuState)
+		{
+			MenuState?.Invoke(this, nextMenuState);
+		}
+
+		internal void ChangeGameState(GameState nextGameState)
 		{
 			GameState?.Invoke(this, nextGameState);
 		}

@@ -5,6 +5,7 @@
 		FullSelectionInput,
 		MenuOnly,
 		Market,
+		EnterOnly,
 	}
 
 	public enum ActionType
@@ -20,6 +21,14 @@
 		Market,
 		Quit,
 		Invalid,
+	}
+
+	public enum GameState
+	{
+		ApplicationOpen,
+		GameStart,
+		GamePlaying,
+		GameOver,
 	}
 
 	public enum MenuState
@@ -43,6 +52,7 @@
 		Market,
 		Message,
 		TravelAnimation,
+		OpeningNarrative,
 	}
 
 	public enum OptionType

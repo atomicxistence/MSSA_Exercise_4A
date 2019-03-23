@@ -9,7 +9,8 @@ namespace SpaceTrucker.ViewModel
 	public class GameManager
 	{
 		private ViewScreenMode _currentViewMode = ViewScreenMode.TitleScreen;
-		private MenuState _currentGameState = MenuState.MainMenu;
+		private MenuState _currentMenuState = MenuState.MainMenu;
+		private GameState _currentGameState = GameState.ApplicationOpen;
 		private int _currentWarpFactor;
 		
 		internal ViewScreenMode CurrentViewMode
@@ -23,7 +24,16 @@ namespace SpaceTrucker.ViewModel
 		}
 		internal MenuState CurrentMenuState
 		{
-			get => _currentGameState;
+			get => _currentMenuState;
+			set
+			{
+				_currentMenuState = value;
+				eventBroadcaster.ChangeMenuState(_currentMenuState);
+			}
+		}
+		internal GameState CurrentGameState
+		{
+			get { return _currentGameState; }
 			set
 			{
 				_currentGameState = value;
@@ -143,56 +153,69 @@ namespace SpaceTrucker.ViewModel
             }
 		}
 
-		public bool GameOver()
+		public void GameStateCheck()
 		{
-			// check if days are below threshold -> game over (loss)
-			// check if balance is below losing threshold -> game over (loss)
-			if (player.MyShip.LifeSpan < 1 || player.MyShip.Balance <= 0)
+			switch (CurrentGameState)
 			{
-				CurrentViewMode = ViewScreenMode.Message;
-				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[5]);
-				return true;
-			}
-			// check if balance is above winning threshold -> game over (win)
-			if (player.MyShip.Balance >= thresholdWinBalance)
-			{
-				CurrentViewMode = ViewScreenMode.Message;
-				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[6]);
-				return true;
+				case GameState.ApplicationOpen:
+					CurrentViewMode = ViewScreenMode.TitleScreen;
+					CurrentMenuState = MenuState.MainMenu;
+					break;
+				case GameState.GameStart:
+					if (gameStart && player.MyShip.LifeSpan == 18249)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
+					}
+					CurrentGameState = GameState.GamePlaying;
+					break;
+				case GameState.GamePlaying:
+					 // check if days are below threshold -> game over (loss)
+					 // check if balance is below losing threshold -> game over (loss)
+					if (player.MyShip.LifeSpan < 1 || player.MyShip.Balance <= 0)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.SendMessageToViewScreen(Messages.narrative[5]);
+						CurrentGameState = GameState.GameOver;
+					}
+					// check if balance is above winning threshold -> game over (win)
+					if (player.MyShip.Balance >= thresholdWinBalance)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.SendMessageToViewScreen(Messages.narrative[6]);
+						CurrentGameState = GameState.GameOver;
+					}
+
+					// check if balance is below negative threshold -> warning message
+					if (player.MyShip.Balance > thresholdLowBalance)
+					{
+						thresholdLowAlert = true;
+					}
+					if (player.MyShip.Balance < thresholdLowBalance && thresholdLowAlert)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.SendMessageToViewScreen(Messages.narrative[2]);
+						thresholdLowAlert = false;
+					}
+
+					// check if balance is above positive threshold -> positive message
+					if (player.MyShip.Balance < thresholdHighBalance)
+					{
+						thresholdHighAlert = true;
+					}
+					if (player.MyShip.Balance > thresholdHighBalance && thresholdHighAlert)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.SendMessageToViewScreen(Messages.narrative[3]);
+						thresholdHighAlert = false;
+					}
+					break;
+				case GameState.GameOver:
+					break;
+				default:
+					break;
 			}
 
-			// check if balance is below negative threshold -> warning message
-			if (player.MyShip.Balance > thresholdLowBalance)
-			{
-				thresholdLowAlert = true;
-			}
-			if (player.MyShip.Balance < thresholdLowBalance && thresholdLowAlert)
-			{
-				CurrentViewMode = ViewScreenMode.Message;
-				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[2]);
-				thresholdLowAlert = false;
-			}
-
-			// check if balance is above positive threshold -> positive message
-			if (player.MyShip.Balance < thresholdHighBalance)
-			{
-				thresholdHighAlert = true;
-			}
-			if (player.MyShip.Balance > thresholdHighBalance && thresholdHighAlert)
-			{
-				CurrentViewMode = ViewScreenMode.Message;
-				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[3]);
-				thresholdHighAlert = false;
-			}
-			// TODO: check if days are at ??? -> narrative injection message
-			if (gameStart && player.MyShip.LifeSpan == 18249 && CurrentMenuState == MenuState.GameMenu)
-			{
-				CurrentViewMode = ViewScreenMode.Message;
-				eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
-				gameStart = false;
-			}
-
-			return false;
 		}
 
         #region Private Methods
@@ -304,6 +327,8 @@ namespace SpaceTrucker.ViewModel
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
 				case OptionType.NewGame:
+					CurrentGameState = GameState.GamePlaying;
+					CurrentViewMode = ViewScreenMode.OpeningNarrative;
 					CurrentMenuState = MenuState.GameMenu;
 					menuOptions = menuFactory.CreateGameMenu();
 					ChangeMenu();
