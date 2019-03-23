@@ -66,9 +66,6 @@ namespace SpaceTrucker.View
                     Console.Write(message[i]);
                 }
 			}
-
-			Console.Beep(1000, 20);
-			Console.Beep(1200, 10);
 		}
 
 		private void PrintMessageBox()
