@@ -35,6 +35,7 @@
 	{
 		MainMenu,
 		QuitMenu,
+		StartMenu,
 		GameMenu,
 		TravelMenu,
 		TravelConfirmationMenu,

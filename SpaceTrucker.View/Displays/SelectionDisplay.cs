@@ -170,7 +170,7 @@ namespace SpaceTrucker.View
 
 		private void PrintMenuPrompt(string prompt, int optionWidth)
 		{
-			var promptIndention = 6;
+			var promptIndention = 4;
 
 			Console.ForegroundColor = Write.ColorUnselectedOptionFG;
 			Console.BackgroundColor = Write.ColorDisplayBG;

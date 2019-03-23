@@ -32,7 +32,6 @@ namespace SpaceTrucker.View
 			while (!gameOver)
 			{
 				display.Refresh();
-				gm.GameStateCheck();
 
 				do
 				{
@@ -41,6 +40,7 @@ namespace SpaceTrucker.View
 				} while (action == ActionType.Invalid);
 
 				gm.ActionUserInput(action);
+				gm.GameStateCheck();
 			}
 		}
 
@@ -49,6 +49,7 @@ namespace SpaceTrucker.View
 			switch (currentGameState)
 			{
 				case MenuState.MainMenu:
+				case MenuState.StartMenu:
 				case MenuState.QuitMenu:
 				case MenuState.TransactionConfirmationMenu:
 				case MenuState.TravelConfirmationMenu:

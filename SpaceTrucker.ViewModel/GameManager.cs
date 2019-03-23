@@ -158,8 +158,6 @@ namespace SpaceTrucker.ViewModel
 			switch (CurrentGameState)
 			{
 				case GameState.ApplicationOpen:
-					CurrentViewMode = ViewScreenMode.TitleScreen;
-					CurrentMenuState = MenuState.MainMenu;
 					break;
 				case GameState.GameStart:
 					if (gameStart && player.MyShip.LifeSpan == 18249)
@@ -261,6 +259,10 @@ namespace SpaceTrucker.ViewModel
 				case MenuState.QuitMenu:
 					QuitMenuSelection();
 					break;
+				case MenuState.StartMenu:
+					CurrentViewMode = ViewScreenMode.OpeningNarrative;
+					GameStartConfirmation();
+					break;
 				case MenuState.GameMenu:
 					GameMenuSelection();
 					break;
@@ -293,11 +295,9 @@ namespace SpaceTrucker.ViewModel
 					ChangeMenu();
 					break;
 				case MenuState.QuitMenu:
-					CurrentMenuState = MenuState.MainMenu;
-					menuOptions = menuFactory.CreateMainMenu();
-					ChangeMenu();
-					break;
+				case MenuState.StartMenu:
 				case MenuState.GameMenu:
+					CurrentViewMode = ViewScreenMode.TitleScreen;
 					CurrentMenuState = MenuState.MainMenu;
 					menuOptions = menuFactory.CreateMainMenu();
 					ChangeMenu();
@@ -315,7 +315,6 @@ namespace SpaceTrucker.ViewModel
 					break;
 				case MenuState.TransactionConfirmationMenu:
 					CurrentMenuState = MenuState.TransactionMenu;
-
 					break;
 				default:
 					break;
@@ -327,10 +326,9 @@ namespace SpaceTrucker.ViewModel
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
 				case OptionType.NewGame:
-					CurrentGameState = GameState.GamePlaying;
 					CurrentViewMode = ViewScreenMode.OpeningNarrative;
-					CurrentMenuState = MenuState.GameMenu;
-					menuOptions = menuFactory.CreateGameMenu();
+					CurrentMenuState = MenuState.StartMenu;
+					menuOptions = menuFactory.CreateConfirmationMenu("This will overwrite any saved progress. Proceed?");
 					ChangeMenu();
 					break;
 				case OptionType.Continue:
@@ -355,6 +353,27 @@ namespace SpaceTrucker.ViewModel
 					Environment.Exit(0);
 					break;
 				case OptionType.No:
+					CurrentMenuState = MenuState.MainMenu;
+					menuOptions = menuFactory.CreateMainMenu();
+					ChangeMenu();
+					break;
+			}
+		}
+
+		private void GameStartConfirmation()
+		{
+			switch (menuOptions.Options[currentSelection].OptionType)
+			{
+				case OptionType.Yes:
+					CurrentViewMode = ViewScreenMode.Map;
+					CurrentGameState = GameState.GameStart;
+					CurrentMenuState = MenuState.GameMenu;
+					menuOptions = menuFactory.CreateGameMenu();
+					ChangeMenu();
+					break;
+				case OptionType.No:
+					CurrentGameState = GameState.ApplicationOpen;
+					CurrentViewMode = ViewScreenMode.TitleScreen;
 					CurrentMenuState = MenuState.MainMenu;
 					menuOptions = menuFactory.CreateMainMenu();
 					ChangeMenu();
