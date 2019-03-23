@@ -77,7 +77,7 @@ namespace SpaceTrucker.View
 				}
 				else
 				{
-					if (previousSelection == i)
+					if (previousSelection == i && menu.Options.Count > 1)
 					{
 						PrintUnselectedOption(menu.Options[i].Title, optionWidth);
 					}
