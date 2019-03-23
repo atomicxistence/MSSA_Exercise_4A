@@ -77,71 +77,71 @@ namespace SpaceTrucker.ViewModel
             InitializeDisplayFields();
 		}
 
-		public void ActionUserInput(ActionType action)
-		{
-			switch (action)
-			{
-				case ActionType.NextItem:
-					currentSelection = currentSelection >= menuOptions.Options.Count - 1
-									 ? 0
-									 : (currentSelection + 1);
-					ChangeMenuSelections();
-					eventBroadcaster.SelectionDisplayMenu(menuOptions);
-					break;
-				case ActionType.PreviousItem:
-					currentSelection = currentSelection <= 0
-									 ? menuOptions.Options.Count - 1
-									 : (currentSelection - 1);
-					ChangeMenuSelections();
-					eventBroadcaster.SelectionDisplayMenu(menuOptions);
-					break;
-				case ActionType.Select:
-					PerformSelection();		
-					break;
-				case ActionType.Back:
+        public void ActionUserInput(ActionType action)
+        {
+            switch (action)
+            {
+                case ActionType.NextItem:
+                    currentSelection = currentSelection >= menuOptions.Options.Count - 1
+                                     ? 0
+                                     : (currentSelection + 1);
+                    ChangeMenuSelections();
+                    eventBroadcaster.SelectionDisplayMenu(menuOptions);
+                    break;
+                case ActionType.PreviousItem:
+                    currentSelection = currentSelection <= 0
+                                     ? menuOptions.Options.Count - 1
+                                     : (currentSelection - 1);
+                    ChangeMenuSelections();
+                    eventBroadcaster.SelectionDisplayMenu(menuOptions);
+                    break;
+                case ActionType.Select:
+                    PerformSelection();
+                    break;
+                case ActionType.Back:
                     previousSelection = currentSelection = 0;
                     GoToPreviousMenu();
-					break;
-				case ActionType.IncreaseWarpFactor:
-					if (CurrentWarpFactor + 1 <= (int)player.MyShip.EngineTopSpeed)
-					{
-                        CurrentWarpFactor += 1;
-                        player.MyShip.CurrentSpeed += 1; 
-					}
-
                     break;
-				case ActionType.DecreaseWarpFactor:
-					if (CurrentWarpFactor - 1 > 0)
-					{
-						CurrentWarpFactor -= 1;
+                case ActionType.IncreaseWarpFactor:
+                    if (CurrentWarpFactor + 1 <= (int)player.MyShip.EngineTopSpeed)
+                    {
+                        CurrentWarpFactor += 1;
+                        player.MyShip.CurrentSpeed += 1;
+                    }
+                    UpdateTravelMenu();
+                    break;
+                case ActionType.DecreaseWarpFactor:
+                    if (CurrentWarpFactor - 1 > 0)
+                    {
+                        CurrentWarpFactor -= 1;
                         player.MyShip.CurrentSpeed -= 1;
                     }
-					break;
-				case ActionType.Map:
-					CurrentViewMode = ViewScreenMode.Map;
-					break;
-				case ActionType.Market:
-					CurrentViewMode = ViewScreenMode.Market;
-					try
-					{
-						DisplayCurrentMarketInfo();
-					}
-					catch (NullReferenceException)
-					{
-						CurrentViewMode = ViewScreenMode.Message;
+                    UpdateTravelMenu();
+                    break;
+                case ActionType.Map:
+                    CurrentViewMode = ViewScreenMode.Map;
+                    break;
+                case ActionType.Market:
+                    CurrentViewMode = ViewScreenMode.Market;
+                    try
+                    {
+                        DisplayCurrentMarketInfo();
+                    }
+                    catch (NullReferenceException)
+                    {
+                        CurrentViewMode = ViewScreenMode.Message;
                         eventBroadcaster.isErrorMessage = true;
                         eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
-                        eventBroadcaster.isErrorMessage = false;
                     }
-					break;
-				case ActionType.TrendReport:
-					CurrentViewMode = ViewScreenMode.TrendReport;
+                    break;
+                case ActionType.TrendReport:
+                    CurrentViewMode = ViewScreenMode.TrendReport;
                     DisplayTrendReport();
-					break;
-				case ActionType.Quit:
-					//TODO: bring up verification menu
-					break;
-			}
+                    break;
+                case ActionType.Quit:
+                    //TODO: bring up verification menu
+                    break;
+            }
 		}
 
 		public bool GameOver()
@@ -200,9 +200,18 @@ namespace SpaceTrucker.ViewModel
 
         private void ChangeMenuSelections()
 		{
-			menuOptions.Options[previousSelection].IsSelected = false;
-			menuOptions.Options[currentSelection].IsSelected = true;
-			previousSelection = currentSelection;
+            if(menuOptions.Options?.Count > 0)
+            {
+			    menuOptions.Options[previousSelection].IsSelected = false;
+			    menuOptions.Options[currentSelection].IsSelected = true;
+			    previousSelection = currentSelection;
+            }
+            else
+            {
+                CurrentViewMode = ViewScreenMode.Message;
+                eventBroadcaster.isErrorMessage = true;
+                eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
+            }
 		}
 
 		private void InitializeDisplayFields()
@@ -243,7 +252,8 @@ namespace SpaceTrucker.ViewModel
 					TransactionSelection();
 					break;
 			}
-		}
+            eventBroadcaster.isErrorMessage = false; 
+        }
 
         private void GoToPreviousMenu()
 		{
@@ -323,10 +333,8 @@ namespace SpaceTrucker.ViewModel
             switch (menuOptions.Options[currentSelection].OptionType)
             {
                 case OptionType.GoToTravel:
-                    closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9);
-                    menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
                     CurrentGameState = GameState.TravelMenu;
-                    ChangeMenu();
+                    UpdateTravelMenu();
                     break;
                 case OptionType.GoToTradeMarket:
 					menuOptions = menuFactory.CreateBuySellMenu();
@@ -350,7 +358,20 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-		private void TravelMenuSelection()
+        private void UpdateTravelMenu()
+        {
+            if (CurrentGameState == GameState.TravelMenu)
+            {
+                closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9,
+                                                        (WarpFactor)CurrentWarpFactor,
+                                                        player.MyShip.FuelLevel,
+                                                        player.MyShip.LifeSpan);
+                menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
+                ChangeMenu();
+            }
+        }
+
+        private void TravelMenuSelection()
 		{
 			try
 			{
@@ -369,7 +390,6 @@ namespace SpaceTrucker.ViewModel
 				CurrentViewMode = ViewScreenMode.Message;
                 eventBroadcaster.isErrorMessage = true;
                 eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
-                eventBroadcaster.isErrorMessage = false;
             }
 		}
 
@@ -392,7 +412,6 @@ namespace SpaceTrucker.ViewModel
 						CurrentViewMode = ViewScreenMode.Message;
                         eventBroadcaster.isErrorMessage = true;
                         eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
-                        eventBroadcaster.isErrorMessage = false;
                     }
 					break;
 				case OptionType.GoToSell:
@@ -407,7 +426,6 @@ namespace SpaceTrucker.ViewModel
 						CurrentViewMode = ViewScreenMode.Message;
                         eventBroadcaster.isErrorMessage = true;
                         eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
-                        eventBroadcaster.isErrorMessage = false;
                     }
 					break;
 			}
@@ -434,7 +452,7 @@ namespace SpaceTrucker.ViewModel
 						CurrentViewMode = ViewScreenMode.Message;
                         eventBroadcaster.isErrorMessage = true;
                         eventBroadcaster.SendMessageToViewScreen(Messages.errorInventoryFull);
-                        eventBroadcaster.isErrorMessage = false;
+                        
                     }
 					break;
 				case OptionType.OreSell:

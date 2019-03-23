@@ -461,35 +461,20 @@ namespace SpaceTrucker.Models
             return str;
         }
 
-        public static Dictionary<Planet, int> ClosestPlanets(Location l, int count = 3)
+        public static Dictionary<Planet, int> ClosestPlanets(Location l, int count = 3, WarpFactor warp = WarpFactor.WarpFive, int fuel = 100, int lifeSpan = 18249)
         {
             Dictionary<Planet, int> planetDistance = new Dictionary<Planet, int>();
-            int distance;
+            
             foreach (var p in planets)
             {
-                distance = Trip.GetDistance(l, p.MyLocation);
-                if (distance != 0)
+                var t = new Trip(l, p.MyLocation, warp);
+                if (t.distance != 0 && t.fuelUsage <= fuel && t.duration <= lifeSpan)
                 {
-                    planetDistance.Add(p, distance);
+                    planetDistance.Add(p, t.distance);
                 }
             }
 
             return planetDistance.OrderBy(x => x.Value).Take(count).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-        }
-
-       
-        public static void PrintClosestPlanet() // TODO: Remove method, just for testing
-        {
-            Console.Clear();
-            foreach (var p in Economy.planets)
-            {
-                Console.Write($"{p.ShortName}: ");
-                foreach (var pd in Economy.ClosestPlanets(p.MyLocation))
-                {
-                    Console.Write($"{pd.Key.ShortName} ({pd.Value} ly) | ");
-                }
-                Console.WriteLine();
-            }
         }
 
         public static string ToKMB(int num)

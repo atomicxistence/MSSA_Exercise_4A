@@ -5,7 +5,7 @@ namespace SpaceTrucker.ViewModel
 {
 	class MenuFactory
 	{
-		internal Menu CreateTravelMenu(Dictionary<Planet, int> closestPlanets = null)
+		internal Menu CreateTravelMenu(Dictionary<Planet, int> closestPlanets)
 		{
 			var options = new List<IOption>();
 
@@ -14,7 +14,10 @@ namespace SpaceTrucker.ViewModel
 				options.Add(new Option($"{planet.Key.Name} ({planet.Key.ShortName})", OptionType.Planet,false));
 			}
 
-			options[0].IsSelected = true;
+            if (closestPlanets?.Count > 0)
+            {
+                options[0].IsSelected = true;
+            }
 
 			return new Menu("Select a planet to travel to...", options);
 		}
