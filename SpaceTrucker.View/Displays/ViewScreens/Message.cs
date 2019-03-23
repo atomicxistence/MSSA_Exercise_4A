@@ -45,13 +45,14 @@ namespace SpaceTrucker.View
 
 			Console.ForegroundColor = isErrorMessage ? Write.ColorErrorMessageFG : Write.ColorMessageFG ;
 
-            
             Console.Beep(1000, 20);
-            for (int i = 0; i < message.Length; i++)
+			Console.Beep(1200, 10);
+
+			for (int i = 0; i < message.Length; i++)
 			{
 				Console.SetCursorPosition(origin.X + 2, origin.Y - messageBoxHeight + 1 + i);       
 
-                if (!isErrorMessage && i > 2 && i < message.Length - 1)
+                if (!isErrorMessage && i > 2 && i < message.Length - 2)
 				{
                     foreach (var ch in message[i])
                     {
@@ -64,6 +65,8 @@ namespace SpaceTrucker.View
                     Console.Write(message[i]);
                 }
 			}
+
+			Console.Beep(1000, 20);
 			Console.Beep(1200, 10);
 		}
 

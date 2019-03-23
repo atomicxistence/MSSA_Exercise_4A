@@ -46,6 +46,8 @@ namespace SpaceTrucker.View
 			{
 				case MenuState.MainMenu:
 				case MenuState.QuitMenu:
+				case MenuState.TransactionConfirmationMenu:
+				case MenuState.TravelConfirmationMenu:
 					return input.AwaitUserKeyResponse(InputRequestType.MenuOnly);
 				case MenuState.MarketMenu:
 				case MenuState.TransactionMenu:

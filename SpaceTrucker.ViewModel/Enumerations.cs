@@ -28,8 +28,10 @@
 		QuitMenu,
 		GameMenu,
 		TravelMenu,
+		TravelConfirmationMenu,
 		MarketMenu,
 		TransactionMenu,
+		TransactionConfirmationMenu,
 	}
 
 	public enum ViewScreenMode

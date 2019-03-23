@@ -61,6 +61,12 @@ namespace SpaceTrucker.Models
 
         public void FlyToPlanet(Planet destination, WarpFactor warp) => FlyToPlanet(destination.MyLocation, warp);
 
+		public (int, int) TripEstimate(Planet destination, WarpFactor warp)
+		{
+			Trip estimatedTrip = new Trip(CurrentLocation, destination.MyLocation, warp);
+			return (estimatedTrip.duration, estimatedTrip.fuelUsage);
+		}
+
         public void Buy(Ore o, int price)
         {
             if (Inventory?.Count >= (int)MaxCapacity)

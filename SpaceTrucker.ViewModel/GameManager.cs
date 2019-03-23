@@ -53,6 +53,7 @@ namespace SpaceTrucker.ViewModel
 
 		private Player player;
 		private Planet currentPlanet;
+		private Planet destinationPlanet;
 
 		private Dictionary<Planet, int> closestPlanets;
 
@@ -243,11 +244,17 @@ namespace SpaceTrucker.ViewModel
 				case MenuState.TravelMenu:
 					TravelMenuSelection();
 					break;
+				case MenuState.TravelConfirmationMenu:
+					TravelConfirmationMenuSelection();
+					break;
 				case MenuState.MarketMenu:
 					BuySellSelection();
 					break;
 				case MenuState.TransactionMenu:
 					TransactionSelection();
+					break;
+				case MenuState.TransactionConfirmationMenu:
+					TransactionConfirmationSelection();
 					break;
 			}
             eventBroadcaster.isErrorMessage = false; 
@@ -282,6 +289,10 @@ namespace SpaceTrucker.ViewModel
 					CurrentMenuState = MenuState.MarketMenu;
 					menuOptions = menuFactory.CreateBuySellMenu();
 					ChangeMenu();
+					break;
+				case MenuState.TransactionConfirmationMenu:
+					CurrentMenuState = MenuState.TransactionMenu;
+
 					break;
 				default:
 					break;
@@ -335,6 +346,17 @@ namespace SpaceTrucker.ViewModel
                     UpdateTravelMenu();
                     break;
                 case OptionType.GoToTradeMarket:
+					CurrentViewMode = ViewScreenMode.Market;
+					try
+					{
+						DisplayCurrentMarketInfo();
+					}
+					catch (NullReferenceException)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.isErrorMessage = true;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+					}
 					menuOptions = menuFactory.CreateBuySellMenu();
 					CurrentMenuState = MenuState.MarketMenu;
 					ChangeMenu();
@@ -356,44 +378,45 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-        private void UpdateTravelMenu()
-        {
-            if (CurrentMenuState == MenuState.TravelMenu)
-            {
-                closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9,
-                                                        (WarpFactor)CurrentWarpFactor,
-                                                        player.MyShip.FuelLevel,
-                                                        player.MyShip.LifeSpan);
-                menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
-                ChangeMenu();
-            }
-        }
+        private void TravelMenuSelection()
+		{
+			destinationPlanet = closestPlanets.Keys.ElementAt(currentSelection);
+			var estimatedTrip = player.MyShip.TripEstimate(destinationPlanet, (WarpFactor) CurrentWarpFactor);
+			var travelPrompt = $"Estimated {estimatedTrip.Item1} days & {estimatedTrip.Item2}% fuel. Are you sure?";
+
+			CurrentMenuState = MenuState.TravelConfirmationMenu;
+			menuOptions = menuFactory.CreateConfirmationMenu(travelPrompt);
+			ChangeMenu();
+		}
 
 		private void TravelConfirmationMenuSelection()
 		{
-
-		}
-
-        private void TravelMenuSelection()
-		{
-			try
+			switch (menuOptions.Options[currentSelection].OptionType)
 			{
-				currentPlanet = closestPlanets.Keys.ElementAt(currentSelection);
-				player.MyShip.FlyToPlanet(currentPlanet, player.MyShip.CurrentSpeed);
-				eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
-				eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
-				eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
+				case OptionType.Yes:
+					try
+					{
+						player.MyShip.FlyToPlanet(destinationPlanet, player.MyShip.CurrentSpeed);
+						eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
+						eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+						eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
 
-				menuOptions = menuFactory.CreateGameMenu();
-				CurrentMenuState = MenuState.GameMenu;
-				ChangeMenu();
+						menuOptions = menuFactory.CreateGameMenu();
+						CurrentMenuState = MenuState.GameMenu;
+						ChangeMenu();
+					}
+					catch (Exception)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+					    eventBroadcaster.isErrorMessage = true;
+					    eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
+					}
+					break;
+				case OptionType.No:
+					CurrentMenuState = MenuState.TravelMenu;
+					UpdateTravelMenu();
+					break;
 			}
-			catch (Exception)
-			{
-				CurrentViewMode = ViewScreenMode.Message;
-                eventBroadcaster.isErrorMessage = true;
-                eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
-            }
 		}
 
 		private void BuySellSelection()
@@ -467,11 +490,30 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-        #endregion
+		private void TransactionConfirmationSelection()
+		{
+			//TODO: transaction confirmation selection switch
+		}
 
-        #region Utilities
+		#endregion
 
-        private void DisplayTrendReport()
+		#region Utilities
+
+        private void UpdateTravelMenu()
+        {
+			if (CurrentMenuState == MenuState.TravelMenu)
+			{
+				closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9,
+				                                        (WarpFactor)CurrentWarpFactor,
+				                                        player.MyShip.FuelLevel,
+				                                        player.MyShip.LifeSpan);
+
+				menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
+				ChangeMenu();
+			}
+        }
+
+		private void DisplayTrendReport()
         {
             eventBroadcaster.UpdateTrendReport(console.FormatTrendReport(Economy.trends));
         }
