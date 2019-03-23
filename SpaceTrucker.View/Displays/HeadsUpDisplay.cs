@@ -39,11 +39,11 @@ namespace SpaceTrucker.View
 			PrintBevel();
 			PrintHUDScreen();
 			PrintHUDTable();
-			PrintFuelCells(this, _fuelLevel);
-			PrintLocation(this, _location);
-			PrintBalance(this, _balance);
-			PrintWarpFactor(this, _warp);
-			PrintResetDays(this, _resetDays);
+			PrintFuelCells(eventBroadcaster, _fuelLevel);
+			PrintLocation(eventBroadcaster, _location);
+			PrintBalance(eventBroadcaster, _balance);
+			PrintWarpFactor(eventBroadcaster, _warp);
+			PrintResetDays(eventBroadcaster, _resetDays);
 		}
 
 		/// <summary>
@@ -104,13 +104,26 @@ namespace SpaceTrucker.View
 		public void PrintWarpFactor(object sender, int warp)
 		{
 			_warp = warp;
+            var maxWarp = (sender as EventBroadcaster)?.maxWarp;
 
-			var totalSpace = 16;
-			var warpOffsetX = warp + 1;
-			var warpOrigin = new Coord(origin.X + 13 + warpOffsetX, origin.Y - 4);
+			var totalSpace = 19;
+			var warpOrigin = new Coord(origin.X + 17, origin.Y - 4);
 
 			var sb = new StringBuilder();
-			sb.Append(' ', warpOffsetX).Append(Write.WarpIndicator).Append(' ', totalSpace - warpOffsetX);
+
+            for (int i = 0; i < maxWarp; i++)
+            { 
+                if(i == warp - 1)
+                {
+                    sb.Append($"{Write.WarpIndicator} ");
+                }
+                else
+                {
+                    sb.Append("- ");
+                }
+            }        
+            
+            sb.Append(' ', totalSpace - sb.Length);
 
 			PrintOverlay(warpOrigin, sb.ToString());
 		}
@@ -152,7 +165,7 @@ namespace SpaceTrucker.View
 			}
 		}
 
-		private void PrintHUDTable()
+        private void PrintHUDTable()
 		{
 			var table = new string[]
 				{
@@ -163,8 +176,8 @@ namespace SpaceTrucker.View
 					"├──────────────────────────────────────┤",
 					"│ Balance:                             │",
 					"├──────────────────────────────────────┤",
-					"│ Warp Factor ┌  1 2 3 4 5 6 7 8 9  ┐  │",
-					"│             └                     ┘  │",
+                    "│ Warp Factor ⌠  1 2 3 4 5 6 7 8 9  │  │",
+                    "│             │                     ⌡  │",
 					"│                                      │",
 					"│ -----------------------------------  │",
 					"│ Scheduled Reset in                   │",

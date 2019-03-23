@@ -23,10 +23,13 @@ namespace SpaceTrucker.ViewModel
 		public event EventHandler<string> Location;
 		public event EventHandler<int> Warp;
 		public event EventHandler<string> ResetDays;
-		#endregion
 
-		#region Event Triggers
-		internal void ChangeGameState(GameState nextGameState)
+        public int maxWarp = 9;
+        public bool isErrorMessage;
+        #endregion
+
+        #region Event Triggers
+        internal void ChangeGameState(GameState nextGameState)
 		{
 			GameState?.Invoke(this, nextGameState);
 		}

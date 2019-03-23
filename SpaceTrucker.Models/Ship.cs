@@ -14,6 +14,7 @@ namespace SpaceTrucker.Models
         public Location CurrentLocation;
 
         public WarpFactor EngineTopSpeed { get; set; }
+        public WarpFactor CurrentSpeed { get; set; }
         public Capacity MaxCapacity { get; set; }
 
         public WeaponSystem WeaponSystemPower { get; set; }
@@ -31,6 +32,7 @@ namespace SpaceTrucker.Models
             this.EngineTopSpeed = WarpFactor.WarpFive;
             this.WeaponSystemPower = WeaponSystem.Weak;
             this.MaxCapacity = Capacity.Small;
+            CurrentSpeed = EngineTopSpeed;
 
             this.Inventory = new List<Ore>();
         }

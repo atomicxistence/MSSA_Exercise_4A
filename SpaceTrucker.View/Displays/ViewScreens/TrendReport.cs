@@ -37,9 +37,9 @@ namespace SpaceTrucker.View
             var table = new string[]
             {
 				"                                                                                                          ",
-				"                                      ╭─                          ─╮                                      ",
+                "                                      ┌─                          ─┐                                      ",
                 "                                         TOP SECRET: TREND REPORT                                         ",
-                "                                      ╰─                          ─╯                                      ",
+                "                                      └─                          ─┘                                      ",
                 "                                                                                                          ",
                 " ╭──────────────────┬─────────────────┬────────────────────────────────┬────────────────────────────────╮ ",
                 " │ Item             │   Price Range   │          Top 3 Sellers         │          Top 3 Buyers          │ ",
@@ -62,13 +62,13 @@ namespace SpaceTrucker.View
                 " │                  │                 │          │          │          │          │          │          │ ",
                 " │                  │                 │          │          │          │          │          │          │ ",
                 " ╰──────────────────┴─────────────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────╯ ",
-                "  ╭─                                                                                                   ─╮ ",
-                "    Important Note:                                                                                       ",
+                "  ┌─                                                                                                   ─┐ ",
+                "    Important:                                                                                            ",
                 "                                                                                                          ",
-                "  ╰─                                                                                                   ─╯ ",
+                "  └─                                                                                                   ─┘ ",
 			};
 
-            Console.ForegroundColor = Write.ColorMessageFG;
+            Console.ForegroundColor = Write.ColorTopSecretReportFG;
             Console.BackgroundColor = Write.ColorDisplayBG;
 
             for (int i = 0; i < 5; i++)

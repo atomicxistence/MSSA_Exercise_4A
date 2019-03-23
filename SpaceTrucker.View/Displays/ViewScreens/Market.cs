@@ -131,7 +131,7 @@ namespace SpaceTrucker.View
 			for (int i = 0; i < marketInventoryTable.Length; i++)
 			{
 				Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + i);
-				Console.Write(marketInventoryTable[i]);
+				Console.Write($"{marketInventoryTable[i]}              ");
 			}
 
 			previousInventoryLength = marketInventoryTable.Length;

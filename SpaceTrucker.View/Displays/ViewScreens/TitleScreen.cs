@@ -80,7 +80,7 @@ namespace SpaceTrucker.View
 
 			for (int i = 0; i < title.Length; i++)
 			{
-				Console.SetCursorPosition(origin.X + , origin.Y - 10 + i);
+				Console.SetCursorPosition(origin.X + 1, origin.Y - 10 + i);
 				Console.Write(hotKeys[i]);
 			}
 		}

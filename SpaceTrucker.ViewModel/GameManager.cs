@@ -10,7 +10,7 @@ namespace SpaceTrucker.ViewModel
 	{
 		private ViewScreenMode _currentViewMode = ViewScreenMode.TitleScreen;
 		private GameState _currentGameState = GameState.MainMenu;
-		private int _currentWarpFactor = 5;
+		private int _currentWarpFactor;
 		
 		internal ViewScreenMode CurrentViewMode
 		{
@@ -21,6 +21,7 @@ namespace SpaceTrucker.ViewModel
 				eventBroadcaster.ChangeViewScreenMode(_currentViewMode);
 			}
 		}
+
 		internal GameState CurrentGameState
 		{
 			get => _currentGameState;
@@ -30,6 +31,7 @@ namespace SpaceTrucker.ViewModel
 				eventBroadcaster.ChangeGameState(_currentGameState);
 			}
 		}
+
 		internal int CurrentWarpFactor
 		{
 			get => _currentWarpFactor;
@@ -69,8 +71,10 @@ namespace SpaceTrucker.ViewModel
 			menuFactory = new MenuFactory();
 			player = new Player();
 			currentPlanet = Economy.planets[0];
+            eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
+            CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
 
-			InitializeDisplayFields();
+            InitializeDisplayFields();
 		}
 
 		public void ActionUserInput(ActionType action)
@@ -101,14 +105,17 @@ namespace SpaceTrucker.ViewModel
 				case ActionType.IncreaseWarpFactor:
 					if (CurrentWarpFactor + 1 <= (int)player.MyShip.EngineTopSpeed)
 					{
-						CurrentWarpFactor += 1;
+                        CurrentWarpFactor += 1;
+                        player.MyShip.CurrentSpeed += 1; 
 					}
-					break;
+
+                    break;
 				case ActionType.DecreaseWarpFactor:
 					if (CurrentWarpFactor - 1 > 0)
 					{
 						CurrentWarpFactor -= 1;
-					}
+                        player.MyShip.CurrentSpeed -= 1;
+                    }
 					break;
 				case ActionType.Map:
 					CurrentViewMode = ViewScreenMode.Map;
@@ -122,8 +129,10 @@ namespace SpaceTrucker.ViewModel
 					catch (NullReferenceException)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
-						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
-					}
+                        eventBroadcaster.isErrorMessage = true;
+                        eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+                        eventBroadcaster.isErrorMessage = false;
+                    }
 					break;
 				case ActionType.TrendReport:
 					CurrentViewMode = ViewScreenMode.TrendReport;
@@ -329,7 +338,7 @@ namespace SpaceTrucker.ViewModel
                     {
                         player.MyShip.Refuel(Economy.fuelCost);
                         eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
-                        eventBroadcaster.ChangeBalance(console.FormatBalance((int)player.MyShip.Balance));
+                        eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
                     }
                     break;
 				case OptionType.BackMainMenu:
@@ -346,7 +355,7 @@ namespace SpaceTrucker.ViewModel
 			try
 			{
 				currentPlanet = closestPlanets.Keys.ElementAt(currentSelection);
-				player.MyShip.FlyToPlanet(currentPlanet);
+				player.MyShip.FlyToPlanet(currentPlanet, player.MyShip.CurrentSpeed);
 				eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
 				eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
 				eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
@@ -358,8 +367,10 @@ namespace SpaceTrucker.ViewModel
 			catch (Exception)
 			{
 				CurrentViewMode = ViewScreenMode.Message;
-				eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
-			}
+                eventBroadcaster.isErrorMessage = true;
+                eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
+                eventBroadcaster.isErrorMessage = false;
+            }
 		}
 
 		private void BuySellSelection()
@@ -372,15 +383,17 @@ namespace SpaceTrucker.ViewModel
 				case OptionType.GoToBuy:
 					try
 					{
-						ores = FormatTransactionList(currentPlanet.MyMarket.OfferedOresWithoutQty());
+						ores = FormatTransactionList(currentPlanet.MyMarket.OfferedOresWithoutQty);
 						prompt = $"{currentPlanet.Name} is currently selling...";
 						DisplayTransactionMenu(ores, prompt, OptionType.OreBuy);
 					}
 					catch (NullReferenceException)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
-						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
-					}
+                        eventBroadcaster.isErrorMessage = true;
+                        eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+                        eventBroadcaster.isErrorMessage = false;
+                    }
 					break;
 				case OptionType.GoToSell:
 					try
@@ -392,8 +405,10 @@ namespace SpaceTrucker.ViewModel
 					catch (NullReferenceException)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
-						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
-					}
+                        eventBroadcaster.isErrorMessage = true;
+                        eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+                        eventBroadcaster.isErrorMessage = false;
+                    }
 					break;
 			}
 		}
@@ -409,7 +424,7 @@ namespace SpaceTrucker.ViewModel
 				case OptionType.OreBuy:
 					try
 					{
-						var buyList = currentPlanet.MyMarket.OfferedOresWithoutQty();
+						var buyList = currentPlanet.MyMarket.OfferedOresWithoutQty;
 						selectedOre = buyList.ElementAt(currentSelection);
 						player.MyShip.Buy(selectedOre.Key, selectedOre.Value);
 						UpdateAfterTransaction();
@@ -417,8 +432,10 @@ namespace SpaceTrucker.ViewModel
 					catch (Exception)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
-						eventBroadcaster.SendMessageToViewScreen(Messages.errorInventoryFull);
-					}
+                        eventBroadcaster.isErrorMessage = true;
+                        eventBroadcaster.SendMessageToViewScreen(Messages.errorInventoryFull);
+                        eventBroadcaster.isErrorMessage = false;
+                    }
 					break;
 				case OptionType.OreSell:
 					var sellList = currentPlanet.MyMarket.InDemandOres;
@@ -440,7 +457,7 @@ namespace SpaceTrucker.ViewModel
 
 		private void DisplayCurrentMarketInfo()
 		{
-			eventBroadcaster.UpdateMarketBuyTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.OfferedOresWithoutQty()));
+			eventBroadcaster.UpdateMarketBuyTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.OfferedOresWithoutQty));
 			eventBroadcaster.UpdateMarketSellTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.InDemandOres));
 			eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
 		}
@@ -449,10 +466,9 @@ namespace SpaceTrucker.ViewModel
 		{
 			var priceOffsetX = 40;
 			var pricePrefix = "฿";
-			var sortedMarketTable = marketTable.OrderBy(x => x.Value);
 
-			var oreName = sortedMarketTable.Select(o => o.Key.name).ToArray();
-			var orePrice = sortedMarketTable.Select(o => o.Value).ToArray();
+			var oreName = marketTable.Select(o => o.Key.name).ToArray();
+			var orePrice = marketTable.Select(o => o.Value).ToArray();
 			var priceArray = new List<string>();
 
 			for (int i = 0; i < oreName.Length; i++)
