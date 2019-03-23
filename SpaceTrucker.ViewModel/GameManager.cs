@@ -381,8 +381,8 @@ namespace SpaceTrucker.ViewModel
         private void TravelMenuSelection()
 		{
 			destinationPlanet = closestPlanets.Keys.ElementAt(currentSelection);
-			var estimatedTrip = player.MyShip.TripEstimate(destinationPlanet, (WarpFactor) CurrentWarpFactor);
-			var travelPrompt = $"Estimated {estimatedTrip.Item1} days & {estimatedTrip.Item2}% fuel. Are you sure?";
+			var estimatedTrip = new Trip(currentPlanet.MyLocation, destinationPlanet.MyLocation, (WarpFactor)CurrentWarpFactor);
+			var travelPrompt = $"Estimated {estimatedTrip.duration} days & {estimatedTrip.fuelUsage}% fuel. Are you sure?";
 
 			CurrentMenuState = MenuState.TravelConfirmationMenu;
 			menuOptions = menuFactory.CreateConfirmationMenu(travelPrompt);
@@ -478,8 +478,7 @@ namespace SpaceTrucker.ViewModel
 					{
 						CurrentViewMode = ViewScreenMode.Message;
                         eventBroadcaster.isErrorMessage = true;
-                        eventBroadcaster.SendMessageToViewScreen(Messages.errorInventoryFull);
-                        
+                        eventBroadcaster.SendMessageToViewScreen(Messages.errorInventoryFull);   
                     }
 					break;
 				case OptionType.OreSell:
