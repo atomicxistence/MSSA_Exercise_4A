@@ -65,7 +65,7 @@ namespace SpaceTrucker.ViewModel
 		private Planet currentPlanet;
 		private Planet destinationPlanet;
 
-		private Dictionary<Planet, int> closestPlanets;
+		private Dictionary<Planet, Trip> closestPlanets;
 
 		private EventBroadcaster eventBroadcaster;
 		private ConsoleFormatter console;

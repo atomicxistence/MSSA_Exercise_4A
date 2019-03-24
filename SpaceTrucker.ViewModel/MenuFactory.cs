@@ -1,17 +1,29 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using SpaceTrucker.Models;
 
 namespace SpaceTrucker.ViewModel
 {
 	class MenuFactory
 	{
-		internal Menu CreateTravelMenu(Dictionary<Planet, int> closestPlanets)
+		internal Menu CreateTravelMenu(Dictionary<Planet, Trip> closestPlanets)
 		{
 			var options = new List<IOption>();
 
 			foreach (var planet in closestPlanets)
 			{
-				options.Add(new Option($"{planet.Key.Name} ({planet.Key.ShortName})", OptionType.Planet,false));
+                var tripInforOffSet = 25;
+                var sb = new StringBuilder();
+                var str = $"{planet.Key.Name} ({planet.Key.ShortName})";
+                sb.Append(str);
+                sb.Append(' ', tripInforOffSet - sb.Length);
+                str = $"{planet.Value.distance} ly";
+                sb.Append(' ', 6 - str.Length).Append($"{str} | ");
+                str = $"{planet.Value.fuelUsage}%";
+                sb.Append(' ', 4 - str.Length).Append($"{str} | ");
+                sb.Append($"{planet.Value.duration} days");
+
+                options.Add(new Option(sb.ToString(), OptionType.Planet, false));
 			}
 
             if (closestPlanets?.Count > 0)

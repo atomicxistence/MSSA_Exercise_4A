@@ -61,6 +61,8 @@ namespace SpaceTrucker.Models
 
         }
 
+        #region Fill Planet Markets
+
         private static void FillEarth(Dictionary<Ore, (int price, int qty)> offer, Dictionary<Ore, int> demand)
         {
             Market EarthMarket = new Market();
@@ -378,6 +380,8 @@ namespace SpaceTrucker.Models
 
         }
 
+        #endregion
+
         private static void SetPlanetDescription()
         {
             foreach (var p in planets)
@@ -461,20 +465,22 @@ namespace SpaceTrucker.Models
             return str;
         }
 
-        public static Dictionary<Planet, int> ClosestPlanets(Location l, int count = 3, WarpFactor warp = WarpFactor.WarpFive, int fuel = 100, int lifeSpan = 18249)
+        public static Dictionary<Planet, Trip> ClosestPlanets(Location l, int count = 3, 
+                                                              WarpFactor warp = WarpFactor.WarpFive, 
+                                                              int fuel = 100, int lifeSpan = 18249)
         {
-            Dictionary<Planet, int> planetDistance = new Dictionary<Planet, int>();
+            Dictionary<Planet, Trip> planetDistance = new Dictionary<Planet, Trip>();
             
             foreach (var p in planets)
             {
                 var t = new Trip(l, p.MyLocation, warp);
                 if (t.distance != 0 && t.fuelUsage <= fuel && t.duration <= lifeSpan)
                 {
-                    planetDistance.Add(p, t.distance);
+                    planetDistance.Add(p, t);
                 }
             }
 
-            return planetDistance.OrderBy(x => x.Value).Take(count).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            return planetDistance.OrderBy(x => x.Value.distance).Take(count).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
 
         public static string ToKMB(int num)
