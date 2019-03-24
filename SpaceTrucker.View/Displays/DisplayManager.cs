@@ -45,13 +45,7 @@ namespace SpaceTrucker.View
 			CompleteRefresh();
 		}
 
-		public void Refresh()
-		{
-			if(WindowSizeHasChanged())
-			{
-				CompleteRefresh();
-			}
-		}
+		public void Refresh() => CompleteRefresh();
 
 		#endregion
 

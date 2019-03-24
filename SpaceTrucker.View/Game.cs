@@ -1,4 +1,6 @@
 ﻿using SpaceTrucker.ViewModel;
+using System;
+using System.Threading;
 
 namespace SpaceTrucker.View
 {
@@ -16,14 +18,18 @@ namespace SpaceTrucker.View
 
 		public Game()
 		{
-			eventBroadcaster = new EventBroadcaster();
+            Thread consoleResizeListner = new Thread(ConsoleResizeListner);
+            eventBroadcaster = new EventBroadcaster();
 			input = new UserInput();
 			display = new DisplayManager(eventBroadcaster);
 			gm = new GameManager(eventBroadcaster);
 
 			eventBroadcaster.MenuState += ChangeMenuState;
 			eventBroadcaster.GameState += ChangeGameState;
-		}
+
+            consoleResizeListner.Start();
+
+        }
 
 		public void Run()
 		{
@@ -31,8 +37,6 @@ namespace SpaceTrucker.View
 
 			while (!gameOver)
 			{
-				display.Refresh();
-
 				do
 				{
 					action = GetUserInput(currentMenuState);
@@ -78,5 +82,27 @@ namespace SpaceTrucker.View
 			}
 			currentGameState = nextGameState;
 		}
+
+        private void ConsoleResizeListner()
+        {
+            int height = Console.WindowHeight;
+            int width = Console.WindowWidth;
+            while (true)
+            {
+                if (height != Console.WindowHeight || width != Console.WindowWidth)
+                {
+                    Console.SetWindowSize(width, height);
+                    try
+                    {
+                        display.Refresh();
+                    }
+                    catch
+                    {
+                        //Window size too small
+                    }
+                }
+                Thread.Sleep(20);
+            }
+        }
     }
 }
