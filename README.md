@@ -7,3 +7,5 @@ Our objective is to create an engaging game experience that can be expanded upon
 
 Please check out the [wiki](https://github.com/atomicxistence/MSSA_Exercise_4A/wiki) for more details and the dev log.
 
+![Space Trucker TitleScreen](https://github.com/atomicxistence/MSSA_Exercise_4A/blob/master/SupportingDocuments/SpaceTrucker_TitleScreen.PNG)
+
