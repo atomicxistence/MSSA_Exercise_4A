@@ -481,7 +481,8 @@ namespace SpaceTrucker.Models
 
         public static Dictionary<Planet, Trip> ClosestPlanets(Location l, int count = 3, 
                                                               WarpFactor warp = WarpFactor.WarpFive, 
-                                                              int fuel = 100, int lifeSpan = 18249)
+                                                              int fuel = 100, int lifeSpan = 18249,
+                                                              bool desc = false)
         {
             Dictionary<Planet, Trip> planetDistance = new Dictionary<Planet, Trip>();
             
@@ -494,7 +495,9 @@ namespace SpaceTrucker.Models
                 }
             }
 
-            return planetDistance.OrderBy(x => x.Value.distance).Take(count).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            if(!desc) return planetDistance.OrderBy(x => x.Value.distance).Take(count).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            return planetDistance.OrderByDescending(x => x.Value.distance).Take(count).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
 
         public static string ToKMB(int num)

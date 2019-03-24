@@ -66,8 +66,9 @@ namespace SpaceTrucker.ViewModel
 		private Planet destinationPlanet;
 
 		private Dictionary<Planet, Trip> closestPlanets;
+        private bool isFurthestPlanets;
 
-		private EventBroadcaster eventBroadcaster;
+        private EventBroadcaster eventBroadcaster;
 		private ConsoleFormatter console;
 		private MenuFactory menuFactory;
 
@@ -82,6 +83,7 @@ namespace SpaceTrucker.ViewModel
 			currentPlanet = Economy.planets[0];
             eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
             CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
+            eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
 
             InitializeDisplayFields();
 		}
@@ -117,7 +119,7 @@ namespace SpaceTrucker.ViewModel
                         CurrentWarpFactor += 1;
                         player.MyShip.CurrentSpeed += 1;
                     }
-                    UpdateTravelMenu();
+                    UpdateTravelMenu(isFurthestPlanets);
                     break;
                 case ActionType.DecreaseWarpFactor:
                     if (CurrentWarpFactor - 1 > 0)
@@ -125,7 +127,7 @@ namespace SpaceTrucker.ViewModel
                         CurrentWarpFactor -= 1;
                         player.MyShip.CurrentSpeed -= 1;
                     }
-                    UpdateTravelMenu();
+                    UpdateTravelMenu(isFurthestPlanets);
                     break;
                 case ActionType.Map:
                     CurrentViewMode = ViewScreenMode.Map;
@@ -280,6 +282,9 @@ namespace SpaceTrucker.ViewModel
 					break;
 				case MenuState.TransactionConfirmationMenu:
 					TransactionConfirmationSelection();
+                    break;
+                case MenuState.UpgradeConfirmationMenu:
+                    UpgradeConfirmationMenuSelection();
 					break;
 			}
             eventBroadcaster.isErrorMessage = false; 
@@ -310,12 +315,15 @@ namespace SpaceTrucker.ViewModel
 					break;
 				case MenuState.TransactionMenu:
 					CurrentMenuState = MenuState.MarketMenu;
-					menuOptions = menuFactory.CreateBuySellMenu();
+					menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
 					ChangeMenu();
 					break;
 				case MenuState.TransactionConfirmationMenu:
 					CurrentMenuState = MenuState.TransactionMenu;
 					break;
+                case MenuState.UpgradeConfirmationMenu:
+                    CurrentMenuState = MenuState.TransactionMenu;
+                    break;
 				default:
 					break;
 			}
@@ -387,7 +395,8 @@ namespace SpaceTrucker.ViewModel
             {
                 case OptionType.GoToTravel:
                     CurrentMenuState = MenuState.TravelMenu;
-                    UpdateTravelMenu();
+                    isFurthestPlanets = (currentSelection == 1);
+                    UpdateTravelMenu(isFurthestPlanets);
                     break;
                 case OptionType.GoToTradeMarket:
 					CurrentViewMode = ViewScreenMode.Market;
@@ -401,7 +410,7 @@ namespace SpaceTrucker.ViewModel
 						eventBroadcaster.isErrorMessage = true;
 						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
 					}
-					menuOptions = menuFactory.CreateBuySellMenu();
+					menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
 					CurrentMenuState = MenuState.MarketMenu;
 					ChangeMenu();
 					break;
@@ -434,12 +443,50 @@ namespace SpaceTrucker.ViewModel
                 var noOption = $"No: abort travel";
 
                 CurrentMenuState = MenuState.TravelConfirmationMenu;
-                menuOptions = menuFactory.CreateTravelConfirmationMenu(travelPrompt, yesOption, noOption);
+                menuOptions = menuFactory.CreateCustomConfirmationMenu(travelPrompt, yesOption, noOption);
                 ChangeMenu();
             }
 		}
 
-		private void TravelConfirmationMenuSelection()
+        private void UpgradeConfirmationMenu()
+        {
+            var travelPrompt = $"Upgrade will cost you ฿{Economy.ToKMB(currentPlanet.UpgradeCost)}. Are you sure?";
+            var yesOption = $"Yes: max warp {(int)currentPlanet.EngineUpgrade}, max capacity {(int)currentPlanet.CapacityUpgrade}";
+            var noOption = $"No: cancel upgrade";
+
+            CurrentMenuState = MenuState.UpgradeConfirmationMenu;
+            menuOptions = menuFactory.CreateCustomConfirmationMenu(travelPrompt, yesOption, noOption);
+            ChangeMenu();
+        }
+
+        private void UpgradeConfirmationMenuSelection()
+        {
+            switch (menuOptions.Options[currentSelection].OptionType)
+            {
+                case OptionType.Yes:
+                    currentPlanet.Upgrade(player.MyShip);
+                    eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
+                    eventBroadcaster.ChangeWarpFactor((int)player.MyShip.CurrentSpeed);
+                    eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+
+                    // TODO: update displayed MaxCapacity 
+                    eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
+                    eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
+
+                    menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
+                    CurrentMenuState = MenuState.MarketMenu;
+                    ChangeMenu();
+                    break;
+				case OptionType.No:
+                    menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
+                    CurrentMenuState = MenuState.MarketMenu;
+                    ChangeMenu();
+                    break;
+            }
+
+        }
+
+        private void TravelConfirmationMenuSelection()
 		{
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
@@ -466,7 +513,7 @@ namespace SpaceTrucker.ViewModel
 					break;
 				case OptionType.No:
 					CurrentMenuState = MenuState.TravelMenu;
-					UpdateTravelMenu();
+					UpdateTravelMenu(isFurthestPlanets);
 					break;
 			}
 		}
@@ -506,7 +553,10 @@ namespace SpaceTrucker.ViewModel
                         eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
                     }
 					break;
-			}
+                case OptionType.GoToUpgrade:
+                    UpgradeConfirmationMenu();
+                    break;
+            }
 		}
 
 		private void TransactionSelection()
@@ -550,14 +600,15 @@ namespace SpaceTrucker.ViewModel
 
 		#region Utilities
 
-        private void UpdateTravelMenu()
+        private void UpdateTravelMenu(bool descending)
         {
 			if (CurrentMenuState == MenuState.TravelMenu)
 			{
 				closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9,
 				                                        (WarpFactor)CurrentWarpFactor,
 				                                        player.MyShip.FuelLevel,
-				                                        player.MyShip.LifeSpan);
+				                                        player.MyShip.LifeSpan, descending);
+
 
 				menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
 				ChangeMenu();

@@ -50,8 +50,9 @@ namespace SpaceTrucker.ViewModel
 		{
 			var options = new List<IOption>
 			{
-				new Option("Travel to a different planet", OptionType.GoToTravel,true),
-				new Option("Trade with the planet's market", OptionType.GoToTradeMarket,false),
+				new Option("Travel to closest planets", OptionType.GoToTravel,true),
+                new Option("Travel to furthest planets", OptionType.GoToTravel,false),
+                new Option("Trade with the planet's market", OptionType.GoToTradeMarket,false),
 				new Option("Purchase more fuel cells", OptionType.PurchaseFuel,false),
 				new Option("Main Menu", OptionType.BackMainMenu,false),
 			};
@@ -59,13 +60,18 @@ namespace SpaceTrucker.ViewModel
 			return new Menu("Select an option below", options);
 		}
 
-		internal Menu CreateBuySellMenu()
+		internal Menu CreateBuySellMenu(bool upgrade = false)
 		{
 			var options = new List<IOption>
 			{
 				new Option("Buy", OptionType.GoToBuy, true),
 				new Option("Sell", OptionType.GoToSell, false),
 			};
+
+            if (upgrade)
+            {
+                    options.Add(new Option("Upgrade", OptionType.GoToUpgrade, false));
+            }
 
 			return new Menu("Trade Market", options);
 		}
@@ -95,7 +101,7 @@ namespace SpaceTrucker.ViewModel
 			return new Menu(prompt, options);
 		}
 
-        internal Menu CreateTravelConfirmationMenu(string prompt, string customYes, string customNo)
+        internal Menu CreateCustomConfirmationMenu(string prompt, string customYes, string customNo)
         {
             var options = new List<IOption>
             {

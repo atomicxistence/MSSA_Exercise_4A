@@ -26,6 +26,7 @@ namespace SpaceTrucker.ViewModel
 		public event EventHandler<string> ResetDays;
 
         public int maxWarp = 9;
+        public int maxCapacity = 5;
         public bool isErrorMessage;
         #endregion
 

@@ -119,7 +119,11 @@ namespace SpaceTrucker.View
 			Console.ForegroundColor = Write.ColorDisplayFG;
 			Console.BackgroundColor = Write.ColorDisplayBG;
 
-			if (previousInventoryLength > marketInventoryTable.Length)
+            var maxCapacity = (sender as EventBroadcaster)?.maxCapacity;
+            Console.SetCursorPosition(origin.X + 20, origin.Y - 9 );
+            Console.Write($"Max Capacity: {maxCapacity}");
+
+            if (previousInventoryLength > marketInventoryTable.Length)
 			{
 				for (int i = marketInventoryTable.Length; i < previousInventoryLength; i++)
 				{
@@ -127,10 +131,13 @@ namespace SpaceTrucker.View
 					Write.EmptySpace(25);
 				}
 			}
-			//TODO: adjust for loop to print more than 5 items
+            //TODO: adjust for loop to print more than 5 items
+            var offset = 0;
 			for (int i = 0; i < marketInventoryTable.Length; i++)
 			{
-				Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + i);
+                offset += ((i + 1) % 6 == 0)? 40 : 0;
+
+                Console.SetCursorPosition(origin.X + 3 + offset, origin.Y - 6 + (i % 5));
 				Console.Write($"{marketInventoryTable[i]}              ");
 			}
 

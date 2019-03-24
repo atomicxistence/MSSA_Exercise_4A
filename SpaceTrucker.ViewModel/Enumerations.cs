@@ -42,6 +42,7 @@
 		MarketMenu,
 		TransactionMenu,
 		TransactionConfirmationMenu,
+        UpgradeConfirmationMenu,
 	}
 
 	public enum ViewScreenMode
@@ -66,7 +67,8 @@
 		GoToTradeMarket,
 		GoToBuy,
 		GoToSell,
-		OreBuy,
+        GoToUpgrade,
+        OreBuy,
 		OreSell,
 		PurchaseFuel,
 		BackMainMenu,

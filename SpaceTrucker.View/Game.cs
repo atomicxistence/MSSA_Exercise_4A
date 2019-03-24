@@ -53,6 +53,7 @@ namespace SpaceTrucker.View
 				case MenuState.QuitMenu:
 				case MenuState.TransactionConfirmationMenu:
 				case MenuState.TravelConfirmationMenu:
+                case MenuState.UpgradeConfirmationMenu:
 					return input.AwaitUserKeyResponse(InputRequestType.MenuOnly);
 				case MenuState.MarketMenu:
 				case MenuState.TransactionMenu:

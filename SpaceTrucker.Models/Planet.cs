@@ -15,7 +15,7 @@ namespace SpaceTrucker.Models
 
         public Market MyMarket { get; private set; }
 
-        public bool hasUpgrade { get; }
+        public bool hasUpgrade { get; private set; }
 
         public int fuelCost = 10;
 
@@ -45,6 +45,7 @@ namespace SpaceTrucker.Models
                 s.MaxCapacity = CapacityUpgrade;
                 s.WeaponSystemPower = WeaponSystemUpgrade;
                 s.Balance -= UpgradeCost;
+                hasUpgrade = false;
             }
         }
 
