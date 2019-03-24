@@ -128,17 +128,43 @@ namespace SpaceTrucker.ViewModel
 				"> End Message_                                ",
 			};
 
-		internal static string[] errorInsufficientFuel = new string[]
+        internal static string[] errorInsufficientBalance = new string[]
+            {
+                "> Error Message:                              ",
+                "                                              ",
+                " -------------------------------------------- ",
+                "                                              ",
+                " You do not have sufficient funds to complete ",
+                " transaction. Try again when you earn more    ",
+                " money!                                       ",
+                "                                              ",
+                "> End Message_                                ",
+            };
+
+        internal static string[] errorInsufficientFuel = new string[]
 			{
 				"> Error Message:                              ",
 				"                                              ",
 				" -------------------------------------------- ",
 				"                                              ",
 				" You do not have sufficient fuel cells to     ",
-				" perform this function. Adjust your warp      ",
+				" perform this function. Decrease your warp    ",
 				" factor or purchase additional fuel cells.    ",
 				"                                              ",
 				"> End Message_                                ",
 			};
-	}
+
+        internal static string[] errorAgeOut = new string[]
+            {
+                "> Error Message:                              ",
+                "                                              ",
+                " -------------------------------------------- ",
+                "                                              ",
+                " You do not have sufficient days to reach     ",
+                " your destination. Increase your warp factor  ",
+                " and try again!                               ",
+                "                                              ",
+                "> End Message_                                ",
+            };
+    }
 }

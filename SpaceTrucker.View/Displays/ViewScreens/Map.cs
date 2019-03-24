@@ -35,7 +35,7 @@ namespace SpaceTrucker.View
 				"                                                                                                          ",
 				"             ˙                                                                                            ",
                 "                                                ˙                                      ˙                  ",
-                "      ○ K23b                                                       ˙                                      ",
+                "      ○ K23d                                                       ˙                                      ",
 				"                                                                                                          ",
 				"                                                                                  ○ KE438b                ",
                 "                    ˙                               .                                                     ",

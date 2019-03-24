@@ -469,7 +469,6 @@ namespace SpaceTrucker.ViewModel
                     eventBroadcaster.ChangeWarpFactor((int)player.MyShip.CurrentSpeed);
                     eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
 
-                    // TODO: update displayed MaxCapacity 
                     eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
                     eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
 
@@ -506,13 +505,19 @@ namespace SpaceTrucker.ViewModel
 						CurrentMenuState = MenuState.GameMenu;
 						ChangeMenu();
 					}
-					catch (Exception)
-					{
-						CurrentViewMode = ViewScreenMode.Message;
+					catch (InsuficientFuelException)
+					{                    
+                        CurrentViewMode = ViewScreenMode.Message;
 					    eventBroadcaster.isErrorMessage = true;
 					    eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
 					}
-					break;
+                    catch (AgeOutException)
+                    {                       
+                        CurrentViewMode = ViewScreenMode.Message;
+                        eventBroadcaster.isErrorMessage = true;
+                        eventBroadcaster.SendMessageToViewScreen(Messages.errorAgeOut);
+                    }
+                    break;
 				case OptionType.No:
 					CurrentMenuState = MenuState.TravelMenu;
 					UpdateTravelMenu(isFurthestPlanets);
@@ -576,14 +581,20 @@ namespace SpaceTrucker.ViewModel
 						selectedOre = buyList.ElementAt(currentSelection);
 						player.MyShip.Buy(selectedOre.Key, selectedOre.Value);
 						UpdateAfterTransaction();
-					}
-					catch (Exception)
+                    }
+					catch (MaxCapacityReachedException)
 					{
-						CurrentViewMode = ViewScreenMode.Message;
+                        CurrentViewMode = ViewScreenMode.Message;
                         eventBroadcaster.isErrorMessage = true;
                         eventBroadcaster.SendMessageToViewScreen(Messages.errorInventoryFull);   
                     }
-					break;
+                    catch (InsuficientFundsException)
+                    {
+                        CurrentViewMode = ViewScreenMode.Message;
+                        eventBroadcaster.isErrorMessage = true;
+                        eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientBalance);
+                    }
+                    break;
 				case OptionType.OreSell:
 					var sellList = currentPlanet.MyMarket.InDemandOres;
 					selectedOre = sellList.ElementAt(currentSelection);
@@ -624,10 +635,11 @@ namespace SpaceTrucker.ViewModel
 
 		private void DisplayCurrentMarketInfo()
 		{
-			eventBroadcaster.UpdateMarketBuyTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.OfferedOresWithoutQty));
+            CurrentViewMode = ViewScreenMode.Market;
+            eventBroadcaster.UpdateMarketBuyTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.OfferedOresWithoutQty));
 			eventBroadcaster.UpdateMarketSellTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.InDemandOres));
 			eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
-		}
+        }
 
 		private List<string> FormatTransactionList(Dictionary<Ore, int> marketTable)
 		{
@@ -662,9 +674,9 @@ namespace SpaceTrucker.ViewModel
 
 		private void UpdateAfterTransaction()
 		{
-			eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
-			eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
-		}
+            eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+            DisplayCurrentMarketInfo();
+        }
 
 		private void ChangeMenu()
 		{

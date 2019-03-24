@@ -43,11 +43,11 @@ namespace SpaceTrucker.Models
 
             if (myTrip.fuelUsage > 100 || FuelLevel < myTrip.fuelUsage)
             {
-                throw new Exception("Fuel needed to complete trip exceeds tank capacity or current fuel level!");
+                throw new InsuficientFuelException();
             }
             else if (LifeSpan - myTrip.duration < 0)
             {
-                throw new Exception("You won't make it before to your destination before rest maintenance is due!");
+                throw new AgeOutException();
             }
 
             CurrentLocation = newLocation;
@@ -65,11 +65,11 @@ namespace SpaceTrucker.Models
         {
             if (Inventory?.Count >= (int)MaxCapacity)
             {
-                throw new Exception($"You cannot buy more than {(int)MaxCapacity} items.");
+                throw new MaxCapacityReachedException();
             }
             else if (Balance - price < 0)
             {
-                throw new Exception($"Insuficient funds, Balance: {Balance}, Price: {price}.");
+                throw new InsuficientFundsException();
             }
             else
             {
@@ -94,7 +94,7 @@ namespace SpaceTrucker.Models
 
             if (Balance - topOff < 0)
             {
-                throw new Exception($"Insuficient funds to Refuel.");
+                throw new InsuficientFundsException();
             }
             else
             {
@@ -102,6 +102,10 @@ namespace SpaceTrucker.Models
                 FuelLevel = 100;
             }
         }
-
     }
+
+    public class InsuficientFuelException : Exception {  }
+    public class InsuficientFundsException : Exception { }
+    public class MaxCapacityReachedException : Exception { }
+    public class AgeOutException : Exception { }
 }

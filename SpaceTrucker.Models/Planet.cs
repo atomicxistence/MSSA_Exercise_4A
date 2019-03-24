@@ -24,14 +24,14 @@ namespace SpaceTrucker.Models
         public WeaponSystem WeaponSystemUpgrade;
         public int UpgradeCost { get; set; }
 
-        public Planet(string name, Location myLocation, string shortName="", Market myMarket = null, string description = "",  bool hasUpgrade = false)
+        public Planet(string name, Location myLocation, string shortName = "", Market myMarket = null, string description = "", bool hasUpgrade = false)
         {
             this.Name = name;
             this.ShortName = shortName;
             this.Description = description;
             this.MyLocation = myLocation;
             this.MyLocation.shortName = shortName;
-			this.MyLocation.longName = name;
+            this.MyLocation.longName = name;
             this.hasUpgrade = hasUpgrade;
 
             this.MyMarket = myMarket;
@@ -39,14 +39,41 @@ namespace SpaceTrucker.Models
 
         public void Upgrade(Ship s)
         {
-            if (hasUpgrade && s.Balance > UpgradeCost)
+            if (!hasUpgrade) return;
+
+            if (s.Balance < UpgradeCost)
             {
-                s.EngineTopSpeed = EngineUpgrade;
-                s.MaxCapacity = CapacityUpgrade;
-                s.WeaponSystemPower = WeaponSystemUpgrade;
-                s.Balance -= UpgradeCost;
-                hasUpgrade = false;
+                throw new InsuficientFundsException();
             }
+            else
+            {
+                var charge = false;
+
+                if (s.EngineTopSpeed < EngineUpgrade)
+                {
+                    s.EngineTopSpeed = EngineUpgrade;
+                    charge = true;
+                }
+
+                if(s.MaxCapacity < CapacityUpgrade)
+                {
+                    s.MaxCapacity = CapacityUpgrade;
+                    charge = true;
+                }
+
+                if(s.WeaponSystemPower < WeaponSystemUpgrade)    
+                {
+                    s.WeaponSystemPower = WeaponSystemUpgrade;
+                    charge = true;
+                }
+
+                if(charge)
+                {
+                    s.Balance -= UpgradeCost;
+                }
+            }
+
+            hasUpgrade = false;
         }
 
         public void UpdateMarket()

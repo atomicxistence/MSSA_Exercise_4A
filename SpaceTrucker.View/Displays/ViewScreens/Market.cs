@@ -11,6 +11,7 @@ namespace SpaceTrucker.View
 		private EventBroadcaster eventBroadcaster;
 
 		private int previousInventoryLength = 0;
+        private int previousCapacity = 0;
 
 		public Market(EventBroadcaster eventBroadcaster)
 		{
@@ -120,14 +121,19 @@ namespace SpaceTrucker.View
 			Console.BackgroundColor = Write.ColorDisplayBG;
 
             var maxCapacity = (sender as EventBroadcaster)?.maxCapacity;
-            Console.SetCursorPosition(origin.X + 20, origin.Y - 9 );
-            Console.Write($"Max Capacity: {maxCapacity}");
+            if (previousCapacity != maxCapacity)
+            {
+                Console.SetCursorPosition(origin.X + 88, origin.Y - 9 );
+                Console.Write($"Max Capacity: {maxCapacity}");
+                previousCapacity = (int)maxCapacity;
+            }
+            
 
             if (previousInventoryLength > marketInventoryTable.Length)
 			{
 				for (int i = marketInventoryTable.Length; i < previousInventoryLength; i++)
 				{
-					Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + i);
+					Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + i % 5);
 					Write.EmptySpace(25);
 				}
 			}

@@ -91,9 +91,9 @@ namespace SpaceTrucker.View
             {
                 if (height != Console.WindowHeight || width != Console.WindowWidth)
                 {
-                    Console.SetWindowSize(width, height);
                     try
                     {
+                        Console.SetWindowSize(width, height);
                         display.Refresh();
                     }
                     catch
