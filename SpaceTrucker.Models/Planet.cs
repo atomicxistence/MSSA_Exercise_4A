@@ -19,6 +19,11 @@ namespace SpaceTrucker.Models
 
         public int fuelCost = 10;
 
+        public WarpFactor EngineUpgrade;
+        public Capacity CapacityUpgrade;
+        public WeaponSystem WeaponSystemUpgrade;
+        public int UpgradeCost { get; set; }
+
         public Planet(string name, Location myLocation, string shortName="", Market myMarket = null, string description = "",  bool hasUpgrade = false)
         {
             this.Name = name;
@@ -34,7 +39,13 @@ namespace SpaceTrucker.Models
 
         public void Upgrade(Ship s)
         {
-            // TODO: upgrade ship
+            if (hasUpgrade && s.Balance > UpgradeCost)
+            {
+                s.EngineTopSpeed = EngineUpgrade;
+                s.MaxCapacity = CapacityUpgrade;
+                s.WeaponSystemPower = WeaponSystemUpgrade;
+                s.Balance -= UpgradeCost;
+            }
         }
 
         public void UpdateMarket()

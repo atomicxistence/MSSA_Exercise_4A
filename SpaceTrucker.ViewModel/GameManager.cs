@@ -241,7 +241,7 @@ namespace SpaceTrucker.ViewModel
 
 			eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
 			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
-			eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
+			eventBroadcaster.ChangeLocation(console.FormatLocation($"{currentPlanet.Name} ({currentPlanet.ShortName})"));
 			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
 		}
 
@@ -426,12 +426,15 @@ namespace SpaceTrucker.ViewModel
 		{
             if (closestPlanets?.Count > 1)
             {
-                destinationPlanet = closestPlanets.Keys.ElementAt(currentSelection);
-                var estimatedTrip = new Trip(currentPlanet.MyLocation, destinationPlanet.MyLocation, (WarpFactor)CurrentWarpFactor);
-                var travelPrompt = $"Estimated {estimatedTrip.duration} days & {estimatedTrip.fuelUsage}% fuel. Are you sure?";
+                var destination = closestPlanets.ElementAt(currentSelection);
+                destinationPlanet = destination.Key;
+
+                var travelPrompt = $"Traveling to {destinationPlanet.ShortName} at Warp {CurrentWarpFactor}. Are you sure?";
+                var yesOption = $"Yes: use {destination.Value.fuelUsage}% fuel and land in {destination.Value.duration} days ";
+                var noOption = $"No: abort travel";
 
                 CurrentMenuState = MenuState.TravelConfirmationMenu;
-                menuOptions = menuFactory.CreateConfirmationMenu(travelPrompt);
+                menuOptions = menuFactory.CreateTravelConfirmationMenu(travelPrompt, yesOption, noOption);
                 ChangeMenu();
             }
 		}
@@ -444,10 +447,11 @@ namespace SpaceTrucker.ViewModel
 					try
 					{
 						player.MyShip.FlyToPlanet(destinationPlanet, player.MyShip.CurrentSpeed);
-						eventBroadcaster.ChangeLocation(console.FormatLocation(player.MyShip.CurrentLocation.longName));
+						currentPlanet = destinationPlanet;
+
+						eventBroadcaster.ChangeLocation(console.FormatLocation($"{currentPlanet.Name} ({currentPlanet.ShortName})"));
 						eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
 						eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
-						currentPlanet = destinationPlanet;
 
 						menuOptions = menuFactory.CreateGameMenu();
 						CurrentMenuState = MenuState.GameMenu;

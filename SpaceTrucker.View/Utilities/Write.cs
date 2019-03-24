@@ -27,7 +27,7 @@ namespace SpaceTrucker.View
 		public static string SelectionIndicator => " ► ";
 		public static string WarpIndicator => "▲";
 
-		public static void EmptySpace(int width)
+        public static void EmptySpace(int width)
 		{
 			for (int i = 0; i < width; i++)
 			{

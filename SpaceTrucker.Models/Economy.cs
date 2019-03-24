@@ -175,7 +175,14 @@ namespace SpaceTrucker.Models
 
             W1061cMarket.UpdateMarket(offer, demand);
 
-            planets.Add(new Planet("Wolf 1061c", new Location(7, -12), "W1061c", W1061cMarket));
+            Planet w1061c = new Planet("Wolf 1061c", new Location(7, -12), "W1061c", W1061cMarket, "", true);
+
+            w1061c.EngineUpgrade = WarpFactor.WarpSeven;
+            w1061c.CapacityUpgrade = Capacity.Medium;
+            w1061c.WeaponSystemUpgrade = WeaponSystem.Average;
+            w1061c.UpgradeCost = 500000;
+
+            planets.Add(w1061c);
 
             offer.Clear();
             demand.Clear();
@@ -223,7 +230,14 @@ namespace SpaceTrucker.Models
 
             T1dMarket.UpdateMarket(offer, demand);
 
-            planets.Add(new Planet("Trappist-1d", new Location(22, 32), "T1d", T1dMarket));
+            Planet td1 = new Planet("Trappist-1d", new Location(22, 32), "T1d", T1dMarket, "", true);
+            
+            td1.EngineUpgrade = WarpFactor.WarpNine;
+            td1.CapacityUpgrade = Capacity.Large;
+            td1.WeaponSystemUpgrade = WeaponSystem.Powerful;
+            td1.UpgradeCost = 1000000;
+
+            planets.Add(td1);
 
             offer.Clear();
             demand.Clear();

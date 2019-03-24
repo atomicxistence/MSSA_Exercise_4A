@@ -23,7 +23,7 @@ namespace SpaceTrucker.ViewModel
 
         internal string FormatLocation(string planetName)
         {
-            var maxNameLength = 20;
+            var maxNameLength = 26;
 
             var sb = new StringBuilder(maxNameLength);
             sb.Append(planetName).Append(' ', maxNameLength - planetName.Length);

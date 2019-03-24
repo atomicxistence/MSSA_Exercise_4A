@@ -177,7 +177,8 @@ namespace SpaceTrucker.View
 
 			Console.SetCursorPosition(origin.X + promptIndention, origin.Y - 11);
 
-			Console.Write(prompt);
+            Console.Write(prompt);
+
 			Write.EmptySpace(optionWidth - prompt.Length - promptIndention);
 		}
 		#endregion

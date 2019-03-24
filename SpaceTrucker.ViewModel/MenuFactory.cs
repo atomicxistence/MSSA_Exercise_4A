@@ -94,5 +94,16 @@ namespace SpaceTrucker.ViewModel
 
 			return new Menu(prompt, options);
 		}
-	}
+
+        internal Menu CreateTravelConfirmationMenu(string prompt, string customYes, string customNo)
+        {
+            var options = new List<IOption>
+            {
+                new Option(customYes, OptionType.Yes, true),
+                new Option(customNo, OptionType.No, false),
+            };
+
+            return new Menu(prompt, options);
+        }
+    }
 }
