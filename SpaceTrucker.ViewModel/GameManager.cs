@@ -424,13 +424,16 @@ namespace SpaceTrucker.ViewModel
 
         private void TravelMenuSelection()
 		{
-			destinationPlanet = closestPlanets.Keys.ElementAt(currentSelection);
-			var estimatedTrip = new Trip(currentPlanet.MyLocation, destinationPlanet.MyLocation, (WarpFactor)CurrentWarpFactor);
-			var travelPrompt = $"Estimated {estimatedTrip.duration} days & {estimatedTrip.fuelUsage}% fuel. Are you sure?";
+            if (closestPlanets?.Count > 1)
+            {
+                destinationPlanet = closestPlanets.Keys.ElementAt(currentSelection);
+                var estimatedTrip = new Trip(currentPlanet.MyLocation, destinationPlanet.MyLocation, (WarpFactor)CurrentWarpFactor);
+                var travelPrompt = $"Estimated {estimatedTrip.duration} days & {estimatedTrip.fuelUsage}% fuel. Are you sure?";
 
-			CurrentMenuState = MenuState.TravelConfirmationMenu;
-			menuOptions = menuFactory.CreateConfirmationMenu(travelPrompt);
-			ChangeMenu();
+                CurrentMenuState = MenuState.TravelConfirmationMenu;
+                menuOptions = menuFactory.CreateConfirmationMenu(travelPrompt);
+                ChangeMenu();
+            }
 		}
 
 		private void TravelConfirmationMenuSelection()
