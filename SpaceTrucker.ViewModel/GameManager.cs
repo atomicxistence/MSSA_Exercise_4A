@@ -433,7 +433,7 @@ namespace SpaceTrucker.ViewModel
 
         private void TravelMenuSelection()
 		{
-            if (closestPlanets?.Count > 1)
+            if (closestPlanets?.Count > 0)
             {
                 var destination = closestPlanets.ElementAt(currentSelection);
                 destinationPlanet = destination.Key;
