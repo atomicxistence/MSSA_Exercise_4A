@@ -24,6 +24,7 @@ namespace SpaceTrucker.View
 		private Market marketScreen;
 		private TrendReport trendReportScreen;
 		private OpeningNarrative openingNarrative;
+		private TravelAnimation travelAnimation;
 
 		private int displayWidth = 110;
 		private int displayHeight = 50;
@@ -88,7 +89,7 @@ namespace SpaceTrucker.View
 			marketScreen = new Market(eventBroadcaster);
 			trendReportScreen = new TrendReport(eventBroadcaster);
 			openingNarrative = new OpeningNarrative();
-
+			travelAnimation = new TravelAnimation(eventBroadcaster);
 		}
 
 		private void AddDisplaysToList()
@@ -109,6 +110,7 @@ namespace SpaceTrucker.View
 				marketScreen,
 				trendReportScreen,
 				openingNarrative,
+				travelAnimation,
 			};
 		}
 

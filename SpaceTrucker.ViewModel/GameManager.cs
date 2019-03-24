@@ -496,6 +496,8 @@ namespace SpaceTrucker.ViewModel
 						player.MyShip.FlyToPlanet(destinationPlanet, player.MyShip.CurrentSpeed);
 						currentPlanet = destinationPlanet;
 
+						CurrentViewMode = ViewScreenMode.TravelAnimation;
+
 						eventBroadcaster.ChangeLocation(console.FormatLocation($"{currentPlanet.Name} ({currentPlanet.ShortName})"));
 						eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
 						eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
