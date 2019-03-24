@@ -52,13 +52,13 @@ namespace SpaceTrucker.View
 			{
 				Console.SetCursorPosition(origin.X + 2, origin.Y - messageBoxHeight + 1 + i);       
 
-                if (!isErrorMessage && i > 2 && i < message.Length - 2)
+                if (!isErrorMessage && i > 3 && i < message.Length - 2)
 				{
                     foreach (var ch in message[i])
                     {
                         Thread.Sleep(20);
                         Console.Write(ch);
-						Console.Beep(2500, 10);
+						Console.Beep(2500, 5);
                     }
                 }
                 else
