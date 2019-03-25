@@ -88,6 +88,18 @@ namespace SpaceTrucker.ViewModel
             InitializeDisplayFields();
 		}
 
+        private void ResetGame()
+        {
+            player = new Player();
+            currentPlanet = Economy.planets[0];
+            CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
+            thresholdLowAlert = true;
+            thresholdHighAlert = true;
+            gameStart = true;
+
+            UpdateHUD();
+        }
+
         public void ActionUserInput(ActionType action)
         {
             switch (action)
@@ -166,6 +178,7 @@ namespace SpaceTrucker.ViewModel
 					{
 						CurrentViewMode = ViewScreenMode.Message;
 						eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
+                        gameStart = false;
 					}
 					CurrentGameState = GameState.GamePlaying;
 					break;
@@ -237,21 +250,26 @@ namespace SpaceTrucker.ViewModel
 		}
 
 		private void InitializeDisplayFields()
-		{
-			menuOptions = menuFactory.CreateMainMenu();
-			eventBroadcaster.SelectionDisplayMenu(menuOptions);
+        {
+            menuOptions = menuFactory.CreateMainMenu();
+            eventBroadcaster.SelectionDisplayMenu(menuOptions);
 
-			eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
-			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
-			eventBroadcaster.ChangeLocation(console.FormatLocation($"{currentPlanet.Name} ({currentPlanet.ShortName})"));
-			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
-		}
+            UpdateHUD();
+        }
 
-		#endregion
+        private void UpdateHUD()
+        {
+            eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+            eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+            eventBroadcaster.ChangeLocation(console.FormatLocation($"{currentPlanet.Name} ({currentPlanet.ShortName})"));
+            eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
+        }
 
-		#region Menu State Machine
+        #endregion
 
-		private void PerformSelection()
+        #region Menu State Machine
+
+        private void PerformSelection()
 		{
 			switch (CurrentMenuState)
 			{
@@ -360,7 +378,7 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-		private void QuitMenuSelection()
+        private void QuitMenuSelection()
 		{
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
@@ -384,7 +402,11 @@ namespace SpaceTrucker.ViewModel
 					CurrentGameState = GameState.GameStart;
 					CurrentMenuState = MenuState.GameMenu;
 					menuOptions = menuFactory.CreateGameMenu();
-					ChangeMenu();
+                    if (!gameStart)
+                    {
+                        ResetGame();
+                    }
+                    ChangeMenu();
 					break;
 				case OptionType.No:
 					CurrentGameState = GameState.ApplicationOpen;
