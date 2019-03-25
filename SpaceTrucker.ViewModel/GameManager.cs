@@ -88,24 +88,6 @@ namespace SpaceTrucker.ViewModel
             InitializeDisplayFields();
 		}
 
-        private void ResetGame()
-        {
-            player = new Player();
-            currentPlanet = Economy.planets[0];
-            
-            eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
-            eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
-            eventBroadcaster.isErrorMessage = false;
-
-            CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
-
-            thresholdLowAlert = true;
-            thresholdHighAlert = true;
-            gameStart = true;
-
-            UpdateHUD();
-        }
-
         public void ActionUserInput(ActionType action)
         {
             switch (action)
@@ -238,6 +220,23 @@ namespace SpaceTrucker.ViewModel
 		}
 
         #region Private Methods
+
+        private void ResetGame()
+        {
+            player = new Player();
+            currentPlanet = Economy.planets[0];
+            CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
+
+            eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
+            eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
+            eventBroadcaster.isErrorMessage = false;
+
+            thresholdLowAlert = true;
+            thresholdHighAlert = true;
+            gameStart = true;
+
+            UpdateHUD();
+        }
 
         private void ChangeMenuSelections()
 		{
