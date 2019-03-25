@@ -13,6 +13,8 @@ namespace SpaceTrucker.View
 		private Coord origin;
 		private EventBroadcaster eventBroadcaster;
 
+        private bool subscribed = false;
+
 		public TravelAnimation(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
@@ -29,13 +31,21 @@ namespace SpaceTrucker.View
 
 		public void EventSubscribe()
 		{
-			eventBroadcaster.Location += PrintDestinationTitle;
+            if (!subscribed)
+            {
+                eventBroadcaster.Location += PrintDestinationTitle;
+                subscribed = true;
+            }
 		}
 
 		public void EventUnsubscribe()
 		{
-			eventBroadcaster.Location -= PrintDestinationTitle;
-		}
+            if (subscribed)
+            {
+                eventBroadcaster.Location -= PrintDestinationTitle;
+                subscribed = false;
+            }
+        }
 
 		private void PrintAnimation()
 		{

@@ -12,14 +12,18 @@ namespace SpaceTrucker.View
 
 		private int previousInventoryLength = 0;
 
-		public Market(EventBroadcaster eventBroadcaster)
+        private bool subscribed = false;
+
+        public Market(EventBroadcaster eventBroadcaster)
 		{
 			this.eventBroadcaster = eventBroadcaster;
 
 			eventBroadcaster.MarketBuy += PrintMarketBuy;
 			eventBroadcaster.MarketSell += PrintMarketSell;
 			eventBroadcaster.MarketInventory += PrintMarketInventory;
-		}
+            subscribed = true;
+
+        }
 
 		public void CompleteRefresh(Coord shipConsoleOrigin)
 		{
@@ -32,16 +36,25 @@ namespace SpaceTrucker.View
 
 		public void EventUnsubscribe()
 		{
-			eventBroadcaster.MarketBuy -= PrintMarketBuy;
-			eventBroadcaster.MarketSell -= PrintMarketSell;
-			eventBroadcaster.MarketInventory -= PrintMarketInventory;
-		}
+            if (subscribed)
+            {
+                eventBroadcaster.MarketBuy -= PrintMarketBuy;
+                eventBroadcaster.MarketSell -= PrintMarketSell;
+                eventBroadcaster.MarketInventory -= PrintMarketInventory;
+                subscribed = false;
+            }
+
+        }
 
 		public void EventSubscribe()
 		{
-			eventBroadcaster.MarketBuy += PrintMarketBuy;
-			eventBroadcaster.MarketSell += PrintMarketSell;
-			eventBroadcaster.MarketInventory += PrintMarketInventory;
+            if (!subscribed)
+            {
+                eventBroadcaster.MarketBuy += PrintMarketBuy;
+                eventBroadcaster.MarketSell += PrintMarketSell;
+                eventBroadcaster.MarketInventory += PrintMarketInventory;
+                subscribed = true;
+            }
 		}
 
 		private void PrintMarketTable()
