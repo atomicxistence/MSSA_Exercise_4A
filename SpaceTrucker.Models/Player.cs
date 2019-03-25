@@ -15,9 +15,10 @@ namespace SpaceTrucker.Models
             this.MyShip = new Ship("THX-1138");
         }
 
-        public void saveGame()
+        public void SaveGame()
         {
             // TODO: save player's paused game 
+
         }
     }
 }

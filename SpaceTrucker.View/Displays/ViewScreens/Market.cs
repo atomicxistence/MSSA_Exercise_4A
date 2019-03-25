@@ -135,18 +135,22 @@ namespace SpaceTrucker.View
             var maxCapacity = (sender as EventBroadcaster)?.maxCapacity;
             Console.SetCursorPosition(origin.X + 88, origin.Y - 9 );
             Console.Write($"Max Capacity: {maxCapacity}");
-            
+            var offset = 0;
 
             if (previousInventoryLength > marketInventoryTable.Length)
 			{
-				for (int i = marketInventoryTable.Length; i < previousInventoryLength; i++)
+                offset = marketInventoryTable.Length / 5 * 44;
+                for (int i = marketInventoryTable.Length; i < previousInventoryLength; i++)
 				{
-					Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + (i % 5));
+                    
+                    Console.SetCursorPosition(origin.X + 3 + offset, origin.Y - 6 + (i % 5));
 					Write.EmptySpace(25);
-				}
+                    
+                }
+                offset = 0;
 			}
             //TODO: adjust for loop to print more than 5 items
-            var offset = 0;
+            
 			for (int i = 0; i < marketInventoryTable.Length; i++)
 			{
                 offset += ( i > 0 && (i % 5 == 0))? 44 : 0;

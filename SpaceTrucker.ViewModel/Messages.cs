@@ -87,7 +87,9 @@ namespace SpaceTrucker.ViewModel
 				" REPORT TO OUTPOST ALPHA.460 IMMEDIATELY.     ",
 				"                                              ",
 				"> End Transmission_                           ",
-			},
+                "                                              ",
+                "                  GAME OVER                   ",
+            },
 			new string[]
 			{
 				"> Incoming Transmission:                      ",
@@ -99,7 +101,8 @@ namespace SpaceTrucker.ViewModel
 				" Weyland R&D on Earth.                        ",
 				"                                              ",
 				"> End Transmission_                           ",
-			}
+                "                  YOU WON                     ",
+            }
 		};
 
 		internal static string[] errorPlanetNoShop = new string[]

@@ -191,7 +191,7 @@ namespace SpaceTrucker.ViewModel
 					{
 						thresholdLowAlert = true;
 					}
-					if (player.MyShip.Balance < thresholdLowBalance && thresholdLowAlert)
+					if (player.MyShip.Balance > 0 && player.MyShip.Balance < thresholdLowBalance && thresholdLowAlert)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
 						eventBroadcaster.SendMessageToViewScreen(Messages.narrative[2]);
@@ -203,7 +203,7 @@ namespace SpaceTrucker.ViewModel
 					{
 						thresholdHighAlert = true;
 					}
-					if (player.MyShip.Balance > thresholdHighBalance && thresholdHighAlert)
+					if (player.MyShip.Balance < thresholdWinBalance && player.MyShip.Balance > thresholdHighBalance && thresholdHighAlert)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
 						eventBroadcaster.SendMessageToViewScreen(Messages.narrative[3]);
@@ -211,7 +211,7 @@ namespace SpaceTrucker.ViewModel
 					}
 					break;
 				case GameState.GameOver:
-					break;
+                    break;
 				default:
 					break;
 			}
