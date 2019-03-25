@@ -340,7 +340,14 @@ namespace SpaceTrucker.ViewModel
 					ChangeMenu();
 					break;
 				case OptionType.Continue:
-					// TODO: error message if no save file, else load save game
+					// TODO: load save game or else do go back into the game if GameState == Playing
+					if (CurrentGameState == GameState.GamePlaying)
+					{
+						CurrentViewMode = ViewScreenMode.Map;
+						CurrentMenuState = MenuState.GameMenu;
+						menuOptions = menuFactory.CreateGameMenu();
+						ChangeMenu();
+					}
 					break;
 				case OptionType.SaveGame:
 					// TODO: save the game to JSON
