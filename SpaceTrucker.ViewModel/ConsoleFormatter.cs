@@ -78,12 +78,19 @@ namespace SpaceTrucker.ViewModel
             return priceArray;
         }
 
-        internal string[] FormatInventoryTable(List<Ore> inventory)
+        internal string[] FormatInventoryTable(List<Ore> inventory) 
+            => inventory.Select(o => FormatOreName(o.name)).ToArray();
+
+
+        private string FormatOreName(string name)
         {
-            return inventory.Select(o => o.name).ToArray();
+            var emptySpace = 12 - name.Length;
+            var sb = new StringBuilder();
+            return sb.Append(name).Append(' ', emptySpace).ToString();
         }
 
-        internal string[] FormatTrendReport(List<Trend> trends)
+
+            internal string[] FormatTrendReport(List<Trend> trends)
         {
             var priceOffsetX = 16;
             var topSellerOffsetX = 9;

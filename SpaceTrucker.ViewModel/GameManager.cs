@@ -471,17 +471,26 @@ namespace SpaceTrucker.ViewModel
             switch (menuOptions.Options[currentSelection].OptionType)
             {
                 case OptionType.Yes:
-                    currentPlanet.Upgrade(player.MyShip);
-                    eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
-                    eventBroadcaster.ChangeWarpFactor((int)player.MyShip.CurrentSpeed);
-                    eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+                    try
+                    {
+                        currentPlanet.Upgrade(player.MyShip);
+                        eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
+                        eventBroadcaster.ChangeWarpFactor((int)player.MyShip.CurrentSpeed);
+                        eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
 
-                    eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
-                    eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
+                        eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
+                        eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
 
-                    menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
-                    CurrentMenuState = MenuState.MarketMenu;
-                    ChangeMenu();
+                        menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
+                        CurrentMenuState = MenuState.MarketMenu;
+                        ChangeMenu();
+                    }
+                    catch (InsuficientFundsException)
+                    {
+                        CurrentViewMode = ViewScreenMode.Message;
+                        eventBroadcaster.isErrorMessage = true;
+                        eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientBalance);
+                    }
                     break;
 				case OptionType.No:
                     menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);

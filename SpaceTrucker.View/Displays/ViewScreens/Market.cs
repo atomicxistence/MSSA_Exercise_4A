@@ -11,7 +11,6 @@ namespace SpaceTrucker.View
 		private EventBroadcaster eventBroadcaster;
 
 		private int previousInventoryLength = 0;
-        private int previousCapacity = 0;
 
 		public Market(EventBroadcaster eventBroadcaster)
 		{
@@ -121,19 +120,15 @@ namespace SpaceTrucker.View
 			Console.BackgroundColor = Write.ColorDisplayBG;
 
             var maxCapacity = (sender as EventBroadcaster)?.maxCapacity;
-            if (previousCapacity != maxCapacity)
-            {
-                Console.SetCursorPosition(origin.X + 88, origin.Y - 9 );
-                Console.Write($"Max Capacity: {maxCapacity}");
-                previousCapacity = (int)maxCapacity;
-            }
+            Console.SetCursorPosition(origin.X + 88, origin.Y - 9 );
+            Console.Write($"Max Capacity: {maxCapacity}");
             
 
             if (previousInventoryLength > marketInventoryTable.Length)
 			{
 				for (int i = marketInventoryTable.Length; i < previousInventoryLength; i++)
 				{
-					Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + i % 5);
+					Console.SetCursorPosition(origin.X + 3, origin.Y - 6 + (i % 5));
 					Write.EmptySpace(25);
 				}
 			}
@@ -141,10 +136,10 @@ namespace SpaceTrucker.View
             var offset = 0;
 			for (int i = 0; i < marketInventoryTable.Length; i++)
 			{
-                offset += ((i + 1) % 6 == 0)? 40 : 0;
+                offset += ( i > 0 && (i % 5 == 0))? 44 : 0;
 
                 Console.SetCursorPosition(origin.X + 3 + offset, origin.Y - 6 + (i % 5));
-				Console.Write($"{marketInventoryTable[i]}              ");
+				Console.Write($"{marketInventoryTable[i]}");
 			}
 
 			previousInventoryLength = marketInventoryTable.Length;
