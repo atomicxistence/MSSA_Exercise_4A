@@ -272,6 +272,7 @@ namespace SpaceTrucker.ViewModel
 			player.MyShip.CurrentLocation = load.LastLocation;
 			player.MyShip.Balance = load.Balance;
 			player.MyShip.EngineTopSpeed = load.MaxWarpFactor;
+			player.MyShip.LifeSpan = load.ResetDaysRemaining;
 			player.MyShip.Inventory = load.Inventory;
 			player.MyShip.MaxCapacity = load.InventoryCapacity;
 			player.MyShip.WeaponSystemPower = load.WeaponSystemPower;
@@ -285,6 +286,7 @@ namespace SpaceTrucker.ViewModel
 			save.LastLocation = player.MyShip.CurrentLocation;
 			save.Balance = player.MyShip.Balance;
 			save.MaxWarpFactor = player.MyShip.EngineTopSpeed;
+			save.ResetDaysRemaining = player.MyShip.LifeSpan;
 			save.Inventory = player.MyShip.Inventory;
 			save.InventoryCapacity = player.MyShip.MaxCapacity;
 			save.WeaponSystemPower = player.MyShip.WeaponSystemPower;
@@ -389,26 +391,29 @@ namespace SpaceTrucker.ViewModel
 					ChangeMenu();
 					break;
 				case OptionType.Continue:
-					if (CurrentGameState == GameState.GamePlaying)
-					{
-						CurrentViewMode = ViewScreenMode.Map;
-						CurrentMenuState = MenuState.GameMenu;
-						menuOptions = menuFactory.CreateGameMenu();
-						ChangeMenu();
-					}
-					else
+					if (CurrentGameState != GameState.GamePlaying)
 					{
 						try
 						{
 							LoadPlayerSettings();
+							eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
 							UpdateHUD();
+	
 						}
 						catch (Exception)
 						{
-							//TODO: what to do if there is no load file?
-							throw;
+							CurrentViewMode = ViewScreenMode.OpeningNarrative;
+							CurrentMenuState = MenuState.StartMenu;
+							menuOptions = menuFactory.CreateConfirmationMenu("This will overwrite any saved progress. Proceed?");
+							ChangeMenu();
+							break;
 						}
 					}
+					CurrentGameState = GameState.GamePlaying;
+					CurrentViewMode = ViewScreenMode.Map;
+					CurrentMenuState = MenuState.GameMenu;
+					menuOptions = menuFactory.CreateGameMenu();
+					ChangeMenu();
 					break;
 				case OptionType.SaveGame:
 					CurrentMenuState = MenuState.SaveConfirmationMenu;
@@ -468,7 +473,7 @@ namespace SpaceTrucker.ViewModel
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
 				case OptionType.Yes:
-					SavePlayerSettings();
+					fileManager.SaveFile(SavePlayerSettings());
 					//TODO: game saved message
 					CurrentMenuState = MenuState.MainMenu;
 					menuOptions = menuFactory.CreateMainMenu();

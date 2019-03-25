@@ -7,7 +7,7 @@ namespace SpaceTrucker.Models
     {
         public string Name { get; private set; }
 
-        public int LifeSpan { get; private set; }
+        public int LifeSpan { get; set; }
         public long Balance { get; set; }
         public int FuelLevel { get; set; }
 

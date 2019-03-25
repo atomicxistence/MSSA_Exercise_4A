@@ -1,30 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using SpaceTrucker.Models;
+using System.Runtime.Serialization.Json;
 
 namespace SpaceTrucker.ViewModel
 {
 	class FileManager
 	{
-		internal SaveFile saveGameSettings;
+		private string fileLocation = $"{AppDomain.CurrentDomain.BaseDirectory}SpaceTrucker.json";
 
 		public SaveFile LoadFile()
 		{
-			//TODO: validate save file on HDD
-			//TODO: return settings
-			return null;
+			ValidateSaveFileExists();
+
+			var json = new DataContractJsonSerializer(typeof(SaveFile));
+			using (var reader = new FileStream(fileLocation, FileMode.Open))
+			{
+				return json.ReadObject(reader) as SaveFile;
+			}
 		}
 
-		public void SaveFile()
+		public void SaveFile(SaveFile saveGame)
 		{
-			//TODO: save settings
-			//TODO: create/overwrite save file on HDD
+			var json = new DataContractJsonSerializer(typeof(SaveFile));
+			using (var writer = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
+			{
+				json.WriteObject(writer, saveGame);
+			}
 		}
 
 		private void ValidateSaveFileExists()
 		{
-			//TODO: is there a file present?
+			if (!File.Exists(fileLocation))
+			{
+				throw new FileNotFoundException("The game save file can not be found.");
+			}
 		}
 	}
 }
