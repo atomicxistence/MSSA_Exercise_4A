@@ -675,8 +675,8 @@ namespace SpaceTrucker.ViewModel
 		private void UpdateAfterTransaction()
 		{
             eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
-            DisplayCurrentMarketInfo();
-        }
+			eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
+		}
 
 		private void ChangeMenu()
 		{
