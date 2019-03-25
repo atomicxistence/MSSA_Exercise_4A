@@ -340,7 +340,6 @@ namespace SpaceTrucker.ViewModel
 					ChangeMenu();
 					break;
 				case OptionType.Continue:
-					// TODO: load save game or else do go back into the game if GameState == Playing
 					if (CurrentGameState == GameState.GamePlaying)
 					{
 						CurrentViewMode = ViewScreenMode.Map;
@@ -348,6 +347,7 @@ namespace SpaceTrucker.ViewModel
 						menuOptions = menuFactory.CreateGameMenu();
 						ChangeMenu();
 					}
+					// TODO: load save game from JSON
 					break;
 				case OptionType.SaveGame:
 					// TODO: save the game to JSON
@@ -446,8 +446,8 @@ namespace SpaceTrucker.ViewModel
                 destinationPlanet = destination.Key;
 
                 var travelPrompt = $"Traveling to {destinationPlanet.ShortName} at Warp {CurrentWarpFactor}. Are you sure?";
-                var yesOption = $"Yes: use {destination.Value.fuelUsage}% fuel and land in {destination.Value.duration} days ";
-                var noOption = $"No: abort travel";
+                var yesOption = $"Use {destination.Value.fuelUsage}% fuel and land in {destination.Value.duration} days ";
+                var noOption = $"Abort travel";
 
                 CurrentMenuState = MenuState.TravelConfirmationMenu;
                 menuOptions = menuFactory.CreateCustomConfirmationMenu(travelPrompt, yesOption, noOption);
@@ -458,8 +458,8 @@ namespace SpaceTrucker.ViewModel
         private void UpgradeConfirmationMenu()
         {
             var travelPrompt = $"Upgrade will cost you ฿{Economy.ToKMB(currentPlanet.UpgradeCost)}. Are you sure?";
-            var yesOption = $"Yes: max warp {(int)currentPlanet.EngineUpgrade}, max capacity {(int)currentPlanet.CapacityUpgrade}";
-            var noOption = $"No: cancel upgrade";
+            var yesOption = $"Purchase max warp {(int)currentPlanet.EngineUpgrade}, max capacity {(int)currentPlanet.CapacityUpgrade}";
+            var noOption = $"Cancel upgrade";
 
             CurrentMenuState = MenuState.UpgradeConfirmationMenu;
             menuOptions = menuFactory.CreateCustomConfirmationMenu(travelPrompt, yesOption, noOption);
