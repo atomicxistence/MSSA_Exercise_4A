@@ -92,11 +92,12 @@ namespace SpaceTrucker.ViewModel
         {
             player = new Player();
             currentPlanet = Economy.planets[0];
-            CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
-
+            
             eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
             eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
             eventBroadcaster.isErrorMessage = false;
+
+            CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
 
             thresholdLowAlert = true;
             thresholdHighAlert = true;
