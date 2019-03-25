@@ -149,11 +149,10 @@ namespace SpaceTrucker.View
                 }
                 offset = 0;
 			}
-            //TODO: adjust for loop to print more than 5 items
             
 			for (int i = 0; i < marketInventoryTable.Length; i++)
 			{
-                offset += ( i > 0 && (i % 5 == 0))? 44 : 0;
+                offset += ( i > 0 && (i % 5 == 0)) ? 44 : 0;
 
                 Console.SetCursorPosition(origin.X + 3 + offset, origin.Y - 6 + (i % 5));
 				Console.Write($"{marketInventoryTable[i]}");

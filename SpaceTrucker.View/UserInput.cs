@@ -58,7 +58,7 @@ namespace SpaceTrucker.View
 				case ConsoleKey.Enter:
 					return ActionType.Select;
 				case ConsoleKey.Escape:
-					return ActionType.Quit;
+					return ActionType.Back;
 				default:
 					return ActionType.Invalid;
 			}

@@ -28,7 +28,6 @@ namespace SpaceTrucker.View
 			eventBroadcaster.GameState += ChangeGameState;
 
             consoleResizeListner.Start();
-
         }
 
 		public void Run()
@@ -54,6 +53,7 @@ namespace SpaceTrucker.View
 			{
 				case MenuState.MainMenu:
 				case MenuState.StartMenu:
+				case MenuState.SaveConfirmationMenu:
 				case MenuState.QuitMenu:
 				case MenuState.TransactionConfirmationMenu:
 				case MenuState.TravelConfirmationMenu:

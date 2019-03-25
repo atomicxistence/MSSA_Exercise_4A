@@ -12,7 +12,7 @@ namespace SpaceTrucker.ViewModel
 		private MenuState _currentMenuState = MenuState.MainMenu;
 		private GameState _currentGameState = GameState.ApplicationOpen;
 		private int _currentWarpFactor;
-		
+
 		internal ViewScreenMode CurrentViewMode
 		{
 			get => _currentViewMode;
@@ -66,11 +66,12 @@ namespace SpaceTrucker.ViewModel
 		private Planet destinationPlanet;
 
 		private Dictionary<Planet, Trip> closestPlanets;
-        private bool isFurthestPlanets;
+		private bool isFurthestPlanets;
 
-        private EventBroadcaster eventBroadcaster;
+		private EventBroadcaster eventBroadcaster;
 		private ConsoleFormatter console;
 		private MenuFactory menuFactory;
+		private FileManager fileManager;
 
 		public GameManager(EventBroadcaster eventBroadcaster)
 		{
@@ -79,80 +80,73 @@ namespace SpaceTrucker.ViewModel
 
 			console = new ConsoleFormatter();
 			menuFactory = new MenuFactory();
-			player = new Player();
-			currentPlanet = Economy.planets[0];
-            eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
-            CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
-            eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
+			fileManager = new FileManager();
 
-            InitializeDisplayFields();
+			InitializeDisplayFields();
 		}
 
-        public void ActionUserInput(ActionType action)
-        {
-            switch (action)
-            {
-                case ActionType.NextItem:
-                    currentSelection = currentSelection >= menuOptions.Options.Count - 1
-                                     ? 0
-                                     : (currentSelection + 1);
-                    ChangeMenuSelections();
-                    eventBroadcaster.SelectionDisplayMenu(menuOptions);
-                    break;
-                case ActionType.PreviousItem:
-                    currentSelection = currentSelection <= 0
-                                     ? menuOptions.Options.Count - 1
-                                     : (currentSelection - 1);
-                    ChangeMenuSelections();
-                    eventBroadcaster.SelectionDisplayMenu(menuOptions);
-                    break;
-                case ActionType.Select:
-                    PerformSelection();
-                    break;
-                case ActionType.Back:
-                    previousSelection = currentSelection = 0;
-                    GoToPreviousMenu();
-                    break;
-                case ActionType.IncreaseWarpFactor:
-                    if (CurrentWarpFactor + 1 <= (int)player.MyShip.EngineTopSpeed)
-                    {
-                        CurrentWarpFactor += 1;
-                        player.MyShip.CurrentSpeed += 1;
-                    }
-                    UpdateTravelMenu(isFurthestPlanets);
-                    break;
-                case ActionType.DecreaseWarpFactor:
-                    if (CurrentWarpFactor - 1 > 0)
-                    {
-                        CurrentWarpFactor -= 1;
-                        player.MyShip.CurrentSpeed -= 1;
-                    }
-                    UpdateTravelMenu(isFurthestPlanets);
-                    break;
-                case ActionType.Map:
-                    CurrentViewMode = ViewScreenMode.Map;
-                    break;
-                case ActionType.Market:
-                    CurrentViewMode = ViewScreenMode.Market;
-                    try
-                    {
-                        DisplayCurrentMarketInfo();
-                    }
-                    catch (NullReferenceException)
-                    {
-                        CurrentViewMode = ViewScreenMode.Message;
-                        eventBroadcaster.isErrorMessage = true;
-                        eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
-                    }
-                    break;
-                case ActionType.TrendReport:
-                    CurrentViewMode = ViewScreenMode.TrendReport;
-                    DisplayTrendReport();
-                    break;
-                case ActionType.Quit:
-                    //TODO: bring up verification menu
-                    break;
-            }
+		public void ActionUserInput(ActionType action)
+		{
+			switch (action)
+			{
+				case ActionType.NextItem:
+					currentSelection = currentSelection >= menuOptions.Options.Count - 1
+									 ? 0
+									 : (currentSelection + 1);
+					ChangeMenuSelections();
+					eventBroadcaster.SelectionDisplayMenu(menuOptions);
+					break;
+				case ActionType.PreviousItem:
+					currentSelection = currentSelection <= 0
+									 ? menuOptions.Options.Count - 1
+									 : (currentSelection - 1);
+					ChangeMenuSelections();
+					eventBroadcaster.SelectionDisplayMenu(menuOptions);
+					break;
+				case ActionType.Select:
+					PerformSelection();
+					break;
+				case ActionType.Back:
+					previousSelection = currentSelection = 0;
+					GoToPreviousMenu();
+					break;
+				case ActionType.IncreaseWarpFactor:
+					if (CurrentWarpFactor + 1 <= (int)player.MyShip.EngineTopSpeed)
+					{
+						CurrentWarpFactor += 1;
+						player.MyShip.CurrentSpeed += 1;
+					}
+					UpdateTravelMenu(isFurthestPlanets);
+					break;
+				case ActionType.DecreaseWarpFactor:
+					if (CurrentWarpFactor - 1 > 0)
+					{
+						CurrentWarpFactor -= 1;
+						player.MyShip.CurrentSpeed -= 1;
+					}
+					UpdateTravelMenu(isFurthestPlanets);
+					break;
+				case ActionType.Map:
+					CurrentViewMode = ViewScreenMode.Map;
+					break;
+				case ActionType.Market:
+					CurrentViewMode = ViewScreenMode.Market;
+					try
+					{
+						DisplayCurrentMarketInfo();
+					}
+					catch (NullReferenceException)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.isErrorMessage = true;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+					}
+					break;
+				case ActionType.TrendReport:
+					CurrentViewMode = ViewScreenMode.TrendReport;
+					DisplayTrendReport();
+					break;
+			}
 		}
 
 		public void GameStateCheck()
@@ -166,13 +160,13 @@ namespace SpaceTrucker.ViewModel
 					{
 						CurrentViewMode = ViewScreenMode.Message;
 						eventBroadcaster.SendMessageToViewScreen(Messages.narrative[0]);
-                        gameStart = false;
 					}
+					UpdateHUD();
 					CurrentGameState = GameState.GamePlaying;
 					break;
 				case GameState.GamePlaying:
-					 // check if days are below threshold -> game over (loss)
-					 // check if balance is below losing threshold -> game over (loss)
+					// check if days are below threshold -> game over (loss)
+					// check if balance is below losing threshold -> game over (loss)
 					if (player.MyShip.LifeSpan < 1 || player.MyShip.Balance <= 0)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
@@ -212,69 +206,97 @@ namespace SpaceTrucker.ViewModel
 					}
 					break;
 				case GameState.GameOver:
-                    break;
+					break;
 				default:
 					break;
 			}
 
 		}
 
-        #region Private Methods
+		#region Private Methods
 
-        private void ResetGame()
-        {
-            player = new Player();
-            currentPlanet = Economy.planets[0];
-            CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
-
-            eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
-            eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
-            eventBroadcaster.isErrorMessage = false;
-
-            thresholdLowAlert = true;
-            thresholdHighAlert = true;
-            gameStart = true;
-
-            UpdateHUD();
-        }
-
-        private void ChangeMenuSelections()
+		private void StartNewGameSettings()
 		{
-            if(menuOptions.Options?.Count > 0)
-            {
-			    menuOptions.Options[previousSelection].IsSelected = false;
-			    menuOptions.Options[currentSelection].IsSelected = true;
-			    previousSelection = currentSelection;
-            }
-            else
-            {
-                CurrentViewMode = ViewScreenMode.Message;
-                eventBroadcaster.isErrorMessage = true;
-                eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
-            }
+			player = new Player();
+			currentPlanet = Economy.planets[0];
+
+			eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
+			eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
+			eventBroadcaster.isErrorMessage = false;
+
+			CurrentWarpFactor = (int)player.MyShip.CurrentSpeed;
+
+			thresholdLowAlert = true;
+			thresholdHighAlert = true;
+
+			UpdateHUD();
+		}
+
+		private void ChangeMenuSelections()
+		{
+			if (menuOptions.Options?.Count > 0)
+			{
+				menuOptions.Options[previousSelection].IsSelected = false;
+				menuOptions.Options[currentSelection].IsSelected = true;
+				previousSelection = currentSelection;
+			}
+			else
+			{
+				CurrentViewMode = ViewScreenMode.Message;
+				eventBroadcaster.isErrorMessage = true;
+				eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
+			}
 		}
 
 		private void InitializeDisplayFields()
-        {
-            menuOptions = menuFactory.CreateMainMenu();
-            eventBroadcaster.SelectionDisplayMenu(menuOptions);
+		{
+			menuOptions = menuFactory.CreateMainMenu();
+			eventBroadcaster.SelectionDisplayMenu(menuOptions);
+		}
 
-            UpdateHUD();
-        }
+		private void UpdateHUD()
+		{
+			eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+			eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+			eventBroadcaster.ChangeLocation(console.FormatLocation($"{currentPlanet.Name} ({currentPlanet.ShortName})"));
+			eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
+		}
 
-        private void UpdateHUD()
-        {
-            eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
-            eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
-            eventBroadcaster.ChangeLocation(console.FormatLocation($"{currentPlanet.Name} ({currentPlanet.ShortName})"));
-            eventBroadcaster.ChangeResetDays(console.FormatResetDays(player.MyShip.LifeSpan));
-        }
+		private void LoadPlayerSettings()
+		{
+			player = new Player();
+			var load = fileManager.LoadFile();
+			currentPlanet = Economy.FindPlanetByLocation(load.LastLocation);
 
-        #endregion
+			player.MyShip.FuelLevel = load.FuelLevel;
+			player.MyShip.CurrentLocation = load.LastLocation;
+			player.MyShip.Balance = load.Balance;
+			player.MyShip.EngineTopSpeed = load.MaxWarpFactor;
+			player.MyShip.Inventory = load.Inventory;
+			player.MyShip.MaxCapacity = load.InventoryCapacity;
+			player.MyShip.WeaponSystemPower = load.WeaponSystemPower;
+		}
 
-        #region Menu State Machine
+		private SaveFile SavePlayerSettings()
+		{
+			var save = new SaveFile();
 
-        private void PerformSelection()
+			save.FuelLevel = player.MyShip.FuelLevel;
+			save.LastLocation = player.MyShip.CurrentLocation;
+			save.Balance = player.MyShip.Balance;
+			save.MaxWarpFactor = player.MyShip.EngineTopSpeed;
+			save.Inventory = player.MyShip.Inventory;
+			save.InventoryCapacity = player.MyShip.MaxCapacity;
+			save.WeaponSystemPower = player.MyShip.WeaponSystemPower;
+
+			return save;
+		}
+
+		#endregion
+
+		#region Menu State Machine
+
+		private void PerformSelection()
 		{
 			switch (CurrentMenuState)
 			{
@@ -287,6 +309,9 @@ namespace SpaceTrucker.ViewModel
 				case MenuState.StartMenu:
 					CurrentViewMode = ViewScreenMode.OpeningNarrative;
 					GameStartConfirmation();
+					break;
+				case MenuState.SaveConfirmationMenu:
+					GameSaveConfirmation();
 					break;
 				case MenuState.GameMenu:
 					GameMenuSelection();
@@ -305,15 +330,15 @@ namespace SpaceTrucker.ViewModel
 					break;
 				case MenuState.TransactionConfirmationMenu:
 					TransactionConfirmationSelection();
-                    break;
-                case MenuState.UpgradeConfirmationMenu:
-                    UpgradeConfirmationMenuSelection();
+					break;
+				case MenuState.UpgradeConfirmationMenu:
+					UpgradeConfirmationMenuSelection();
 					break;
 			}
-            eventBroadcaster.isErrorMessage = false; 
-        }
+			eventBroadcaster.isErrorMessage = false;
+		}
 
-        private void GoToPreviousMenu()
+		private void GoToPreviousMenu()
 		{
 			switch (CurrentMenuState)
 			{
@@ -325,6 +350,7 @@ namespace SpaceTrucker.ViewModel
 				case MenuState.QuitMenu:
 				case MenuState.StartMenu:
 				case MenuState.GameMenu:
+				case MenuState.SaveConfirmationMenu:
 					CurrentViewMode = ViewScreenMode.TitleScreen;
 					CurrentMenuState = MenuState.MainMenu;
 					menuOptions = menuFactory.CreateMainMenu();
@@ -344,9 +370,9 @@ namespace SpaceTrucker.ViewModel
 				case MenuState.TransactionConfirmationMenu:
 					CurrentMenuState = MenuState.TransactionMenu;
 					break;
-                case MenuState.UpgradeConfirmationMenu:
-                    CurrentMenuState = MenuState.TransactionMenu;
-                    break;
+				case MenuState.UpgradeConfirmationMenu:
+					CurrentMenuState = MenuState.TransactionMenu;
+					break;
 				default:
 					break;
 			}
@@ -370,10 +396,24 @@ namespace SpaceTrucker.ViewModel
 						menuOptions = menuFactory.CreateGameMenu();
 						ChangeMenu();
 					}
-					// TODO: load save game from JSON
+					else
+					{
+						try
+						{
+							LoadPlayerSettings();
+							UpdateHUD();
+						}
+						catch (Exception)
+						{
+							//TODO: what to do if there is no load file?
+							throw;
+						}
+					}
 					break;
 				case OptionType.SaveGame:
-					// TODO: save the game to JSON
+					CurrentMenuState = MenuState.SaveConfirmationMenu;
+					menuOptions = menuFactory.CreateConfirmationMenu("Overwrite your previous progress?");
+					ChangeMenu();
 					break;
 				case OptionType.Quit:
 					CurrentMenuState = MenuState.QuitMenu;
@@ -383,7 +423,8 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-        private void QuitMenuSelection()
+
+		private void QuitMenuSelection()
 		{
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
@@ -407,11 +448,10 @@ namespace SpaceTrucker.ViewModel
 					CurrentGameState = GameState.GameStart;
 					CurrentMenuState = MenuState.GameMenu;
 					menuOptions = menuFactory.CreateGameMenu();
-                    if (!gameStart)
-                    {
-                        ResetGame();
-                    }
-                    ChangeMenu();
+
+					StartNewGameSettings();
+
+					ChangeMenu();
 					break;
 				case OptionType.No:
 					CurrentGameState = GameState.ApplicationOpen;
@@ -423,16 +463,35 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
+		private void GameSaveConfirmation()
+		{
+			switch (menuOptions.Options[currentSelection].OptionType)
+			{
+				case OptionType.Yes:
+					SavePlayerSettings();
+					//TODO: game saved message
+					CurrentMenuState = MenuState.MainMenu;
+					menuOptions = menuFactory.CreateMainMenu();
+					ChangeMenu();
+					break;
+				case OptionType.No:
+					CurrentMenuState = MenuState.MainMenu;
+					menuOptions = menuFactory.CreateMainMenu();
+					ChangeMenu();
+					break;
+			}
+		}
+
 		private void GameMenuSelection()
 		{
-            switch (menuOptions.Options[currentSelection].OptionType)
-            {
-                case OptionType.GoToTravel:
-                    CurrentMenuState = MenuState.TravelMenu;
-                    isFurthestPlanets = (currentSelection == 1);
-                    UpdateTravelMenu(isFurthestPlanets);
-                    break;
-                case OptionType.GoToTradeMarket:
+			switch (menuOptions.Options[currentSelection].OptionType)
+			{
+				case OptionType.GoToTravel:
+					CurrentMenuState = MenuState.TravelMenu;
+					isFurthestPlanets = (currentSelection == 1);
+					UpdateTravelMenu(isFurthestPlanets);
+					break;
+				case OptionType.GoToTradeMarket:
 					CurrentViewMode = ViewScreenMode.Market;
 					try
 					{
@@ -448,14 +507,14 @@ namespace SpaceTrucker.ViewModel
 					CurrentMenuState = MenuState.MarketMenu;
 					ChangeMenu();
 					break;
-                case OptionType.PurchaseFuel:
-                    if (player.MyShip.FuelLevel < 100)
-                    {
-                        player.MyShip.Refuel(Economy.fuelCost);
-                        eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
-                        eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
-                    }
-                    break;
+				case OptionType.PurchaseFuel:
+					if (player.MyShip.FuelLevel < 100)
+					{
+						player.MyShip.Refuel(Economy.fuelCost);
+						eventBroadcaster.ChangeFuelCells(console.FormatFuelCells(player.MyShip.FuelLevel));
+						eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+					}
+					break;
 				case OptionType.BackMainMenu:
 					menuOptions = menuFactory.CreateMainMenu();
 					CurrentViewMode = ViewScreenMode.TitleScreen;
@@ -465,70 +524,70 @@ namespace SpaceTrucker.ViewModel
 			}
 		}
 
-        private void TravelMenuSelection()
+		private void TravelMenuSelection()
 		{
-            if (closestPlanets?.Count > 0)
-            {
-                var destination = closestPlanets.ElementAt(currentSelection);
-                destinationPlanet = destination.Key;
+			if (closestPlanets?.Count > 0)
+			{
+				var destination = closestPlanets.ElementAt(currentSelection);
+				destinationPlanet = destination.Key;
 
-                var travelPrompt = $"Traveling to {destinationPlanet.ShortName} at Warp {CurrentWarpFactor}. Are you sure?";
-                var yesOption = $"Use {destination.Value.fuelUsage}% fuel and land in {destination.Value.duration} days ";
-                var noOption = $"Abort travel";
+				var travelPrompt = $"Traveling to {destinationPlanet.ShortName} at Warp {CurrentWarpFactor}. Are you sure?";
+				var yesOption = $"Use {destination.Value.fuelUsage}% fuel and land in {destination.Value.duration} days ";
+				var noOption = $"Abort travel";
 
-                CurrentMenuState = MenuState.TravelConfirmationMenu;
-                menuOptions = menuFactory.CreateCustomConfirmationMenu(travelPrompt, yesOption, noOption);
-                ChangeMenu();
-            }
+				CurrentMenuState = MenuState.TravelConfirmationMenu;
+				menuOptions = menuFactory.CreateCustomConfirmationMenu(travelPrompt, yesOption, noOption);
+				ChangeMenu();
+			}
 		}
 
-        private void UpgradeConfirmationMenu()
-        {
-            var travelPrompt = $"Upgrade will cost you ฿{Economy.ToKMB(currentPlanet.UpgradeCost)}. Are you sure?";
-            var yesOption = $"Purchase max warp {(int)currentPlanet.EngineUpgrade}, max capacity {(int)currentPlanet.CapacityUpgrade}";
-            var noOption = $"Cancel upgrade";
+		private void UpgradeConfirmationMenu()
+		{
+			var travelPrompt = $"Upgrade will cost you ฿{Economy.ToKMB(currentPlanet.UpgradeCost)}. Are you sure?";
+			var yesOption = $"Purchase max warp {(int)currentPlanet.EngineUpgrade}, max capacity {(int)currentPlanet.CapacityUpgrade}";
+			var noOption = $"Cancel upgrade";
 
-            CurrentMenuState = MenuState.UpgradeConfirmationMenu;
-            menuOptions = menuFactory.CreateCustomConfirmationMenu(travelPrompt, yesOption, noOption);
-            ChangeMenu();
-        }
+			CurrentMenuState = MenuState.UpgradeConfirmationMenu;
+			menuOptions = menuFactory.CreateCustomConfirmationMenu(travelPrompt, yesOption, noOption);
+			ChangeMenu();
+		}
 
-        private void UpgradeConfirmationMenuSelection()
-        {
-            switch (menuOptions.Options[currentSelection].OptionType)
-            {
-                case OptionType.Yes:
-                    try
-                    {
-                        currentPlanet.Upgrade(player.MyShip);
-                        eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
-                        eventBroadcaster.ChangeWarpFactor((int)player.MyShip.CurrentSpeed);
-                        eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+		private void UpgradeConfirmationMenuSelection()
+		{
+			switch (menuOptions.Options[currentSelection].OptionType)
+			{
+				case OptionType.Yes:
+					try
+					{
+						currentPlanet.Upgrade(player.MyShip);
+						eventBroadcaster.maxWarp = (int)player.MyShip.EngineTopSpeed;
+						eventBroadcaster.ChangeWarpFactor((int)player.MyShip.CurrentSpeed);
+						eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
 
-                        eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
-                        eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
+						eventBroadcaster.maxCapacity = (int)player.MyShip.MaxCapacity;
+						eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
 
-                        menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
-                        CurrentMenuState = MenuState.MarketMenu;
-                        ChangeMenu();
-                    }
-                    catch (InsuficientFundsException)
-                    {
-                        CurrentViewMode = ViewScreenMode.Message;
-                        eventBroadcaster.isErrorMessage = true;
-                        eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientBalance);
-                    }
-                    break;
+						menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
+						CurrentMenuState = MenuState.MarketMenu;
+						ChangeMenu();
+					}
+					catch (InsuficientFundsException)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.isErrorMessage = true;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientBalance);
+					}
+					break;
 				case OptionType.No:
-                    menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
-                    CurrentMenuState = MenuState.MarketMenu;
-                    ChangeMenu();
-                    break;
-            }
+					menuOptions = menuFactory.CreateBuySellMenu(currentPlanet.hasUpgrade);
+					CurrentMenuState = MenuState.MarketMenu;
+					ChangeMenu();
+					break;
+			}
 
-        }
+		}
 
-        private void TravelConfirmationMenuSelection()
+		private void TravelConfirmationMenuSelection()
 		{
 			switch (menuOptions.Options[currentSelection].OptionType)
 			{
@@ -549,18 +608,18 @@ namespace SpaceTrucker.ViewModel
 						ChangeMenu();
 					}
 					catch (InsuficientFuelException)
-					{                    
-                        CurrentViewMode = ViewScreenMode.Message;
-					    eventBroadcaster.isErrorMessage = true;
-					    eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.isErrorMessage = true;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientFuel);
 					}
-                    catch (AgeOutException)
-                    {                       
-                        CurrentViewMode = ViewScreenMode.Message;
-                        eventBroadcaster.isErrorMessage = true;
-                        eventBroadcaster.SendMessageToViewScreen(Messages.errorAgeOut);
-                    }
-                    break;
+					catch (AgeOutException)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.isErrorMessage = true;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorAgeOut);
+					}
+					break;
 				case OptionType.No:
 					CurrentMenuState = MenuState.TravelMenu;
 					UpdateTravelMenu(isFurthestPlanets);
@@ -585,9 +644,9 @@ namespace SpaceTrucker.ViewModel
 					catch (NullReferenceException)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
-                        eventBroadcaster.isErrorMessage = true;
-                        eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
-                    }
+						eventBroadcaster.isErrorMessage = true;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+					}
 					break;
 				case OptionType.GoToSell:
 					try
@@ -599,14 +658,14 @@ namespace SpaceTrucker.ViewModel
 					catch (NullReferenceException)
 					{
 						CurrentViewMode = ViewScreenMode.Message;
-                        eventBroadcaster.isErrorMessage = true;
-                        eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
-                    }
+						eventBroadcaster.isErrorMessage = true;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorPlanetNoShop);
+					}
 					break;
-                case OptionType.GoToUpgrade:
-                    UpgradeConfirmationMenu();
-                    break;
-            }
+				case OptionType.GoToUpgrade:
+					UpgradeConfirmationMenu();
+					break;
+			}
 		}
 
 		private void TransactionSelection()
@@ -624,20 +683,20 @@ namespace SpaceTrucker.ViewModel
 						selectedOre = buyList.ElementAt(currentSelection);
 						player.MyShip.Buy(selectedOre.Key, selectedOre.Value);
 						UpdateAfterTransaction();
-                    }
+					}
 					catch (MaxCapacityReachedException)
 					{
-                        CurrentViewMode = ViewScreenMode.Message;
-                        eventBroadcaster.isErrorMessage = true;
-                        eventBroadcaster.SendMessageToViewScreen(Messages.errorInventoryFull);   
-                    }
-                    catch (InsuficientFundsException)
-                    {
-                        CurrentViewMode = ViewScreenMode.Message;
-                        eventBroadcaster.isErrorMessage = true;
-                        eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientBalance);
-                    }
-                    break;
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.isErrorMessage = true;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorInventoryFull);
+					}
+					catch (InsuficientFundsException)
+					{
+						CurrentViewMode = ViewScreenMode.Message;
+						eventBroadcaster.isErrorMessage = true;
+						eventBroadcaster.SendMessageToViewScreen(Messages.errorInsufficientBalance);
+					}
+					break;
 				case OptionType.OreSell:
 					var sellList = currentPlanet.MyMarket.InDemandOres;
 					selectedOre = sellList.ElementAt(currentSelection);
@@ -656,33 +715,33 @@ namespace SpaceTrucker.ViewModel
 
 		#region Utilities
 
-        private void UpdateTravelMenu(bool descending)
-        {
+		private void UpdateTravelMenu(bool descending)
+		{
 			if (CurrentMenuState == MenuState.TravelMenu)
 			{
 				closestPlanets = Economy.ClosestPlanets(player.MyShip.CurrentLocation, 9,
-				                                        (WarpFactor)CurrentWarpFactor,
-				                                        player.MyShip.FuelLevel,
-				                                        player.MyShip.LifeSpan, descending);
+														(WarpFactor)CurrentWarpFactor,
+														player.MyShip.FuelLevel,
+														player.MyShip.LifeSpan, descending);
 
 
 				menuOptions = menuFactory.CreateTravelMenu(closestPlanets);
 				ChangeMenu();
 			}
-        }
+		}
 
 		private void DisplayTrendReport()
-        {
-            eventBroadcaster.UpdateTrendReport(console.FormatTrendReport(Economy.trends));
-        }
+		{
+			eventBroadcaster.UpdateTrendReport(console.FormatTrendReport(Economy.trends));
+		}
 
 		private void DisplayCurrentMarketInfo()
 		{
-            CurrentViewMode = ViewScreenMode.Market;
-            eventBroadcaster.UpdateMarketBuyTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.OfferedOresWithoutQty));
+			CurrentViewMode = ViewScreenMode.Market;
+			eventBroadcaster.UpdateMarketBuyTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.OfferedOresWithoutQty));
 			eventBroadcaster.UpdateMarketSellTable(console.FormatMarketPriceTable(currentPlanet.MyMarket.InDemandOres));
 			eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
-        }
+		}
 
 		private List<string> FormatTransactionList(Dictionary<Ore, int> marketTable)
 		{
@@ -717,7 +776,7 @@ namespace SpaceTrucker.ViewModel
 
 		private void UpdateAfterTransaction()
 		{
-            eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
+			eventBroadcaster.ChangeBalance(console.FormatBalance(player.MyShip.Balance));
 			eventBroadcaster.UpdateMarketInventoryTable(console.FormatInventoryTable(player.MyShip.Inventory));
 		}
 

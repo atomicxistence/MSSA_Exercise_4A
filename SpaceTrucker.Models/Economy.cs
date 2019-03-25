@@ -20,6 +20,9 @@ namespace SpaceTrucker.Models
             BuildTrendReport();      
         }
 
+		public static Planet FindPlanetByLocation(Location planetLocation) 
+			=> planets?.Find(x => x.MyLocation.Equals(planetLocation));
+
         private static void InitOres()
         {
             ores = new List<Ore>();

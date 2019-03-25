@@ -40,6 +40,7 @@ namespace SpaceTrucker.ViewModel
 			{
 				new Option("Continue Game", OptionType.Continue, true),
 				new Option("New Game", OptionType.NewGame, false),
+				new Option("Save Game", OptionType.SaveGame, false),
 				new Option("Quit", OptionType.Quit,false),
 			};
 
