@@ -1,4 +1,4 @@
-### MSSA Exercise 4A: Create a console based space trader game prototype
+### Space Trucker
 
 This project was a pair programming project that was completed over a two week period, for the [Microsoft Software & Systems Academy](https://military.microsoft.com/programs/mssa/) course. The purpose was to learn to design and code as part of a small team.
 
@@ -6,5 +6,5 @@ Our objective was to create an engaging game experience that can be expanded upo
 
 Please check out the [wiki](https://github.com/atomicxistence/MSSA_Exercise_4A/wiki) for more details and the dev log.
 
-![Space Trucker TitleScreen](https://github.com/atomicxistence/MSSA_Exercise_4A/blob/master/SupportingDocuments/SpaceTrucker_TitleScreen.PNG)
+![Space Trucker TitleScreen](https://github.com/jeff-adams/SpaceTrucker/blob/master/SupportingDocuments/SpaceTrucker.titlescreen.small.png)
 
